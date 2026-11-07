@@ -2,8 +2,8 @@
   "hero": {
     "title": "About Us",
     "subtitle": "Know more about Gopal Krushna Driving Training School, our journey, values and commitment to safe driving.",
-    "image": "/assets/placeholders/hero-building.svg",
-    "imageAlt": "Gopal Krushna Driving Training School building among trees"
+    "image": "/assets/photos/premises/school-entrance.webp",
+    "imageAlt": "Gopal Krushna Driving Training School entrance with its green, white and orange signboard and the Krishna emblem"
   },
   "story": {
     "eyebrow": "OUR STORY",
@@ -13,14 +13,30 @@
       "Established in 1993, Gopal Krushna Driving Training School has been a trusted name in Baleswar (Baleshwar) for quality driving training. For over 30 years, we have helped over 1000 learners become confident, skilled and responsible drivers.",
       "We focus on practical, real-road training, road safety awareness and personalized guidance for every learner."
     ],
-    "image": "/assets/placeholders/hero-building.svg",
-    "imageAlt": "School building with a white WagonR and a blue Maruti 800 parked in front"
+    "image": "/assets/photos/training/training-ground-wagonr.webp",
+    "imageAlt": "White WagonR training car with an instructor and a learner on the practice ground, orange cones around it and the school signboard behind"
   },
   "stats": [
-    { "icon": "calendar-days", "title": "Since 1993", "subtitle": "Serving Baleswar" },
-    { "icon": "users", "title": "1000+", "subtitle": "Trained Drivers" },
-    { "icon": "star", "title": "High Success Rate", "subtitle": "in Driving Tests" },
-    { "icon": "car", "title": "Experienced", "subtitle": "& Certified Trainers" }
+    {
+      "icon": "calendar-days",
+      "title": "Since 1993",
+      "subtitle": "Serving Baleswar"
+    },
+    {
+      "icon": "users",
+      "title": "1000+",
+      "subtitle": "Trained Drivers"
+    },
+    {
+      "icon": "star",
+      "title": "High Success Rate",
+      "subtitle": "in Driving Tests"
+    },
+    {
+      "icon": "car",
+      "title": "Experienced",
+      "subtitle": "& Certified Trainers"
+    }
   ],
   "missionVisionTitle": "Our Mission & Vision",
   "mission": {
@@ -33,9 +49,25 @@
   },
   "valuesTitle": "Our Values",
   "values": [
-    { "icon": "shield-check", "title": "Safety First", "text": "We prioritize road safety in every step of training." },
-    { "icon": "handshake", "title": "Honest Guidance", "text": "Transparent, practical and learner-focused training." },
-    { "icon": "users", "title": "Personal Attention", "text": "Individual support for a better learning experience." },
-    { "icon": "award", "title": "Quality Training", "text": "A perfect blend of practical skills and road awareness." }
+    {
+      "icon": "shield-check",
+      "title": "Safety First",
+      "text": "We prioritize road safety in every step of training."
+    },
+    {
+      "icon": "handshake",
+      "title": "Honest Guidance",
+      "text": "Transparent, practical and learner-focused training."
+    },
+    {
+      "icon": "users",
+      "title": "Personal Attention",
+      "text": "Individual support for a better learning experience."
+    },
+    {
+      "icon": "award",
+      "title": "Quality Training",
+      "text": "A perfect blend of practical skills and road awareness."
+    }
   ]
 }

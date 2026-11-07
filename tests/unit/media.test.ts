@@ -24,12 +24,12 @@ describe('mediaUrl', () => {
     expect(mediaUrl('media/gallery/ab12cd-front.webp')).toBe('/api/media/media/gallery/ab12cd-front.webp');
   });
   it('passes site paths and https URLs through unchanged', () => {
-    expect(mediaUrl('/assets/placeholders/car-wagonr.svg')).toBe('/assets/placeholders/car-wagonr.svg');
+    expect(mediaUrl('/assets/placeholders/avatar-1.svg')).toBe('/assets/placeholders/avatar-1.svg');
     expect(mediaUrl('https://example.com/a.jpg')).toBe('https://example.com/a.jpg');
   });
   it('falls back to a placeholder for empty values', () => {
-    expect(mediaUrl('')).toBe('/assets/placeholders/hero-building.svg');
-    expect(mediaUrl(undefined)).toBe('/assets/placeholders/hero-building.svg');
+    expect(mediaUrl('')).toBe('/assets/placeholders/no-image.svg');
+    expect(mediaUrl(undefined)).toBe('/assets/placeholders/no-image.svg');
   });
 });
 

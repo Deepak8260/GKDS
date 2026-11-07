@@ -4,17 +4,18 @@ import { getSite } from '@/lib/content';
 import { mediaUrl } from '@/lib/media';
 import './globals.css';
 
+// Variable fonts (no explicit weights): one file per style instead of one per weight.
+// `preload: false`: only the style a page actually uses is downloaded (Home uses italic only; inner hero titles use upright).
 const display = Playfair_Display({
   subsets: ['latin'],
   style: ['normal', 'italic'],
-  weight: ['600', '700'],
   display: 'swap',
+  preload: false,
   variable: '--font-display',
 });
 
 const body = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-body',
 });

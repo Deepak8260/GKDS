@@ -35,7 +35,7 @@ type ButtonAsLink = BaseProps & {
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const sizes: Record<ButtonSize, string> = {
-  sm: 'h-10 px-4 text-sm gap-2',
+  sm: 'h-11 px-4 text-sm gap-2', // 44px minimum touch target
   md: 'h-12 px-6 text-base gap-2.5',
   lg: 'h-14 px-8 text-base gap-3',
 };

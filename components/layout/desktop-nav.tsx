@@ -14,7 +14,7 @@ export interface NavCourse {
 }
 
 const linkBase =
-  'focus-ring relative inline-flex items-center rounded-md py-2 text-base font-medium transition-colors hover:text-orange-500';
+  'focus-ring relative inline-flex items-center rounded-md py-2 text-base font-medium transition-colors hover:text-orange-600';
 const underline =
   'after:absolute after:inset-x-0 after:-bottom-[7px] after:h-[3px] after:rounded-full after:bg-orange-500 after:content-[""]';
 
@@ -89,11 +89,11 @@ function CoursesMenu({ courses, active }: { courses: NavCourse[]; active: boolea
         timer.current = window.setTimeout(() => setOpen(false), 140);
       }}
     >
-      <div className={cn('relative inline-flex items-center gap-0.5', active ? 'text-orange-500' : 'text-green-900')}>
+      <div className={cn('relative inline-flex items-center gap-0.5', active ? 'text-orange-600' : 'text-green-900')}>
         <Link
           href="/courses"
           aria-current={active ? 'page' : undefined}
-          className={cn(linkBase, 'hover:text-orange-500')}
+          className={cn(linkBase, 'hover:text-orange-600')}
         >
           Courses
         </Link>
@@ -104,7 +104,7 @@ function CoursesMenu({ courses, active }: { courses: NavCourse[]; active: boolea
           aria-expanded={open}
           aria-label="Courses menu"
           onClick={() => setOpen((v) => !v)}
-          className="focus-ring -ml-1 flex size-8 items-center justify-center rounded-full hover:text-orange-500"
+          className="focus-ring -ml-1 flex size-8 items-center justify-center rounded-full hover:text-orange-600"
         >
           <ChevronDown className={cn('size-4 transition-transform', open && 'rotate-180')} aria-hidden="true" />
         </button>
@@ -159,7 +159,7 @@ export function DesktopNav({ courses }: { courses: NavCourse[] }) {
             key={item.href}
             href={item.href}
             aria-current={active ? 'page' : undefined}
-            className={cn(linkBase, active ? ['text-orange-500', underline] : 'text-green-900')}
+            className={cn(linkBase, active ? ['text-orange-600', underline] : 'text-green-900')}
           >
             {item.label}
           </Link>

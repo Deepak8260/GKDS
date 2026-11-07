@@ -10,7 +10,7 @@ export default function ContactPage() {
       title="Contact Us"
       subtitle="Have a question or need assistance? We're here to help you!"
       breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
-      image="/assets/placeholders/car-wagonr.svg"
+      image="/assets/photos/vehicles/wagonr-training-car.webp"
       imageAlt="White WagonR training car"
     />
   );

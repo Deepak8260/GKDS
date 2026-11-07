@@ -2,8 +2,8 @@
   "hero": {
     "title": "Our Courses",
     "subtitle": "Practical, step-by-step driving training for beginners and experienced learners.",
-    "image": "/assets/placeholders/hero-building.svg",
-    "imageAlt": "White WagonR and blue Maruti 800 training cars on the practice ground with traffic cones"
+    "image": "/assets/photos/training/training-ground-wagonr.webp",
+    "imageAlt": "White WagonR training car with an instructor and a learner on the practice ground, orange cones around it and the school signboard behind"
   },
   "intro": {
     "lead": "Our Driving",
@@ -17,9 +17,13 @@
       "title": "Car Driving Course",
       "description": "Learn to drive a car with step-by-step practical training on real roads.",
       "vehicle": "WagonR",
-      "image": "/assets/placeholders/car-wagonr.svg",
-      "imageAlt": "White Maruti WagonR training car with an L Driving Training roof sign",
-      "features": ["Beginner Friendly", "Real Road Training", "Licence Test Guidance"],
+      "image": "/assets/photos/vehicles/wagonr-training-car.webp",
+      "imageAlt": "White Maruti WagonR training car with Gopal Krushna Driving Training School branding and an L board on the roof",
+      "features": [
+        "Beginner Friendly",
+        "Real Road Training",
+        "Licence Test Guidance"
+      ],
       "order": 1,
       "published": true
     },
@@ -29,25 +33,44 @@
       "title": "Small Car Driving Course",
       "description": "Build your driving skills with focused and affordable training.",
       "vehicle": "Maruti 800",
-      "image": "/assets/placeholders/car-maruti800.svg",
-      "imageAlt": "Blue Maruti 800 training car",
-      "features": ["Ideal for First-Time Learners", "Hands-on Practice", "Licence Test Guidance"],
+      "image": "/assets/photos/vehicles/maruti-800-training-car.webp",
+      "imageAlt": "Blue Maruti 800 training car with Gopal Krushna Driving Training School branding and an L board on the roof",
+      "features": [
+        "Ideal for First-Time Learners",
+        "Hands-on Practice",
+        "Licence Test Guidance"
+      ],
       "order": 2,
       "published": true
     }
   ],
   "includedTitle": "What's Included in the Training?",
   "included": [
-    { "icon": "steering-wheel", "title": "Vehicle Practice" },
-    { "icon": "road", "title": "Real Road Training" },
-    { "icon": "shield-check", "title": "Road Safety & Traffic Rules" },
-    { "icon": "file-text", "title": "Licence Test Preparation" },
-    { "icon": "headphones", "title": "Personal Guidance" }
+    {
+      "icon": "steering-wheel",
+      "title": "Vehicle Practice"
+    },
+    {
+      "icon": "road",
+      "title": "Real Road Training"
+    },
+    {
+      "icon": "shield-check",
+      "title": "Road Safety & Traffic Rules"
+    },
+    {
+      "icon": "file-text",
+      "title": "Licence Test Preparation"
+    },
+    {
+      "icon": "headphones",
+      "title": "Personal Guidance"
+    }
   ],
   "highlights": {
     "lead": "Training",
     "highlight": "Highlights",
-    "image": "/assets/placeholders/training.svg",
+    "image": "/assets/photos/training/driving-lesson-instructor.webp",
     "imageAlt": "Instructor guiding a learner behind the wheel during a practice session",
     "items": [
       "Experienced and certified trainers",

@@ -17,12 +17,12 @@ Harden and polish the whole public site so it is fast, accessible, discoverable,
 
 ## 2. Performance
 - Audit every `next/image`: correct `sizes`, only the LCP image has `priority`, modern formats on (`images.formats: ['image/avif','image/webp']`), sensible `deviceSizes`, `minimumCacheTTL` high for `/api/media` and placeholders.
-- Dynamic imports: lightbox, review modal, framer-motion heavy parts (use `LazyMotion` + `domAnimation` or remove framer-motion where CSS suffices). Remove unused dependencies; check bundle with `@next/bundle-analyzer` (dev only) and keep first-load JS per page < 130 kB gzip.
+- Dynamic imports: lightbox, review modal (framer-motion was already removed in prompt 03; keep it out). Remove unused dependencies; check bundle with `@next/bundle-analyzer` (dev only) and keep first-load JS per page < 130 kB gzip.
 - Fonts: subsets `latin`, only needed weights, `display: swap`, preloaded; no layout shift from fonts (`adjustFontFallback`).
 - Confirm in the `next build` output that all six pages are **static/ISR** (○ or ●), none accidentally dynamic (look for `cookies()/headers()` usage in public routes and remove it).
 - Headers in `next.config` (`headers()`): long immutable cache for `/_next/static` and `/placeholders`, `/brand`; sensible `stale-while-revalidate` for HTML handled by ISR.
 - Add `@vercel/analytics` and `@vercel/speed-insights` (loaded only in production).
-- Set `experimental.optimizePackageImports: ['lucide-react','framer-motion']` where supported.
+- Set `experimental.optimizePackageImports: ['lucide-react']` where supported.
 
 ## 3. Accessibility (WCAG 2.2 AA)
 - Skip link, landmarks (`header`, `nav aria-label="Primary"`, `main`, `footer`), one `h1` per page, logical heading order.

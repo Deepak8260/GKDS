@@ -10,7 +10,7 @@ export function FooterNav() {
   const pathname = usePathname();
   return (
     <nav aria-label="Footer" className="w-full lg:w-auto">
-      <ul className="flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
+      <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-0">
         {NAV_ITEMS.map((item) => {
           const active = isActivePath(pathname, item.href);
           return (
@@ -19,8 +19,8 @@ export function FooterNav() {
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'focus-ring rounded-md py-1 text-[15px] font-medium transition-colors hover:text-orange-500',
-                  active ? 'text-orange-500' : 'text-white',
+                  'focus-ring inline-flex min-h-11 items-center rounded-md px-1 text-[15px] font-medium transition-colors hover:text-orange-300',
+                  active ? 'text-orange-300' : 'text-white',
                 )}
               >
                 {item.label}

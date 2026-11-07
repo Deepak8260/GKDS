@@ -9,24 +9,25 @@ interface LogoProps {
   name?: string;
   /** `light`: on white (header). `dark`: on green (footer). */
   variant?: 'light' | 'dark';
+  /** Load immediately (header). Default: lazy (footer). */
+  eager?: boolean;
   className?: string;
 }
 
 /** Emblem + vertical divider + two-line brand text. Links to the home page. */
-export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', variant = 'light', className }: LogoProps) {
+export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', variant = 'light', eager = false, className }: LogoProps) {
   const dark = variant === 'dark';
   return (
-    <Link
-      href="/"
-      aria-label={`${name} Driving Training School – Home`}
-      className={cn('focus-ring flex items-center gap-3 rounded-lg', className)}
-    >
+    // Accessible name = the visible text ("Gopal Krushna Driving Training School") + a hidden "home" hint,
+    // so the label always contains the visible words (WCAG 2.5.3).
+    <Link href="/" className={cn('focus-ring flex items-center gap-3 rounded-lg', className)}>
       <Image
         src={src}
         alt=""
         width={128}
         height={128}
-        priority
+        // Header logo loads eagerly (it is in the first paint); the footer logo stays lazy.
+        loading={eager ? 'eager' : 'lazy'}
         // The emblem PNG has transparent margins, so the box is oversized and scaled to make the artwork prominent.
         className="size-12 shrink-0 scale-125 object-contain md:size-16"
       />
@@ -39,15 +40,16 @@ export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', v
           )}
         >
           {name}
-        </span>
+        </span>{' '}
         <span
           className={cn(
             'mt-1 font-display text-xs font-semibold italic md:text-[15px]',
-            dark ? 'text-orange-100' : 'text-orange-500',
+            dark ? 'text-orange-100' : 'text-orange-600',
           )}
         >
           Driving Training School
         </span>
+        <span className="sr-only"> – Home page</span>
       </span>
     </Link>
   );

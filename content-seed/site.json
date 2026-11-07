@@ -5,8 +5,11 @@
   "regNo": "Govt. of Odisha Regd. No. 10/13",
   "logo": "/assets/brand/krishna-golden-flute.png",
   "favicon": "/assets/brand/favicon.png",
-  "ogImage": "",
-  "phones": ["+91 9XXXXXXXXX", "+91 9XXXXXXXXX"],
+  "ogImage": "/assets/photos/premises/school-entrance.webp",
+  "phones": [
+    "+91 9XXXXXXXXX",
+    "+91 9XXXXXXXXX"
+  ],
   "whatsapp": "919XXXXXXXXX",
   "whatsappMessage": "Hello! I would like to know more about your driving courses.",
   "callCardText": "Speak to us for course details, timings and admission information. We're happy to help!",
@@ -19,10 +22,23 @@
     "landmark": ""
   },
   "hours": [
-    { "label": "Mon – Sat", "value": "8:00 AM – 6:00 PM" },
-    { "label": "Sunday", "value": "Closed" }
+    {
+      "label": "Mon – Sat",
+      "value": "8:00 AM – 6:00 PM"
+    },
+    {
+      "label": "Sunday",
+      "value": "Closed"
+    }
   ],
-  "openDays": [1, 2, 3, 4, 5, 6],
+  "openDays": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
   "openFrom": "08:00",
   "openTo": "18:00",
   "social": {
@@ -37,7 +53,11 @@
   "seo": {
     "title": "Gopal Krushna Driving Training School | Best Driving School in Baleswar, Odisha",
     "description": "Professional car and small-car driving training in Baleswar with certified instructors, real-road practice and licence test guidance. Serving since 1993.",
-    "keywords": ["driving school Baleswar", "driving training Balasore", "learn car driving Odisha"]
+    "keywords": [
+      "driving school Baleswar",
+      "driving training Balasore",
+      "learn car driving Odisha"
+    ]
   },
   "stats": {
     "sinceYear": 1993,

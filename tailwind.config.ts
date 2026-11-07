@@ -23,6 +23,7 @@ const config: Config = {
         orange: {
           50: channel('orange-50'),
           100: channel('orange-100'),
+          300: channel('orange-300'),
           500: channel('orange-500'),
           600: channel('orange-600'),
           700: channel('orange-700'),
@@ -40,24 +41,33 @@ const config: Config = {
       boxShadow: {
         card: '0 8px 24px rgba(120, 80, 30, 0.08)',
         'card-lg': '0 16px 40px rgba(120, 80, 30, 0.12)',
-        orange: '0 8px 20px rgba(242, 107, 15, 0.32)',
+        orange: '0 8px 20px rgba(236, 101, 12, 0.32)',
       },
       backgroundImage: {
-        'brand-orange': 'linear-gradient(90deg, #FF8A2A 0%, #F26B0F 100%)',
+        // white text on this gradient stays >= 3.2:1 (AA for bold/large labels)
+        'brand-orange': 'linear-gradient(90deg, #EC650C 0%, #CF540A 100%)',
         'hero-green':
           'linear-gradient(100deg, rgb(var(--color-green-900)) 0%, #14532D 55%, transparent 100%)',
       },
       keyframes: {
+        'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } },
+        'fade-out': { from: { opacity: '1' }, to: { opacity: '0' } },
+        'slide-in': { from: { transform: 'translateX(100%)' }, to: { transform: 'translateX(0)' } },
+        'slide-out': { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(100%)' } },
         'fade-up': {
           from: { opacity: '0', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
         highlight: {
-          '0%': { boxShadow: '0 0 0 3px rgba(242,107,15,0.9)' },
-          '100%': { boxShadow: '0 0 0 3px rgba(242,107,15,0)' },
+          '0%': { boxShadow: '0 0 0 3px rgba(236,101,12,0.9)' },
+          '100%': { boxShadow: '0 0 0 3px rgba(236,101,12,0)' },
         },
       },
       animation: {
+        'fade-in': 'fade-in 0.2s ease-out both',
+        'fade-out': 'fade-out 0.2s ease-in both',
+        'slide-in': 'slide-in 0.25s ease-out both',
+        'slide-out': 'slide-out 0.2s ease-in both',
         'fade-up': 'fade-up 0.25s ease-out both',
         highlight: 'highlight 2.4s ease-out forwards',
       },

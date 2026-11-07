@@ -10,8 +10,8 @@ export default function ReviewsPage() {
       title="Student Reviews"
       subtitle="Hear from our learners about their experience with us."
       breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Reviews' }]}
-      image="/assets/placeholders/car-wagonr.svg"
-      imageAlt="White WagonR training car"
+      image="/assets/photos/training/training-ground-wagonr.webp"
+      imageAlt="White WagonR training car on the practice ground"
     />
   );
 }

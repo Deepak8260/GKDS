@@ -10,9 +10,13 @@
   --color-green-700: 22 101 52; /* #166534 */
   --color-green-100: 221 238 223; /* #DDEEDF */
   --color-green-50: 241 248 242; /* #F1F8F2 */
-  --color-orange-700: 180 71 10; /* #B4470A (AA-safe small orange text) */
-  --color-orange-600: 219 90 6; /* #DB5A06 */
-  --color-orange-500: 242 107 15; /* #F26B0F */
+  /* Orange scale tuned for WCAG AA (contrast on cream #FFFAF3):
+     500 = fills + large headings (3.1:1), 600 = small text/hover (4.5:1), 700 = text on tinted pills (5.3:1),
+     300 = text on dark green (6.5:1). */
+  --color-orange-700: 180 71 10; /* #B4470A */
+  --color-orange-600: 194 80 10; /* #C2500A */
+  --color-orange-500: 236 101 12; /* #EC650C */
+  --color-orange-300: 255 168 102; /* #FFA866 */
   --color-orange-100: 255 230 209; /* #FFE6D1 */
   --color-orange-50: 255 244 234; /* #FFF4EA */
   --color-cream: 255 250 243; /* #FFFAF3 */
@@ -74,6 +78,26 @@ h3 {
   /* Orange outline when a card is the :target of an anchor (course cards etc.) */
   .target-highlight:target {
     @apply animate-highlight rounded-2xl;
+  }
+}
+
+/* Scroll reveal (see components/ui/reveal.tsx): content is visible by default;
+   `reveal-hidden` is only added by JS for blocks that start below the fold. */
+.reveal {
+  transition:
+    opacity 0.25s ease-out,
+    transform 0.25s ease-out;
+}
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(16px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-hidden {
+    transition: none;
+    opacity: 1;
+    transform: none;
   }
 }
 

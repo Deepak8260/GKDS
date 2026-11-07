@@ -11,7 +11,7 @@ function Social({ href, label, children }: { href?: string; label: string; child
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="focus-ring flex size-10 items-center justify-center rounded-full text-white transition-colors hover:bg-orange-500"
+      className="focus-ring flex size-11 items-center justify-center rounded-full text-white transition-colors hover:bg-orange-500"
     >
       {children}
     </a>

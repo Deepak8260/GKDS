@@ -21,7 +21,7 @@ Breadcrumb `Home › Gallery`; H1 "Gallery"; subtitle "A glimpse of our training
 - 3 columns on `lg`, 2 on `sm/md`, 1 on `<sm` (2 columns at ≥ 480px is fine). Gap 24px (16px mobile). All tiles uniform **4:3** (design shows slightly varied heights — use uniform 4:3 for robustness), `rounded-2xl`, overflow hidden, 1px `line` border, `shadow-card`.
 - Tile = `<button>` (opens lightbox) containing a `next/image` (`fill`, `object-cover`, `sizes="(min-width:1024px) 380px, (min-width:640px) 50vw, 100vw"`, `placeholder="blur"` with a generated tiny blurDataURL or a neutral colour fallback). Hover/focus: image scale 1.05 (300ms), dark gradient from the bottom, caption (`alt`) at the bottom-left in white 14px, expand icon top-right in a translucent circle. Touch devices: caption always hidden, only tap to open.
 - First 6 images `loading="eager"`/priority (first 3 priority only), rest lazy.
-- Grid layout animation on filter change: items fade/scale with `framer-motion` `layout` + `AnimatePresence` (≤ 250ms, disabled under reduced motion).
+- Grid layout animation on filter change: items fade/scale with a CSS transition/keyframe on the changed tiles (≤ 250ms, disabled under reduced motion; no animation library).
 - **Load more**: render 12 at first (grid of 9 in the seed shows all); a "Load more photos" secondary button reveals 12 more; announce "Showing X of Y photos" in an `aria-live="polite"` region. Count text also visible near the grid ("Showing 9 photos").
 - **Empty state** for a category with no photos: card with camera icon, "No photos in this category yet." and a "View all photos" button.
 

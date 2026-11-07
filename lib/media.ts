@@ -4,7 +4,7 @@
  *  - "/assets/placeholders/x.svg" | "https://…" -> unchanged
  */
 export function mediaUrl(path: string | undefined | null): string {
-  if (!path) return '/assets/placeholders/hero-building.svg';
+  if (!path) return '/assets/placeholders/no-image.svg';
   if (path.startsWith('/') || /^https?:\/\//.test(path)) return path;
   return `/api/media/${path.replace(/^\/+/, '')}`;
 }

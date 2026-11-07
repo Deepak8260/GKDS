@@ -21,7 +21,7 @@ export function Header({ site, courses }: HeaderProps) {
     >
       <ScrollShadow targetId="site-header" />
       <div className="container-x flex h-16 items-center justify-between gap-4 md:h-[72px]">
-        <Logo src={site.logo} name={site.shortName} />
+        <Logo src={site.logo} name={site.shortName} eager />
         <div className="flex items-center gap-6">
           <DesktopNav courses={navCourses} />
           <RegdBadge regNo={site.regNo} className="hidden lg:flex" />
