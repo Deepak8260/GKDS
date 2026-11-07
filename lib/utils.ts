@@ -25,6 +25,13 @@ export function splitRegNo(regNo: string): [string, string] {
   return [regNo.slice(0, i).trim(), regNo.slice(i).trim()];
 }
 
+/** Short, URL-safe, collision-resistant id (e.g. "k3f9a2x8q1b7"). */
+export function newId(): string {
+  const bytes = new Uint8Array(9);
+  globalThis.crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => (b % 36).toString(36)).join('');
+}
+
 /** True for absolute/external URLs and non-http schemes (tel:, mailto:, wa.me). */
 export function isExternalHref(href: string) {
   return /^(https?:)?\/\//.test(href) || /^(tel|mailto|sms):/.test(href);

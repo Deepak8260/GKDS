@@ -1,0 +1,27 @@
+{
+  "hero": {
+    "title": "Gallery",
+    "subtitle": "A glimpse of our training vehicles, premises and practical driving sessions.",
+    "image": "/placeholders/hero-building.svg",
+    "imageAlt": "Gopal Krushna Driving Training School building with its green signboard"
+  },
+  "titleLead": "Photo",
+  "titleHighlight": "Gallery",
+  "categories": [
+    { "id": "vehicles", "label": "Our Vehicles", "icon": "car" },
+    { "id": "training", "label": "Training", "icon": "traffic-cone" },
+    { "id": "premises", "label": "Our Premises", "icon": "building-2" },
+    { "id": "facilities", "label": "Facilities", "icon": "users" }
+  ],
+  "items": [
+    { "id": "g1", "src": "/placeholders/car-wagonr.svg", "alt": "White WagonR training car with an L Driving Training roof sign", "category": "vehicles", "order": 1, "published": true, "createdAt": "2026-09-01T10:00:00.000Z" },
+    { "id": "g2", "src": "/placeholders/car-maruti800.svg", "alt": "Blue Maruti 800 training car", "category": "vehicles", "order": 2, "published": true, "createdAt": "2026-09-01T10:05:00.000Z" },
+    { "id": "g3", "src": "/placeholders/training.svg", "alt": "Orange traffic cones arranged in a circle on the practice ground", "category": "training", "order": 3, "published": true, "createdAt": "2026-09-01T10:10:00.000Z" },
+    { "id": "g4", "src": "/placeholders/hero-building.svg", "alt": "School building with the green Gopal Krushna Driving Training School signboard", "category": "premises", "order": 4, "published": true, "createdAt": "2026-09-01T10:15:00.000Z" },
+    { "id": "g5", "src": "/placeholders/classroom.svg", "alt": "Classroom with rows of chairs and road safety posters on the wall", "category": "facilities", "order": 5, "published": true, "createdAt": "2026-09-01T10:20:00.000Z" },
+    { "id": "g6", "src": "/placeholders/classroom.svg", "alt": "Training room with a whiteboard, desk and traffic sign charts", "category": "facilities", "order": 6, "published": true, "createdAt": "2026-09-01T10:25:00.000Z" },
+    { "id": "g7", "src": "/placeholders/classroom.svg", "alt": "Reception desk with the school logo", "category": "facilities", "order": 7, "published": true, "createdAt": "2026-09-01T10:30:00.000Z" },
+    { "id": "g8", "src": "/placeholders/training.svg", "alt": "Line of traffic cones marking a practice lane", "category": "training", "order": 8, "published": true, "createdAt": "2026-09-01T10:35:00.000Z" },
+    { "id": "g9", "src": "/placeholders/training.svg", "alt": "Car dashboard and steering wheel from the driver's seat", "category": "vehicles", "order": 9, "published": true, "createdAt": "2026-09-01T10:40:00.000Z" }
+  ]
+}

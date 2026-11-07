@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Only local images are allowed: bundled files and the private-repo proxy.
+    localPatterns: [
+      { pathname: '/api/media/**' },
+      { pathname: '/placeholders/**' },
+      { pathname: '/brand/**' },
+    ],
   },
 };
 
