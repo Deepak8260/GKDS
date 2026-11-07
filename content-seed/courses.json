@@ -1,0 +1,65 @@
+{
+  "hero": {
+    "title": "Our Courses",
+    "subtitle": "Practical, step-by-step driving training for beginners and experienced learners.",
+    "image": "/placeholders/hero-building.svg",
+    "imageAlt": "White WagonR and blue Maruti 800 training cars on the practice ground with traffic cones"
+  },
+  "intro": {
+    "lead": "Our Driving",
+    "highlight": "Courses",
+    "subtitle": "Choose the right course based on your learning needs and vehicle preference."
+  },
+  "courses": [
+    {
+      "id": "course-car",
+      "slug": "car-driving",
+      "title": "Car Driving Course",
+      "description": "Learn to drive a car with step-by-step practical training on real roads.",
+      "vehicle": "WagonR",
+      "image": "/placeholders/car-wagonr.svg",
+      "imageAlt": "White Maruti WagonR training car with an L Driving Training roof sign",
+      "features": ["Beginner Friendly", "Real Road Training", "Licence Test Guidance"],
+      "order": 1,
+      "published": true
+    },
+    {
+      "id": "course-small-car",
+      "slug": "small-car-driving",
+      "title": "Small Car Driving Course",
+      "description": "Build your driving skills with focused and affordable training.",
+      "vehicle": "Maruti 800",
+      "image": "/placeholders/car-maruti800.svg",
+      "imageAlt": "Blue Maruti 800 training car",
+      "features": ["Ideal for First-Time Learners", "Hands-on Practice", "Licence Test Guidance"],
+      "order": 2,
+      "published": true
+    }
+  ],
+  "includedTitle": "What's Included in the Training?",
+  "included": [
+    { "icon": "steering-wheel", "title": "Vehicle Practice" },
+    { "icon": "road", "title": "Real Road Training" },
+    { "icon": "shield-check", "title": "Road Safety & Traffic Rules" },
+    { "icon": "file-text", "title": "Licence Test Preparation" },
+    { "icon": "headphones", "title": "Personal Guidance" }
+  ],
+  "highlights": {
+    "lead": "Training",
+    "highlight": "Highlights",
+    "image": "/placeholders/training.svg",
+    "imageAlt": "Instructor guiding a learner behind the wheel during a practice session",
+    "items": [
+      "Experienced and certified trainers",
+      "Step-by-step, practical learning approach",
+      "Training on both city and highway roads",
+      "Focus on safe and responsible driving",
+      "Complete guidance for driving licence (DL)"
+    ]
+  },
+  "cta": {
+    "lead": "Ready to Start Your",
+    "highlight": "Driving Journey?",
+    "text": "Enroll today and learn to drive with confidence at Gopal Krushna Driving Training School."
+  }
+}

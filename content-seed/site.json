@@ -1,0 +1,51 @@
+{
+  "name": "Gopal Krushna Driving Training School",
+  "shortName": "Gopal Krushna",
+  "tagline": "Learn to Drive with Confidence",
+  "regNo": "Govt. of Odisha Regd. No. 10/13",
+  "logo": "/brand/logo.svg",
+  "favicon": "/brand/logo.svg",
+  "ogImage": "",
+  "phones": ["+91 9XXXXXXXXX", "+91 9XXXXXXXXX"],
+  "whatsapp": "919XXXXXXXXX",
+  "whatsappMessage": "Hello! I would like to know more about your driving courses.",
+  "callCardText": "Speak to us for course details, timings and admission information. We're happy to help!",
+  "email": "gopalkrishna.driving@gmail.com",
+  "address": {
+    "line1": "Near Baleswar Bus Stand",
+    "city": "Baleswar",
+    "state": "Odisha",
+    "pin": "756001",
+    "landmark": ""
+  },
+  "hours": [
+    { "label": "Mon – Sat", "value": "8:00 AM – 6:00 PM" },
+    { "label": "Sunday", "value": "Closed" }
+  ],
+  "openDays": [1, 2, 3, 4, 5, 6],
+  "openFrom": "08:00",
+  "openTo": "18:00",
+  "social": {
+    "youtube": "https://www.youtube.com/",
+    "facebook": "https://www.facebook.com/",
+    "instagram": "https://www.instagram.com/"
+  },
+  "map": {
+    "embedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29895.0!2d86.9!3d21.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sBaleswar%2C%20Odisha!5e0!3m2!1sen!2sin!4v1700000000000",
+    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=Baleswar+Bus+Stand"
+  },
+  "seo": {
+    "title": "Gopal Krushna Driving Training School | Best Driving School in Baleswar, Odisha",
+    "description": "Professional car and small-car driving training in Baleswar with certified instructors, real-road practice and licence test guidance. Serving since 1993.",
+    "keywords": ["driving school Baleswar", "driving training Balasore", "learn car driving Odisha"]
+  },
+  "stats": {
+    "sinceYear": 1993,
+    "yearsLabel": "30+ Years",
+    "trainedDrivers": "1000+",
+    "successRateLabel": "High Success Rate",
+    "rating": 4.8,
+    "ratingCount": "250+",
+    "recommendPercent": 95
+  }
+}

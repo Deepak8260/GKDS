@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" role="img" aria-label="Placeholder: white hatchback training car">
+  <ellipse cx="300" cy="318" rx="230" ry="16" fill="#000" opacity=".12"/>
+  <!-- L board -->
+  <rect x="250" y="34" width="100" height="34" rx="4" fill="#1D4ED8"/>
+  <rect x="256" y="40" width="22" height="22" rx="2" fill="#DC2626"/>
+  <text x="267" y="58" text-anchor="middle" font-family="Arial" font-weight="700" font-size="18" fill="#fff">L</text>
+  <text x="314" y="57" text-anchor="middle" font-family="Arial" font-weight="700" font-size="11" fill="#fff">DRIVING</text>
+  <!-- body -->
+  <path d="M92 270 L98 196 Q104 170 134 160 L196 92 Q206 80 224 80 L392 80 Q410 80 420 92 L478 158 Q508 166 514 196 L522 270 Q522 292 500 292 L112 292 Q92 292 92 270Z" fill="#F5F5F5" stroke="#CFCFCF" stroke-width="3"/>
+  <!-- windows -->
+  <path d="M214 100 L248 100 L248 156 L168 156Z" fill="#8FB4CC"/>
+  <path d="M262 100 L392 100 Q402 100 408 108 L446 156 L262 156Z" fill="#8FB4CC"/>
+  <!-- lights, grille, plate -->
+  <rect x="112" y="204" width="56" height="22" rx="8" fill="#FFF4C2" stroke="#BBB"/>
+  <rect x="446" y="204" width="56" height="22" rx="8" fill="#FFF4C2" stroke="#BBB"/>
+  <rect x="200" y="214" width="200" height="30" rx="6" fill="#2B2B2B"/>
+  <rect x="244" y="252" width="112" height="26" rx="3" fill="#fff" stroke="#555"/>
+  <text x="300" y="271" text-anchor="middle" font-family="Arial" font-weight="700" font-size="14" fill="#222">OD 01 AB 6362</text>
+  <!-- wheels -->
+  <g><circle cx="156" cy="292" r="36" fill="#222"/><circle cx="156" cy="292" r="16" fill="#BDBDBD"/><circle cx="450" cy="292" r="36" fill="#222"/><circle cx="450" cy="292" r="16" fill="#BDBDBD"/></g>
+</svg>

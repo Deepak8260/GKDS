@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Design tokens (RGB channels so Tailwind opacity modifiers work) ---------- */
+:root {
+  --color-green-950: 8 43 22; /* #082B16 */
+  --color-green-900: 11 61 30; /* #0B3D1E */
+  --color-green-800: 15 77 42; /* #0F4D2A */
+  --color-green-700: 22 101 52; /* #166534 */
+  --color-green-100: 221 238 223; /* #DDEEDF */
+  --color-green-50: 241 248 242; /* #F1F8F2 */
+  --color-orange-700: 180 71 10; /* #B4470A (AA-safe small orange text) */
+  --color-orange-600: 219 90 6; /* #DB5A06 */
+  --color-orange-500: 242 107 15; /* #F26B0F */
+  --color-orange-100: 255 230 209; /* #FFE6D1 */
+  --color-orange-50: 255 244 234; /* #FFF4EA */
+  --color-cream: 255 250 243; /* #FFFAF3 */
+  --color-ink: 26 26 26; /* #1A1A1A */
+  --color-muted: 91 91 91; /* #5B5B5B */
+  --color-line: 234 223 208; /* #EADFD0 */
+  --color-whatsapp: 37 211 102; /* #25D366 (third-party brand colour) */
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px; /* sticky header */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  min-height: 100dvh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+::selection {
+  background: rgb(var(--color-orange-100));
+  color: rgb(var(--color-green-900));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  /* Page container: max 1200px with responsive gutters */
+  .container-x {
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
+  }
+  /* Vertical rhythm for page sections */
+  .section-y {
+    @apply py-12 md:py-20;
+  }
+  /* Consistent keyboard focus ring (use on custom interactive elements) */
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
+  }
+  /* Orange outline when a card is the :target of an anchor (course cards etc.) */
+  .target-highlight:target {
+    @apply animate-highlight rounded-2xl;
+  }
+}
+
+/* `text-balance` is provided natively by Tailwind 3.4+ (utility `text-balance`). */
+
+/* Hide scrollbars on horizontally scrollable pill rows */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

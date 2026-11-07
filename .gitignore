@@ -1,0 +1,67 @@
+# ---------------------------------------------------------------
+# Gopal Krushna Driving Training School — .gitignore
+# ---------------------------------------------------------------
+
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# next.js build output
+.next/
+out/
+build/
+next-env.d.ts
+*.tsbuildinfo
+
+# environment variables — NEVER commit secrets (GitHub token, admin secrets)
+.env
+.env.*
+!.env.example
+
+# testing
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# vercel
+.vercel/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# local tooling (Claude Code local settings)
+.claude/settings.local.json
+.claude/worktrees/
+
+# editors (keep shared VS Code settings if you add them)
+.idea/
+*.swp
+*.swo
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# temp / scratch
+tmp/
+temp/
+*.tmp
+*.bak
