@@ -11,7 +11,7 @@ Scaffold the project and build everything shared by all pages: tokens, fonts, th
 - Add: `lucide-react`, `framer-motion`, `zod`, `clsx`, `tailwind-merge`, `jose`, `vitest`, `@playwright/test`, `prettier` (+ `prettier-plugin-tailwindcss`).
 - Scripts: `dev`, `build`, `start`, `lint`, `typecheck` (`tsc --noEmit`), `test` (vitest), `test:e2e` (playwright).
 - Create `.env.example` containing every variable from CONTEXT BLOCK §4 with `GITHUB_REPO=gkds`, `GITHUB_BRANCH=data`, `ADMIN_CODE=gkds1993`, others empty. Create `.env.local` identical (not committed). `.gitignore` must contain `.env*.local`.
-- Folders exactly as: `app/(site)/`, `app/admin/`, `app/api/`, `components/ui|layout|sections|icons|admin`, `lib/`, `content-seed/`, `public/brand/`, `public/placeholders/`, `docs/`, `scripts/`.
+- Folders exactly as: `app/(site)/`, `app/admin/`, `app/api/`, `components/ui|layout|sections|icons|admin`, `lib/`, `content-seed/`, `public/assets/brand/`, `public/assets/placeholders/`, `docs/`, `scripts/`.
 - `app/layout.tsx`: loads fonts, sets `<html lang="en-IN">`, `metadataBase`, base metadata, body class `bg-cream text-ink antialiased`.
 
 ## 2. Tokens
@@ -33,7 +33,7 @@ Implement every token in CONTEXT BLOCK §5 in `tailwind.config.ts` (colours, fon
 - **Skeleton**, **Toast** (small context + hook `useToast`), **Badge** for admin counts.
 
 ## 4. Layout components — exact specs
-**Logo**: image `public/brand/logo.svg` (create a simple placeholder circular emblem SVG; the real one replaces it: yellow circle, Krishna with flute, peacock feather) + vertical 1px divider + two text lines: "Gopal Krushna" (Playfair italic 700, dark green, 28px desktop/22px mobile) and "Driving Training School" (Playfair italic 600, orange-500, 15px/12px). Props `variant: 'light' | 'dark'` (footer uses white text for line 1 and light cream for line 2).
+**Logo**: image `public/assets/brand/logo.svg` (create a simple placeholder circular emblem SVG; the real one replaces it: yellow circle, Krishna with flute, peacock feather) + vertical 1px divider + two text lines: "Gopal Krushna" (Playfair italic 700, dark green, 28px desktop/22px mobile) and "Driving Training School" (Playfair italic 600, orange-500, 15px/12px). Props `variant: 'light' | 'dark'` (footer uses white text for line 1 and light cream for line 2).
 
 **Header** (server component shell + small client parts): sticky top-0, z-50, white background, height 72px desktop / 64px mobile, bottom border `line`; adds `shadow-card` after scroll (tiny client hook). Layout: Logo (left) · nav (center/right) · Regd. badge (far right).
 - Nav links in this order: **Home** (`/`), **About Us** (`/about`), **Courses** (`/courses`, with chevron-down and dropdown), **Gallery** (`/gallery`), **Reviews** (`/reviews`), **Contact** (`/contact`). Inter 500, 16px, dark-green/ink; hover → orange; **active** = orange text + 3px orange rounded underline offset 6px below the label (the designs show exactly this).
@@ -55,7 +55,7 @@ Implement every token in CONTEXT BLOCK §5 in `tailwind.config.ts` (colours, fon
 - `app/(site)/layout.tsx`: skip-link ("Skip to content" → `#main`), `<Header/>`, `<main id="main">`, `<Footer/>`, `<FloatingActions/>`.
 - Header/Footer data come from `getSite()` and `getCourses()` from `lib/content` — for now create `lib/content/index.ts` with stubs reading `content-seed/site.json` and `content-seed/courses.json` (replaced by the real GitHub layer in prompt 02). Create those two seed files now using the facts in CONTEXT BLOCK §1 (phones `+91 9XXXXXXXXX`, etc.) and two courses (Car Driving Course / WagonR, Small Car Driving Course / Maruti 800) with placeholder images.
 - `not-found.tsx` (friendly "Page not found" with Home + Call buttons), `error.tsx` (client, with Retry), `loading.tsx` (brand skeleton).
-- Placeholder images in `public/placeholders/` (SVG gradients/illustrations named: `hero-building.svg`, `car-wagonr.svg`, `car-maruti800.svg`, `training.svg`, `classroom.svg`, `avatar-1..6.svg`, `peacock.svg`, `road.svg`). Make them look intentional (brand-coloured), not blank.
+- Placeholder images in `public/assets/placeholders/` (SVG gradients/illustrations named: `hero-building.svg`, `car-wagonr.svg`, `car-maruti800.svg`, `training.svg`, `classroom.svg`, `avatar-1..6.svg`, `peacock.svg`, `road.svg`). Make them look intentional (brand-coloured), not blank.
 - Temporary `app/(site)/styleguide/page.tsx` (`robots: noindex`) rendering every UI/layout component with sample props, so I can visually check the system. It will be removed/blocked in prompt 09.
 
 ## 6. Quality rules for this prompt

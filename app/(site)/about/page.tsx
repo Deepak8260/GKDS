@@ -10,7 +10,7 @@ export default function AboutPage() {
       title="About Us"
       subtitle="Know more about Gopal Krushna Driving Training School, our journey, values and commitment to safe driving."
       breadcrumb={[{ label: 'Home', href: '/' }, { label: 'About Us' }]}
-      image="/placeholders/hero-building.svg"
+      image="/assets/placeholders/hero-building.svg"
       imageAlt="Gopal Krushna Driving Training School building"
     />
   );

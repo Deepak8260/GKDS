@@ -44,7 +44,7 @@ export default function StyleguidePage() {
         title="Styleguide"
         subtitle="Every shared component with sample props."
         breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Styleguide' }]}
-        image="/placeholders/hero-building.svg"
+        image="/assets/placeholders/hero-building.svg"
         imageAlt="Placeholder building"
       />
       <Container className="pb-20">

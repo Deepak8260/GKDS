@@ -13,7 +13,7 @@ interface LogoProps {
 }
 
 /** Emblem + vertical divider + two-line brand text. Links to the home page. */
-export function Logo({ src = '/brand/logo.svg', name = 'Gopal Krushna', variant = 'light', className }: LogoProps) {
+export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', variant = 'light', className }: LogoProps) {
   const dark = variant === 'dark';
   return (
     <Link
@@ -24,10 +24,11 @@ export function Logo({ src = '/brand/logo.svg', name = 'Gopal Krushna', variant 
       <Image
         src={src}
         alt=""
-        width={56}
-        height={56}
+        width={128}
+        height={128}
         priority
-        className="size-11 shrink-0 object-contain md:size-14"
+        // The emblem PNG has transparent margins, so the box is oversized and scaled to make the artwork prominent.
+        className="size-12 shrink-0 scale-125 object-contain md:size-16"
       />
       <span aria-hidden="true" className={cn('h-10 w-px shrink-0 md:h-12', dark ? 'bg-white/30' : 'bg-line')} />
       <span className="flex flex-col leading-none">

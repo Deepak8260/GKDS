@@ -4,7 +4,7 @@
     "titleLead": "Learn to Drive",
     "titleHighlight": "with Confidence",
     "subtitle": "Professional driving training with certified instructors, practical lessons and complete guidance to make you a safe, skilled and responsible driver.",
-    "image": "/placeholders/hero-building.svg",
+    "image": "/assets/placeholders/hero-building.svg",
     "imageAlt": "Gopal Krushna Driving Training School building with a white WagonR and a blue Maruti 800 parked in front",
     "primaryCta": "Enquire Now",
     "secondaryCta": "Call Now"
@@ -19,7 +19,7 @@
     "eyebrow": "ABOUT US",
     "title": "Gopal Krushna Driving Training School",
     "body": "A trusted name in Baleswar for quality driving training. With over 30 years of experience, we have helped over 1000 learners become confident and responsible drivers through practical, hands-on training and personal guidance.",
-    "image": "/placeholders/hero-building.svg",
+    "image": "/assets/placeholders/hero-building.svg",
     "imageAlt": "Front of the Gopal Krushna Driving Training School building with its green signboard",
     "stats": [
       { "icon": "calendar-days", "title": "Since 1993", "subtitle": "Serving Baleswar" },

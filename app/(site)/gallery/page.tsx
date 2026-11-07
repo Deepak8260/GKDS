@@ -10,7 +10,7 @@ export default function GalleryPage() {
       title="Gallery"
       subtitle="A glimpse of our training vehicles, premises and practical driving sessions."
       breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Gallery' }]}
-      image="/placeholders/hero-building.svg"
+      image="/assets/placeholders/hero-building.svg"
       imageAlt="Gopal Krushna Driving Training School building"
     />
   );

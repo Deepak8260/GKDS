@@ -17,7 +17,7 @@ export const iconName = z
 
 /**
  * Media reference: "" (not set), "media/<folder>/<file>" (private repo via proxy),
- * "/placeholders/…" (bundled file) or an https URL.
+ * "/assets/placeholders/…" (bundled file) or an https URL.
  */
 export const mediaPath = z
   .string()

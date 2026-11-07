@@ -24,6 +24,7 @@ config/admin.json                      (salted hash of admin access code; never 
 - `content-seed/*.json` in `main` = fallback/seed. The site must work with ONLY the seed files (no env vars).
 - **Reads:** server-side GitHub REST API with a fine-grained token, `fetch` + Next cache tags (`content`, `content:<name>`) + ISR (revalidate 3600). **Writes:** only admin-authenticated Route Handlers (GitHub Contents API, sha-based optimistic concurrency), followed by `revalidateTag`.
 - **Images:** the repo is private, so images are served by `app/api/media/[...path]/route.ts` (proxy with token; `Cache-Control: public, s-maxage=31536000, immutable`). Helper `mediaUrl(path)` maps stored `media/...` paths; paths starting with `/` or `http` pass through.
+- **Static assets live ONLY in `public/assets/`** (Next.js serves `public/` at the site root, so files are reached at `/assets/...`): `public/assets/brand/` (logo, emblem such as `krishna-golden-flute.png`), `public/assets/placeholders/` (stand-in images). Never put images anywhere else in the repo, and always reference them as `/assets/<folder>/<file>`. Uploaded photos from the admin are NOT here — they go to the data branch (`media/`).
 - **Vercel constraints:** no runtime filesystem writes; request bodies < 4.5 MB (images are compressed to WebP in the browser before upload); GitHub routes use `export const runtime = 'nodejs'`; region `bom1`.
 
 ## 4. Environment variables (names are fixed)
@@ -68,7 +69,7 @@ Public: `/`, `/about`, `/courses` (cards have ids = slug for `#car-driving` anch
 ## 8. Canonical data model (TypeScript; implemented as zod schemas in prompt 02 — every page/admin prompt must use exactly these shapes)
 ```ts
 type IconName = string;                       // lucide kebab-case or custom icon id
-type MediaPath = string;                      // "media/gallery/ab12cd-front.webp" | "/placeholders/x.jpg" | "https://..."
+type MediaPath = string;                      // "media/gallery/ab12cd-front.webp" | "/assets/placeholders/x.jpg" | "https://..."
 
 interface Site {
   name: string; shortName: string; tagline: string; regNo: string;      // "Govt. of Odisha Regd. No. 10/13"

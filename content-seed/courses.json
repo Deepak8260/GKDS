@@ -2,7 +2,7 @@
   "hero": {
     "title": "Our Courses",
     "subtitle": "Practical, step-by-step driving training for beginners and experienced learners.",
-    "image": "/placeholders/hero-building.svg",
+    "image": "/assets/placeholders/hero-building.svg",
     "imageAlt": "White WagonR and blue Maruti 800 training cars on the practice ground with traffic cones"
   },
   "intro": {
@@ -17,7 +17,7 @@
       "title": "Car Driving Course",
       "description": "Learn to drive a car with step-by-step practical training on real roads.",
       "vehicle": "WagonR",
-      "image": "/placeholders/car-wagonr.svg",
+      "image": "/assets/placeholders/car-wagonr.svg",
       "imageAlt": "White Maruti WagonR training car with an L Driving Training roof sign",
       "features": ["Beginner Friendly", "Real Road Training", "Licence Test Guidance"],
       "order": 1,
@@ -29,7 +29,7 @@
       "title": "Small Car Driving Course",
       "description": "Build your driving skills with focused and affordable training.",
       "vehicle": "Maruti 800",
-      "image": "/placeholders/car-maruti800.svg",
+      "image": "/assets/placeholders/car-maruti800.svg",
       "imageAlt": "Blue Maruti 800 training car",
       "features": ["Ideal for First-Time Learners", "Hands-on Practice", "Licence Test Guidance"],
       "order": 2,
@@ -47,7 +47,7 @@
   "highlights": {
     "lead": "Training",
     "highlight": "Highlights",
-    "image": "/placeholders/training.svg",
+    "image": "/assets/placeholders/training.svg",
     "imageAlt": "Instructor guiding a learner behind the wheel during a practice session",
     "items": [
       "Experienced and certified trainers",

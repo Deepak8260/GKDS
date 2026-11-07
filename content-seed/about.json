@@ -2,7 +2,7 @@
   "hero": {
     "title": "About Us",
     "subtitle": "Know more about Gopal Krushna Driving Training School, our journey, values and commitment to safe driving.",
-    "image": "/placeholders/hero-building.svg",
+    "image": "/assets/placeholders/hero-building.svg",
     "imageAlt": "Gopal Krushna Driving Training School building among trees"
   },
   "story": {
@@ -13,7 +13,7 @@
       "Established in 1993, Gopal Krushna Driving Training School has been a trusted name in Baleswar (Baleshwar) for quality driving training. For over 30 years, we have helped over 1000 learners become confident, skilled and responsible drivers.",
       "We focus on practical, real-road training, road safety awareness and personalized guidance for every learner."
     ],
-    "image": "/placeholders/hero-building.svg",
+    "image": "/assets/placeholders/hero-building.svg",
     "imageAlt": "School building with a white WagonR and a blue Maruti 800 parked in front"
   },
   "stats": [
