@@ -35,6 +35,33 @@ export const reviewsSchema = z
     message: 'At most 3 published reviews can be featured',
   });
 
+/**
+ * What a visitor may send from the public "Leave a Review" form (validated in the browser AND on the server).
+ * Only a name, a whole-star rating and the text — no photo, email or phone.
+ * `company` is a hidden honeypot field (humans leave it empty); `startedAt` is when the form opened (ms epoch).
+ */
+export const publicReviewSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, 'Please enter your name (at least 2 letters).')
+    .max(60, 'Name must be 60 characters or fewer.')
+    .regex(/^\p{L}[\p{L}\p{M}\s.'’-]*$/u, 'Use letters only in your name (spaces, . \' and - are fine).'),
+  rating: z
+    .number({ error: 'Please choose a star rating.' })
+    .int('Please choose a star rating.')
+    .min(1, 'Please choose a star rating.')
+    .max(5, 'Please choose a star rating.'),
+  text: z
+    .string()
+    .trim()
+    .min(20, 'Please write at least 20 characters.')
+    .max(600, 'Please keep your review under 600 characters.'),
+  company: z.string().max(200).optional().default(''),
+  startedAt: z.number().int().nonnegative(),
+});
+export type PublicReviewInput = z.infer<typeof publicReviewSchema>;
+
 /** A review submitted from the public form, waiting for approval (one file per review). */
 export const pendingReviewSchema = z.object({
   id,

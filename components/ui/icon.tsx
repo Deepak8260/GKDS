@@ -47,7 +47,7 @@ import {
   Quote,
   CircleHelp,
 } from 'lucide-react';
-import { SteeringWheelIcon, RoadIcon, OdishaEmblemIcon } from '@/components/icons/custom-icons';
+import { SteeringWheelIcon, RoadIcon, OdishaEmblemIcon, ReviewBubbleIcon } from '@/components/icons/custom-icons';
 
 type IconComponent = ComponentType<
   SVGProps<SVGSVGElement> & { size?: number | string; strokeWidth?: number | string }
@@ -107,6 +107,7 @@ export const ICONS: Record<string, IconComponent> = {
   'steering-wheel': SteeringWheelIcon,
   road: RoadIcon,
   'odisha-emblem': OdishaEmblemIcon,
+  'review-bubble': ReviewBubbleIcon,
 };
 
 /** Sorted list for admin pickers. */

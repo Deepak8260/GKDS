@@ -10,6 +10,8 @@ interface CTABannerProps {
   action?: ReactNode;
   /** Left icon; defaults to a green car. */
   icon?: ReactNode;
+  /** Thin vertical divider between the icon and the text (large screens). */
+  iconDivider?: boolean;
   className?: string;
 }
 
@@ -29,7 +31,7 @@ function RoadArt() {
 }
 
 /** Light-green call-to-action banner with title, text and an action. */
-export function CTABanner({ lead, highlight, text, action, icon, className }: CTABannerProps) {
+export function CTABanner({ lead, highlight, text, action, icon, iconDivider, className }: CTABannerProps) {
   return (
     <div
       className={cn(
@@ -40,9 +42,10 @@ export function CTABanner({ lead, highlight, text, action, icon, className }: CT
       <RoadArt />
       {/* stacked and centred until lg: side-by-side needs room for the title, text AND the actions */}
       <div className="relative flex flex-col items-center gap-5 text-center lg:flex-row lg:gap-6 lg:text-left">
-        <span className="flex size-16 shrink-0 items-center justify-center text-green-700">
+        <span className="flex size-16 shrink-0 items-center justify-center text-green-700 lg:size-[72px]">
           {icon ?? <Car className="size-14" strokeWidth={1.5} aria-hidden="true" />}
         </span>
+        {iconDivider ? <span aria-hidden="true" className="hidden h-16 w-px shrink-0 bg-orange-500/40 lg:block" /> : null}
         <div className="min-w-0 flex-1">
           <h2 className="font-display text-2xl font-bold italic leading-tight text-green-900 md:text-[32px]">
             {lead}

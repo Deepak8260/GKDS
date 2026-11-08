@@ -46,6 +46,16 @@ export function RoadIcon(props: IconProps) {
   );
 }
 
+/** Speech bubble with a star inside (outline) — "Share your experience". */
+export function ReviewBubbleIcon(props: IconProps) {
+  return (
+    <Outline {...props}>
+      <path d="M4.5 3.5h15a2.5 2.5 0 0 1 2.5 2.5v9a2.5 2.5 0 0 1-2.5 2.5H11l-5 3.8v-3.8H4.5A2.5 2.5 0 0 1 2 15V6a2.5 2.5 0 0 1 2.5-2.5Z" />
+      <path d="m12 6.2 1.3 2.7 3 .4-2.2 2.1.6 3L12 12.9 9.3 14.4l.6-3-2.2-2.1 3-.4Z" />
+    </Outline>
+  );
+}
+
 /** Filled seal used for the "Govt. of Odisha" badge. Colours come from CSS (currentColor + accent). */
 export function OdishaEmblemIcon({ size = 36, ...rest }: IconProps) {
   return (

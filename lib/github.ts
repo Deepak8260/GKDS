@@ -7,6 +7,7 @@ import 'server-only';
  */
 
 const API = 'https://api.github.com';
+export const GITHUB_API = API;
 const TIMEOUT_MS = 8000;
 
 export class GithubError extends Error {
@@ -58,7 +59,8 @@ export function isGithubConfigured(): boolean {
   return getGithubConfig() !== null;
 }
 
-function encodePath(path: string): string {
+/** URL-encode each segment of a repo path ("media/my file.webp" → "media/my%20file.webp"). */
+export function encodePath(path: string): string {
   return path
     .split('/')
     .filter(Boolean)
