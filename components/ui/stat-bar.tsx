@@ -15,6 +15,10 @@ interface StatBarProps {
   overlap?: boolean;
   /** Big numerals (Reviews summary): one column on phones, one row from `md`. */
   large?: boolean;
+  /** No white card around the strip: it sits directly on a coloured band (Contact page). */
+  flat?: boolean;
+  /** Icon size in px (default 32, or 42 when `large`). */
+  iconSize?: number;
   className?: string;
 }
 
@@ -25,11 +29,12 @@ const DIVIDER_FROM_LG =
   'lg:relative lg:before:absolute lg:before:left-0 lg:before:top-1/2 lg:before:h-10 lg:before:w-px lg:before:-translate-y-1/2 lg:before:bg-line lg:before:content-[""]';
 
 /** White rounded strip of icon + two-line items separated by thin dividers. */
-export function StatBar({ items, overlap, large, className }: StatBarProps) {
+export function StatBar({ items, overlap, large, flat, iconSize, className }: StatBarProps) {
   return (
     <div
       className={cn(
-        'relative z-10 rounded-2xl border border-line bg-white shadow-card',
+        'relative z-10',
+        !flat && 'rounded-2xl border border-line bg-white shadow-card',
         overlap && '-mt-8 md:-mt-12',
         className,
       )}
@@ -61,7 +66,7 @@ export function StatBar({ items, overlap, large, className }: StatBarProps) {
             )}
           >
             <span className="shrink-0 text-orange-500">
-              <Icon name={item.icon} size={large ? 42 : 32} />
+              <Icon name={item.icon} size={iconSize ?? (large ? 42 : 32)} />
             </span>
             <span className="min-w-0 text-left leading-tight">
               <span

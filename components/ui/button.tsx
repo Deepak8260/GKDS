@@ -29,6 +29,7 @@ type ButtonAsLink = BaseProps & {
   target?: string;
   rel?: string;
   'aria-label'?: string;
+  draggable?: boolean;
   onClick?: () => void;
 };
 
