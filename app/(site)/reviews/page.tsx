@@ -87,7 +87,9 @@ export default async function ReviewsPage() {
         />
       </Container>
 
-      <section className="section-y pb-10 pt-10 md:pb-10 md:pt-10" aria-label="Student reviews">
+      <ShareBanner doc={doc} schoolName={site.name} accepting={doc.acceptSubmissions} />
+
+      <section className="pb-12 pt-0 md:pb-16" aria-label="Student reviews">
         <Container>
           <ReviewsClient
             titleLead={doc.titleLead}
@@ -97,8 +99,6 @@ export default async function ReviewsPage() {
           />
         </Container>
       </section>
-
-      <ShareBanner doc={doc} schoolName={site.name} accepting={doc.acceptSubmissions} />
     </>
   );
 }

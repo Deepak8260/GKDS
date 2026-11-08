@@ -76,7 +76,14 @@ describe('publicReviewSchema', () => {
     expect(parse({ startedAt: -5 }).success).toBe(false);
   });
 
-  it('has no photo, email or phone field', () => {
-    expect(Object.keys(publicReviewSchema.shape).sort()).toEqual(['company', 'name', 'rating', 'startedAt', 'text']);
+  it('has no photo or email field (phone is optional and admin-only)', () => {
+    expect(Object.keys(publicReviewSchema.shape).sort()).toEqual(['company', 'consent', 'name', 'phone', 'rating', 'startedAt', 'text']);
+  });
+
+  it('accepts an empty or valid Indian mobile number and rejects junk', () => {
+    const base = { name: 'Amit Sahoo', rating: 5, text: 'Great instructors and very patient training.', startedAt: 1 };
+    expect(publicReviewSchema.safeParse({ ...base, phone: '' }).success).toBe(true);
+    expect(publicReviewSchema.safeParse({ ...base, phone: '98765 43210' }).success).toBe(true);
+    expect(publicReviewSchema.safeParse({ ...base, phone: '12345' }).success).toBe(false);
   });
 });

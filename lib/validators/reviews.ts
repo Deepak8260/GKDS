@@ -57,6 +57,15 @@ export const publicReviewSchema = z.object({
     .trim()
     .min(20, 'Please write at least 20 characters.')
     .max(600, 'Please keep your review under 600 characters.'),
+  /** Optional: kept for the admin only, never shown publicly. */
+  phone: z
+    .string()
+    .trim()
+    .regex(/^(\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}$/, 'Enter a valid 10-digit mobile number.')
+    .optional()
+    .or(z.literal('').transform(() => undefined)),
+  /** The visitor agrees the review may be shown on the website. */
+  consent: z.boolean().optional(),
   company: z.string().max(200).optional().default(''),
   startedAt: z.number().int().nonnegative(),
 });
@@ -68,6 +77,7 @@ export const pendingReviewSchema = z.object({
   name: required(60),
   rating: z.number().int().min(1).max(5),
   text: required(600),
+  phone: z.string().max(20).optional(),
   submittedAt: isoDate,
   status: z.literal('pending'),
 });

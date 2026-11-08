@@ -14,7 +14,7 @@ interface ShareBannerProps {
 /** Light-green "Share Your Experience" banner with the Leave a Review button. */
 export function ShareBanner({ doc, schoolName, accepting }: ShareBannerProps) {
   return (
-    <Reveal as="section" className="pb-12 md:pb-16">
+    <Reveal as="section" className="py-8 md:py-10">
       <Container>
         <CTABanner
           lead={doc.ctaTitleLead}

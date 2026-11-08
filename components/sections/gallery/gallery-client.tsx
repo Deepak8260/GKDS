@@ -46,8 +46,8 @@ export function GalleryClient({ titleLead, titleHighlight, categories, items }: 
 
   return (
     <>
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-        <SectionHeading lead={titleLead} highlight={titleHighlight} dash="before" size="lg" />
+      <div className="flex flex-col items-center gap-6 text-center">
+        <SectionHeading lead={titleLead} highlight={titleHighlight} dash="above" align="center" size="lg" />
         <FilterPills pills={pills} active={category} onChange={select} />
       </div>
 
@@ -55,7 +55,7 @@ export function GalleryClient({ titleLead, titleHighlight, categories, items }: 
         <ul
           // re-keyed on filter change so the tiles fade in again
           key={category}
-          className="mt-8 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:gap-6 lg:grid-cols-3"
+          className="mt-8 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:grid-cols-4"
         >
           {visible.map((item, i) => (
             <li key={item.id} className="animate-fade-up" style={{ animationDelay: `${Math.min(i, 8) * 40}ms` }}>
@@ -63,13 +63,13 @@ export function GalleryClient({ titleLead, titleHighlight, categories, items }: 
                 type="button"
                 onClick={() => setOpenIndex(i)}
                 aria-label={`Open photo: ${item.alt}`}
-                className="group focus-ring relative block aspect-[4/3] w-full overflow-hidden rounded-2xl border border-line bg-green-50 shadow-card"
+                className="group focus-ring relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-line bg-green-50 shadow-card"
               >
                 <Image
                   src={mediaUrl(item.src)}
                   alt=""
                   fill
-                  sizes="(min-width: 1024px) 380px, (min-width: 480px) 50vw, 100vw"
+                  sizes="(min-width: 1280px) 300px, (min-width: 1024px) 380px, (min-width: 480px) 50vw, 100vw"
                   loading={i < 6 ? 'eager' : 'lazy'}
                   className="object-cover transition-transform duration-300 group-hover:scale-105 group-focus-visible:scale-105"
                 />

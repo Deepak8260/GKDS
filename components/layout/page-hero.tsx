@@ -61,8 +61,8 @@ export function PageHero({
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-hero-green" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-green-900/55 md:hidden" />
 
-      <Container className="relative flex min-h-[170px] flex-col justify-center pb-12 pt-8 md:min-h-[200px] md:pb-16 md:pt-10">
-        <nav aria-label="Breadcrumb" className="mb-3 text-sm text-white/80">
+      <Container className="relative flex flex-col justify-center pb-10 pt-6 md:pb-12 md:pt-7">
+        <nav aria-label="Breadcrumb" className="mb-2 text-sm text-white/80">
           <ol className="flex flex-wrap items-center gap-1.5">
             {breadcrumb.map((item, i) => {
               const last = i === breadcrumb.length - 1;
@@ -88,13 +88,13 @@ export function PageHero({
           </ol>
         </nav>
 
-        <h1 className="font-display text-4xl font-bold leading-[1.05] md:text-[42px]">{title}</h1>
-        <p className="mt-4 max-w-md border-l-[3px] border-orange-500 pl-4 text-base text-white md:text-[15.5px]">
+        <h1 className="font-display text-3xl font-bold leading-[1.05] md:text-[36px]">{title}</h1>
+        <p className="mt-3 max-w-xl border-l-[3px] border-orange-500 pl-4 text-base text-white md:text-[15.5px]">
           {subtitle}
         </p>
       </Container>
 
-      <WaveDivider className="absolute inset-x-0 bottom-[-1px]" />
+      <WaveDivider className="absolute inset-x-0 bottom-[-1px] h-8 md:h-12" />
       <JsonLd data={breadcrumbJsonLd(breadcrumb)} />
     </section>
   );

@@ -136,6 +136,7 @@ export async function POST(request: Request) {
       name,
       rating: parsed.data.rating,
       text,
+      phone: parsed.data.phone,
       submittedAt: new Date().toISOString(),
       status: 'pending',
     });
