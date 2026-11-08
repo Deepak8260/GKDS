@@ -79,6 +79,6 @@ describe('loadContent (GitHub with seed fallback)', () => {
     mocks.isGithubConfigured.mockReturnValue(true);
     mocks.readJson.mockResolvedValue('<html>oops</html>');
     const reviews = await loadContent('reviews');
-    expect(reviews.items.length).toBe(6);
+    expect(reviews.items.length).toBe(0);
   });
 });

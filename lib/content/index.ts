@@ -90,8 +90,8 @@ export const getFeaturedReviews = cache(async (limit = 3): Promise<Review[]> => 
   return reviews.filter((r) => r.featured).slice(0, limit);
 });
 
-/** Summary numbers for the Reviews page (auto from reviews, or manual from site settings). */
+/** Summary numbers for the Reviews page: real figures from the published reviews. */
 export const getReviewStats = cache(async (): Promise<ReviewStats> => {
-  const [site, reviews] = await Promise.all([getSite(), getReviews()]);
-  return computeReviewStats(reviews.items, site, reviews.summaryMode);
+  const reviews = await getReviews();
+  return computeReviewStats(reviews.items);
 });

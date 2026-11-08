@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     title: 'Student Reviews',
     description: truncate(
-      `${doc.hero.subtitle} Rated ${formatRating(stats.rating)}/5 by learners of ${site.name} in ${site.address.city}.`,
+      `${doc.hero.subtitle} ${stats.rating !== null ? `Rated ${formatRating(stats.rating)}/5 by learners of ${site.name} in ${site.address.city}.` : `Read what learners say about ${site.name} in ${site.address.city}.`}`,
       155,
     ),
     path: '/reviews',
@@ -74,15 +74,22 @@ export default async function ReviewsPage() {
           items={[
             {
               icon: 'star',
-              title: (
-                <>
-                  {formatRating(stats.rating)} <span className="text-xl font-semibold text-ink/70 md:text-2xl">/ 5</span>
-                </>
-              ),
-              subtitle: `Based on ${stats.ratingCount} Reviews`,
+              title:
+                stats.rating !== null ? (
+                  <>
+                    {formatRating(stats.rating)} <span className="text-xl font-semibold text-ink/70 md:text-2xl">/ 5</span>
+                  </>
+                ) : (
+                  '–'
+                ),
+              subtitle: stats.count > 0 ? `Based on ${stats.count} ${stats.count === 1 ? 'Review' : 'Reviews'}` : 'No reviews yet',
             },
-            { icon: 'users', title: stats.trainedDrivers, subtitle: 'Happy Learners' },
-            { icon: 'shield-check', title: `${stats.recommendPercent}%`, subtitle: 'Would Recommend' },
+            { icon: 'users', title: stats.count > 0 ? String(stats.happyLearners) : '–', subtitle: 'Happy Learners' },
+            {
+              icon: 'shield-check',
+              title: stats.recommendPercent !== null ? `${stats.recommendPercent}%` : '–',
+              subtitle: 'Would Recommend',
+            },
           ]}
         />
       </Container>

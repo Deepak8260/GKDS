@@ -6,71 +6,10 @@
     "imageAlt": "White WagonR training car with an instructor and a learner on the practice ground, orange cones around it and the school signboard behind"
   },
   "titleLead": "What Our Learners Say",
-  "summaryMode": "manual",
+  "summaryMode": "auto",
   "acceptSubmissions": true,
   "ctaTitleLead": "Share",
   "ctaTitleHighlight": "Your Experience",
   "ctaText": "Have you trained with us? We'd love to hear your feedback!",
-  "items": [
-    {
-      "id": "r1",
-      "name": "Amit Sahoo",
-      "rating": 5,
-      "text": "Very good training and supportive instructors. They focus on practical driving and road safety. I got my licence without any hassle. Highly recommended!",
-      "avatar": "/assets/placeholders/avatar-1.svg",
-      "date": "2026-10-18T09:00:00.000Z",
-      "published": true,
-      "featured": true
-    },
-    {
-      "id": "r2",
-      "name": "Priyanka Das",
-      "rating": 5,
-      "text": "The training is excellent. The instructors are patient and explain everything clearly. I gained full confidence in driving here.",
-      "avatar": "/assets/placeholders/avatar-2.svg",
-      "date": "2026-10-11T09:00:00.000Z",
-      "published": true,
-      "featured": true
-    },
-    {
-      "id": "r3",
-      "name": "Subham Jena",
-      "rating": 5,
-      "text": "One of the best driving schools in Baleswar. Well-maintained vehicles, practical training and a very professional approach.",
-      "avatar": "/assets/placeholders/avatar-3.svg",
-      "date": "2026-10-01T09:00:00.000Z",
-      "published": true,
-      "featured": true
-    },
-    {
-      "id": "r4",
-      "name": "Suman Behera",
-      "rating": 5,
-      "text": "I learned driving from scratch and now I can drive confidently. The step-by-step training method is really helpful for beginners.",
-      "avatar": "/assets/placeholders/avatar-4.svg",
-      "date": "2026-09-30T09:00:00.000Z",
-      "published": true,
-      "featured": false
-    },
-    {
-      "id": "r5",
-      "name": "Rakesh Patra",
-      "rating": 4.5,
-      "text": "Good training, flexible timings and friendly instructors. The road practice sessions were very useful.",
-      "avatar": "/assets/placeholders/avatar-5.svg",
-      "date": "2026-08-30T09:00:00.000Z",
-      "published": true,
-      "featured": false
-    },
-    {
-      "id": "r6",
-      "name": "Ankita Mishra",
-      "rating": 5,
-      "text": "A great place to learn driving. They give proper guidance for the driving test and also teach road rules and safety very well.",
-      "avatar": "/assets/placeholders/avatar-6.svg",
-      "date": "2026-08-28T09:00:00.000Z",
-      "published": true,
-      "featured": false
-    }
-  ]
+  "items": []
 }

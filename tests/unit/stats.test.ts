@@ -1,62 +1,34 @@
 import { describe, expect, it } from 'vitest';
 import { computeReviewStats } from '@/lib/content/stats';
 import { newId } from '@/lib/utils';
-import type { Review } from '@/lib/validators';
 
-const site = {
-  stats: {
-    sinceYear: 1993,
-    yearsLabel: '30+ Years',
-    trainedDrivers: '1000+',
-    successRateLabel: 'High Success Rate',
-    rating: 4.8,
-    ratingCount: '250+',
-    recommendPercent: 95,
-  },
-};
-
-const review = (rating: number, published = true): Review => ({
-  id: String(Math.random()),
-  name: 'T',
-  rating,
-  text: 'text',
-  date: '2026-10-01T00:00:00.000Z',
-  published,
-  featured: false,
-});
+const review = (rating: number, published = true) => ({ rating, published });
 
 describe('computeReviewStats', () => {
-  it('manual mode uses the numbers from site settings', () => {
-    const s = computeReviewStats([review(1)], site, 'manual');
-    expect(s).toMatchObject({ rating: 4.8, ratingCount: '250+', recommendPercent: 95, mode: 'manual' });
+  it('is empty when there are no published reviews', () => {
+    expect(computeReviewStats([])).toEqual({ count: 0, rating: null, happyLearners: 0, recommendPercent: null });
+    expect(computeReviewStats([review(5, false)]).count).toBe(0);
   });
 
-  it('auto mode averages published reviews to one decimal', () => {
-    const s = computeReviewStats([review(5), review(5), review(4), review(4.5)], site, 'auto');
-    expect(s.rating).toBe(4.6); // (5+5+4+4.5)/4 = 4.625 → 4.6
-    expect(s.ratingCount).toBe('4');
-    expect(s.mode).toBe('auto');
+  it('a single review gives exactly that review as the numbers', () => {
+    expect(computeReviewStats([review(5)])).toEqual({ count: 1, rating: 5, happyLearners: 1, recommendPercent: 100 });
+    expect(computeReviewStats([review(2)])).toEqual({ count: 1, rating: 2, happyLearners: 0, recommendPercent: 0 });
   });
 
-  it('auto mode computes recommend % as share of 4★+ reviews', () => {
-    const s = computeReviewStats([review(5), review(4), review(3), review(2)], site, 'auto');
+  it('averages published reviews to one decimal', () => {
+    expect(computeReviewStats([review(5), review(5), review(4), review(4)]).rating).toBe(4.5);
+    expect(computeReviewStats([review(5), review(5), review(4), review(5)]).rating).toBe(4.8);
+  });
+
+  it('counts 4-star and above as happy learners / would recommend', () => {
+    const s = computeReviewStats([review(5), review(4), review(3), review(2)]);
+    expect(s.happyLearners).toBe(2);
     expect(s.recommendPercent).toBe(50);
   });
 
-  it('auto mode ignores unpublished reviews', () => {
-    const s = computeReviewStats([review(5), review(1, false)], site, 'auto');
-    expect(s.rating).toBe(5);
-    expect(s.ratingCount).toBe('1');
-  });
-
-  it('auto mode falls back to manual numbers when there are no published reviews', () => {
-    const s = computeReviewStats([review(5, false)], site, 'auto');
-    expect(s.mode).toBe('manual');
-    expect(s.rating).toBe(4.8);
-  });
-
-  it('keeps the trained-drivers label from site settings', () => {
-    expect(computeReviewStats([review(5)], site, 'auto').trainedDrivers).toBe('1000+');
+  it('ignores unpublished reviews', () => {
+    const s = computeReviewStats([review(5), review(1, false)]);
+    expect(s).toMatchObject({ count: 1, rating: 5 });
   });
 });
 

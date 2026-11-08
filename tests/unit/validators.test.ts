@@ -125,29 +125,48 @@ describe('gallery schema', () => {
 });
 
 describe('reviews schema', () => {
+  // the shipped seed has no reviews, so build a few
+  const sample = () => ({
+    ...clone(seeds.reviews),
+    items: Array.from({ length: 4 }, (_, i) => ({
+      id: `r${i}`,
+      name: 'Test Learner',
+      rating: 5,
+      text: 'Great training and patient instructors.',
+      date: '2026-10-01T00:00:00.000Z',
+      published: true,
+      featured: false,
+    })),
+  });
+
+  it('the shipped seed starts with no reviews', () => {
+    expect(seeds.reviews.items).toEqual([]);
+    expect(parseContent('reviews', clone(seeds.reviews)).ok).toBe(true);
+  });
+
   it('accepts half-star ratings but not other fractions', () => {
-    const ok = clone(seeds.reviews);
+    const ok = sample();
     ok.items[0].rating = 4.5;
     expect(parseContent('reviews', ok).ok).toBe(true);
-    const bad = clone(seeds.reviews);
+    const bad = sample();
     bad.items[0].rating = 4.3;
     expect(parseContent('reviews', bad).ok).toBe(false);
   });
 
   it('rejects ratings outside 1–5', () => {
-    const data = clone(seeds.reviews);
+    const data = sample();
     data.items[0].rating = 6;
     expect(parseContent('reviews', data).ok).toBe(false);
   });
 
   it('allows at most 3 featured published reviews', () => {
-    const data = clone(seeds.reviews);
+    const data = sample();
     data.items.forEach((r) => (r.featured = true));
     expect(parseContent('reviews', data).ok).toBe(false);
   });
 
   it('defaults acceptSubmissions to true when missing', () => {
-    const data: Record<string, unknown> = clone(seeds.reviews);
+    const data: Record<string, unknown> = sample();
     delete data.acceptSubmissions;
     const r = parseContent('reviews', data);
     expect(r.ok).toBe(true);
