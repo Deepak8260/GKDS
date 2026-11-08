@@ -1,0 +1,15 @@
+{
+  "hero": {
+    "title": "Student Reviews",
+    "subtitle": "Hear from our learners about their experience with us.",
+    "image": "/assets/photos/training/training-ground-wagonr.webp",
+    "imageAlt": "White WagonR training car with an instructor and a learner on the practice ground, orange cones around it and the school signboard behind"
+  },
+  "titleLead": "What Our Learners Say",
+  "summaryMode": "auto",
+  "acceptSubmissions": true,
+  "ctaTitleLead": "Share",
+  "ctaTitleHighlight": "Your Experience",
+  "ctaText": "Have you trained with us? We'd love to hear your feedback!",
+  "items": []
+}
