@@ -8,11 +8,13 @@ import type { About } from '@/lib/validators';
 export function Story({ story }: { story: About['story'] }) {
   return (
     <Reveal as="section" className="section-y pb-6 pt-10 md:pb-8 md:pt-10">
-      <Container className="grid items-center gap-10 lg:grid-cols-[48fr_52fr] lg:gap-14">
+      <Container className="grid items-center gap-10 lg:grid-cols-[40fr_60fr] lg:gap-12">
         <FramedImage
           src={story.image}
           alt={story.imageAlt}
-          sizes="(min-width: 1024px) 560px, 100vw"
+          sizes="(min-width: 1024px) 440px, 100vw"
+          aspect="aspect-[4/3]"
+          className="mx-auto w-full max-w-[460px] lg:max-w-none"
           position={story.imagePosition}
         />
 

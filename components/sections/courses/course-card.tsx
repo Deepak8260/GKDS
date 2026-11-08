@@ -36,8 +36,8 @@ export function CourseCard({ course, phone, wide = false, className }: CourseCar
     >
       <div
         className={cn(
-          'relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl bg-green-50 md:aspect-[4/3] md:w-[44%]',
-          wide ? 'lg:aspect-[4/3] lg:w-[44%]' : 'lg:aspect-[16/10] lg:w-full',
+          'relative aspect-[2/1] w-full shrink-0 overflow-hidden rounded-xl bg-green-50 md:aspect-[4/3] md:w-[44%]',
+          wide ? 'lg:aspect-[4/3] lg:w-[44%]' : 'lg:aspect-[2/1] lg:w-full',
         )}
       >
         <Image

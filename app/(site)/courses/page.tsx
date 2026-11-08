@@ -4,7 +4,6 @@ import { PageHero } from '@/components/layout/page-hero';
 import { AnchorFlash } from '@/components/sections/courses/anchor-flash';
 import { CourseCard } from '@/components/sections/courses/course-card';
 import { courseGridLayout } from '@/components/sections/courses/grid-layout';
-import { Highlights } from '@/components/sections/courses/highlights';
 import { Included } from '@/components/sections/courses/included';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -106,7 +105,6 @@ export default async function CoursesPage() {
       </Reveal>
 
       <Included title={doc.includedTitle} items={doc.included} />
-      <Highlights highlights={doc.highlights} />
 
       <Reveal as="section" className="pb-12 md:pb-16">
         <Container>
