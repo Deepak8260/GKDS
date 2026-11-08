@@ -24,7 +24,7 @@ export function WhatsappTile({ number, message }: WhatsappTileProps) {
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-lg font-bold text-ink">Quick Enquiry?</span>
-        <span className="block text-[15px] leading-snug text-ink/80">
+        <span className="block text-[14px] leading-snug text-ink/80">
           Chat with us on WhatsApp for faster assistance!
         </span>
         <span className="sr-only"> (opens WhatsApp in a new tab)</span>

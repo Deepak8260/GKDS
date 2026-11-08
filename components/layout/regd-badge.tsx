@@ -18,7 +18,7 @@ export function RegdBadge({ regNo, className }: { regNo: string; className?: str
         height={160}
         className="h-10 w-auto shrink-0"
       />
-      <p className="text-[13px] font-bold leading-tight text-ink">
+      <p className="text-[12.5px] font-bold leading-tight text-ink">
         {line1}
         {line2 ? (
           <>

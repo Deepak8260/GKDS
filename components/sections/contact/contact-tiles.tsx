@@ -29,7 +29,7 @@ function Tile({ id, title, icon, tone, children }: TileProps) {
         <h3 id={id} className="text-lg font-bold text-ink">
           {title}
         </h3>
-        <div className="mt-1 text-[15px] leading-relaxed text-ink">{children}</div>
+        <div className="mt-1 text-[14px] leading-relaxed text-ink">{children}</div>
       </div>
     </section>
   );

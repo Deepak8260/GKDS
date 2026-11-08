@@ -100,7 +100,7 @@ export function SortSelect({ value, onChange }: SortSelectProps) {
         aria-activedescendant={open ? optionId(active) : undefined}
         onClick={() => (open ? setOpen(false) : openList())}
         onKeyDown={onKeyDown}
-        className="focus-ring inline-flex h-11 min-w-[11.5rem] items-center justify-between gap-3 rounded-xl border border-green-800 bg-white px-4 text-[15px] font-semibold text-green-900 hover:bg-green-50"
+        className="focus-ring inline-flex h-11 min-w-[11.5rem] items-center justify-between gap-3 rounded-xl border border-green-800 bg-white px-4 text-[14px] font-semibold text-green-900 hover:bg-green-50"
       >
         {SORT_OPTIONS[selectedIndex].label}
         <ChevronDown className={cn('size-4 transition-transform', open && 'rotate-180')} aria-hidden="true" />
@@ -122,7 +122,7 @@ export function SortSelect({ value, onChange }: SortSelectProps) {
               onMouseEnter={() => setActive(i)}
               onClick={() => choose(i)}
               className={cn(
-                'flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-lg px-3 text-[15px] font-medium text-green-900',
+                'flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-lg px-3 text-[14px] font-medium text-green-900',
                 i === active && 'bg-orange-50',
                 opt.id === value && 'font-semibold',
               )}

@@ -52,11 +52,11 @@ export function CourseCard({ course, phone, wide = false, className }: CourseCar
       <div className="min-w-0 flex-1">
         <h3 className="text-2xl font-bold leading-tight text-green-900">{course.title}</h3>
         <p className="mt-2 text-base leading-relaxed text-ink">{course.description}</p>
-        <Pill className="mt-4 text-[15px]">Vehicle: {course.vehicle}</Pill>
+        <Pill className="mt-4 text-[14px]">Vehicle: {course.vehicle}</Pill>
         <CheckList className="mt-5" items={course.features} />
         <a
           href={telHref(phone)}
-          className="focus-ring mt-4 inline-flex min-h-11 items-center gap-2 rounded-md text-[15px] font-semibold text-orange-700 hover:text-orange-600 hover:underline"
+          className="focus-ring mt-4 inline-flex min-h-11 items-center gap-2 rounded-md text-[14px] font-semibold text-orange-700 hover:text-orange-600 hover:underline"
         >
           <Phone className="size-4" aria-hidden="true" />
           Call to enrol

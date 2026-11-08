@@ -105,7 +105,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
                 {NAV_ITEMS.map((item) => {
                   const active = isActivePath(pathname, item.href);
                   const row = cn(
-                    'focus-ring flex min-h-12 flex-1 items-center rounded-xl px-4 text-[17px] font-semibold',
+                    'focus-ring flex min-h-12 flex-1 items-center rounded-xl px-4 text-[15.5px] font-semibold',
                     active ? 'bg-orange-50 text-orange-700' : 'text-green-900 hover:bg-green-50',
                   );
                   if (item.hasDropdown) {
@@ -134,7 +134,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
                               <li key={c.slug}>
                                 <Link
                                   href={`/courses#${c.slug}`}
-                                  className="focus-ring flex min-h-11 items-center rounded-lg px-3 text-[15px] font-medium text-ink hover:bg-green-50"
+                                  className="focus-ring flex min-h-11 items-center rounded-lg px-3 text-[14px] font-medium text-ink hover:bg-green-50"
                                 >
                                   {c.title}
                                 </Link>

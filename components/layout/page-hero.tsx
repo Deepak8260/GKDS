@@ -88,8 +88,8 @@ export function PageHero({
           </ol>
         </nav>
 
-        <h1 className="font-display text-4xl font-bold leading-[1.05] md:text-[56px]">{title}</h1>
-        <p className="mt-4 max-w-md border-l-[3px] border-orange-500 pl-4 text-base text-white md:text-[17px]">
+        <h1 className="font-display text-4xl font-bold leading-[1.05] md:text-[42px]">{title}</h1>
+        <p className="mt-4 max-w-md border-l-[3px] border-orange-500 pl-4 text-base text-white md:text-[15.5px]">
           {subtitle}
         </p>
       </Container>

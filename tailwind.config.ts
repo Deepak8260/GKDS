@@ -34,6 +34,21 @@ const config: Config = {
         line: channel('line'),
         whatsapp: channel('whatsapp'),
       },
+      // Slightly tighter type scale than Tailwind's default so the site reads calm and professional.
+      fontSize: {
+        xs: ['0.75rem', { lineHeight: '1.1rem' }],
+        sm: ['0.84rem', { lineHeight: '1.3rem' }],
+        base: ['0.9375rem', { lineHeight: '1.5rem' }],
+        lg: ['1.03rem', { lineHeight: '1.6rem' }],
+        xl: ['1.125rem', { lineHeight: '1.65rem' }],
+        '2xl': ['1.3rem', { lineHeight: '1.75rem' }],
+        '3xl': ['1.625rem', { lineHeight: '2rem' }],
+        '4xl': ['1.875rem', { lineHeight: '2.2rem' }],
+        '5xl': ['2.375rem', { lineHeight: '1.1' }],
+        '6xl': ['2.875rem', { lineHeight: '1.1' }],
+        '7xl': ['3.375rem', { lineHeight: '1.05' }],
+        '8xl': ['4.25rem', { lineHeight: '1' }],
+      },
       fontFamily: {
         display: ['var(--font-display)', 'Georgia', 'serif'],
         body: ['var(--font-body)', 'system-ui', 'sans-serif'],

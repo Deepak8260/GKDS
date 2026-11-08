@@ -10,7 +10,7 @@ export function ReviewCard({ review }: { review: ReviewItem }) {
       {/* decorative quote mark */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute right-5 top-1 select-none font-display text-[80px] font-bold leading-none text-green-100"
+        className="pointer-events-none absolute right-5 top-1 select-none font-display text-[58px] font-bold leading-none text-green-100"
       >
         “
       </span>
@@ -26,7 +26,7 @@ export function ReviewCard({ review }: { review: ReviewItem }) {
         </div>
       </header>
 
-      <blockquote className="mt-4 text-[15.5px] leading-[1.6] text-ink">“{review.text}”</blockquote>
+      <blockquote className="mt-4 text-[14.5px] leading-[1.6] text-ink">“{review.text}”</blockquote>
     </Card>
   );
 }

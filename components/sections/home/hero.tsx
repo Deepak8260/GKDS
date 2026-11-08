@@ -19,20 +19,20 @@ export function Hero({ hero, phone }: HeroProps) {
     <section aria-labelledby="home-hero-title" className="relative isolate overflow-hidden bg-cream">
       <div className="container-x relative z-10 flex flex-col justify-center pb-6 pt-10 lg:min-h-[560px] lg:py-16">
         <div className="lg:w-[46%]">
-          <p className="flex items-center gap-3 text-[13px] font-bold uppercase tracking-[0.12em] text-ink">
+          <p className="flex items-center gap-3 text-[12.5px] font-bold uppercase tracking-[0.12em] text-ink">
             <span aria-hidden="true" className="h-4 w-[3px] rounded bg-orange-500" />
             {hero.eyebrow}
           </p>
 
           <h1
             id="home-hero-title"
-            className="mt-5 font-display text-[40px] font-bold italic leading-[1.05] text-green-900 sm:text-5xl lg:text-[64px]"
+            className="mt-5 font-display text-[32px] font-bold italic leading-[1.05] text-green-900 sm:text-5xl lg:text-[48px]"
           >
             <span className="block">{hero.titleLead}</span>{' '}
             <span className="block text-orange-500">{hero.titleHighlight}</span>
           </h1>
 
-          <p className="mt-5 max-w-[440px] text-base text-ink md:text-[17px]">{hero.subtitle}</p>
+          <p className="mt-5 max-w-[440px] text-base text-ink md:text-[15.5px]">{hero.subtitle}</p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button

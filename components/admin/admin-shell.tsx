@@ -110,7 +110,7 @@ function Shell({ children, pending, logo }: AdminShellProps) {
                 onClick={go}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'focus-ring relative flex min-h-11 items-center gap-3 rounded-lg px-3 text-[15px] font-medium transition-colors',
+                  'focus-ring relative flex min-h-11 items-center gap-3 rounded-lg px-3 text-[14px] font-medium transition-colors',
                   active ? 'bg-orange-50 text-orange-700' : 'text-ink/80 hover:bg-green-50',
                 )}
               >
@@ -145,7 +145,7 @@ function Shell({ children, pending, logo }: AdminShellProps) {
           href="/"
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring flex min-h-11 items-center gap-3 rounded-lg px-3 text-[15px] font-medium text-ink/80 hover:bg-green-50"
+          className="focus-ring flex min-h-11 items-center gap-3 rounded-lg px-3 text-[14px] font-medium text-ink/80 hover:bg-green-50"
         >
           <ExternalLink className="size-5" aria-hidden="true" />
           View website <span className="sr-only">(opens in a new tab)</span>
@@ -153,7 +153,7 @@ function Shell({ children, pending, logo }: AdminShellProps) {
         <button
           type="button"
           onClick={logout}
-          className="focus-ring flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left text-[15px] font-medium text-ink/80 hover:bg-green-50"
+          className="focus-ring flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left text-[14px] font-medium text-ink/80 hover:bg-green-50"
         >
           <LogOut className="size-5" aria-hidden="true" />
           Sign out

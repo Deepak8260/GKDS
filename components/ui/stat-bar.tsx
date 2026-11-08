@@ -72,7 +72,7 @@ export function StatBar({ items, overlap, large, flat, iconSize, className }: St
               <span
                 className={cn(
                   'block font-bold text-ink',
-                  large ? 'text-[32px] font-extrabold leading-none md:text-4xl' : 'text-[15px] lg:text-base',
+                  large ? 'text-[26px] font-extrabold leading-none md:text-4xl' : 'text-[14px] lg:text-base',
                 )}
               >
                 {item.title}
@@ -81,7 +81,7 @@ export function StatBar({ items, overlap, large, flat, iconSize, className }: St
                 <span
                   className={cn(
                     'block text-ink/80',
-                    large ? 'mt-1.5 text-base font-medium' : 'text-[15px] font-semibold lg:text-base',
+                    large ? 'mt-1.5 text-base font-medium' : 'text-[14px] font-semibold lg:text-base',
                   )}
                 >
                   {item.subtitle}

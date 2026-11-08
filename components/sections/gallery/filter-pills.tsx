@@ -35,7 +35,7 @@ export function FilterPills({ pills, active, onChange }: FilterPillsProps) {
             aria-pressed={isActive}
             onClick={() => onChange(pill.id)}
             className={cn(
-              'focus-ring inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full px-4 text-[15px] font-semibold transition-colors',
+              'focus-ring inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full px-4 text-[14px] font-semibold transition-colors',
               isActive
                 ? 'bg-green-800 text-white shadow-card'
                 : 'border border-line bg-white text-green-900 shadow-card hover:border-orange-500',

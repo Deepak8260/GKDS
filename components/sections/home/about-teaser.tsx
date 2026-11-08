@@ -29,7 +29,7 @@ export function AboutTeaser({ about }: { about: Home['aboutTeaser'] }) {
           <p className="mt-4 text-base leading-relaxed text-ink">{about.body}</p>
           <Link
             href="/about"
-            className="focus-ring mt-2 inline-flex min-h-11 items-center gap-1.5 rounded-md text-[15px] font-semibold text-orange-700 hover:text-orange-600"
+            className="focus-ring mt-2 inline-flex min-h-11 items-center gap-1.5 rounded-md text-[14px] font-semibold text-orange-700 hover:text-orange-600"
           >
             Read More
             <span className="sr-only"> about {about.title}</span>

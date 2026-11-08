@@ -24,7 +24,7 @@ export function IconTile({ icon, label, variant = 'vertical', className }: IconT
       <span className="shrink-0 text-orange-500">
         <Icon name={icon} size={variant === 'vertical' ? 36 : 34} />
       </span>
-      <span className="text-[15px] font-semibold leading-snug text-green-900 text-balance">{label}</span>
+      <span className="text-[14px] font-semibold leading-snug text-green-900 text-balance">{label}</span>
     </div>
   );
 }

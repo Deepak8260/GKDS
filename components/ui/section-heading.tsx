@@ -24,9 +24,9 @@ interface SectionHeadingProps {
 }
 
 const sizeClasses = {
-  sm: 'text-2xl md:text-[28px] leading-tight',
-  md: 'text-[28px] md:text-[40px] leading-[1.1]',
-  lg: 'text-[32px] md:text-5xl leading-[1.08]',
+  sm: 'text-2xl md:text-[23px] leading-tight',
+  md: 'text-[23px] md:text-[32px] leading-[1.1]',
+  lg: 'text-[26px] md:text-5xl leading-[1.08]',
 } as const;
 
 const Dash = ({ className }: { className?: string }) => (
@@ -72,7 +72,7 @@ export function SectionHeading({
       {eyebrow ? (
         <div className={cn('mb-3 flex items-center gap-3', align === 'center' && 'justify-center')}>
           <Dash />
-          <p className="text-[13px] font-bold uppercase tracking-[0.12em] text-ink">{eyebrow}</p>
+          <p className="text-[12.5px] font-bold uppercase tracking-[0.12em] text-ink">{eyebrow}</p>
         </div>
       ) : dash === 'above' ? (
         <Dash className={cn('mb-3', align === 'center' && 'mx-auto')} />
@@ -90,7 +90,7 @@ export function SectionHeading({
       {subtitle ? (
         <p
           className={cn(
-            'mt-3 max-w-xl text-base text-ink/80 md:text-[17px]',
+            'mt-3 max-w-xl text-base text-ink/80 md:text-[15.5px]',
             align === 'center' && 'mx-auto',
           )}
         >

@@ -24,7 +24,7 @@ export function MissionVision({ heading, mission, vision }: MissionVisionProps) 
               <Icon className="size-9" strokeWidth={1.75} aria-hidden="true" />
             </span>
             <div className="min-w-0">
-              <h3 className="text-xl font-bold text-green-900 md:text-[22px]">{item.title}</h3>
+              <h3 className="text-xl font-bold text-green-900 md:text-[19px]">{item.title}</h3>
               <p className="mt-1.5 text-base leading-relaxed text-ink">{item.text}</p>
             </div>
           </li>

@@ -20,7 +20,7 @@ export function Values({ heading, values }: ValuesProps) {
             </span>
             <div className="min-w-0">
               <h3 className="text-lg font-bold text-green-900">{v.title}</h3>
-              {v.text ? <p className="mt-0.5 text-[15px] leading-snug text-muted">{v.text}</p> : null}
+              {v.text ? <p className="mt-0.5 text-[14px] leading-snug text-muted">{v.text}</p> : null}
             </div>
           </li>
         ))}

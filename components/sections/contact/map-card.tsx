@@ -20,7 +20,7 @@ export function MapCard({ site }: { site: Site }) {
       />
       <div className="pointer-events-none absolute left-3 top-3 z-10 max-w-[75%] rounded-xl bg-white p-3 shadow-card sm:max-w-[280px]">
         <p className="text-sm font-bold leading-snug text-ink">{site.name}</p>
-        <p className="mt-1 text-[13px] leading-snug text-muted">
+        <p className="mt-1 text-[12.5px] leading-snug text-muted">
           {lines.map((l, i) => (
             <span key={i} className="block">
               {l}
@@ -31,7 +31,7 @@ export function MapCard({ site }: { site: Site }) {
           href={site.map.directionsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="focus-ring pointer-events-auto mt-1 inline-flex min-h-11 items-center rounded text-[13px] font-semibold text-blue-700 hover:underline"
+          className="focus-ring pointer-events-auto mt-1 inline-flex min-h-11 items-center rounded text-[12.5px] font-semibold text-blue-700 hover:underline"
         >
           View larger map
           <span className="sr-only"> (opens in a new tab)</span>

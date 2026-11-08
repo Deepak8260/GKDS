@@ -33,7 +33,7 @@ export function ReviewsTeaser({ intro, reviews }: ReviewsTeaserProps) {
                     <span className="block text-base font-bold text-ink">{review.name}</span>
                     <Stars value={review.rating} size={16} className="mt-1" />
                   </figcaption>
-                  <blockquote className="mt-2 line-clamp-4 text-[15px] leading-snug text-muted">
+                  <blockquote className="mt-2 line-clamp-4 text-[14px] leading-snug text-muted">
                     “{review.text}”
                   </blockquote>
                 </div>
