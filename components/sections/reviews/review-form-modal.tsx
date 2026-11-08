@@ -14,7 +14,7 @@ const MAX_TEXT = 600;
 const GENERIC = 'Could not submit right now. Please try again later.';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
-type Errors = Partial<Record<'name' | 'phone' | 'rating' | 'text' | 'consent', string>>;
+type Errors = Partial<Record<'name' | 'phone' | 'rating' | 'text', string>>;
 
 interface ReviewFormModalProps {
   schoolName: string;
@@ -43,8 +43,15 @@ const labelBase = 'mb-1.5 flex items-center gap-2.5 text-base font-bold text-ink
 /** Decorative road + trees scene that fades into the white header (no extra image request). */
 function RoadScene() {
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 w-[48%] sm:w-[44%]">
-      <svg viewBox="0 0 300 200" preserveAspectRatio="xMaxYMax slice" className="absolute inset-0 size-full">
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-y-0 right-0 w-[48%] sm:w-[44%]"
+    >
+      <svg
+        viewBox="0 0 300 200"
+        preserveAspectRatio="xMaxYMax slice"
+        className="absolute inset-0 size-full"
+      >
         <defs>
           <linearGradient id="rv-fade" x1="0" x2="1">
             <stop offset="0" stopColor="#fff" stopOpacity="1" />
@@ -62,8 +69,17 @@ function RoadScene() {
         <rect width="300" height="200" fill="url(#rv-sky)" />
         <circle cx="250" cy="70" r="30" fill="#ffe9a8" opacity=".7" />
         <path d="M0 150 C80 110 170 120 300 105 L300 200 L0 200Z" fill="#8cc063" />
-        <path d="M110 200 C150 160 210 135 300 128 L300 168 C240 168 200 180 180 200Z" fill="#555c66" />
-        <path d="M150 196 C190 170 240 152 300 148" stroke="#fff" strokeWidth="2" strokeDasharray="8 7" fill="none" />
+        <path
+          d="M110 200 C150 160 210 135 300 128 L300 168 C240 168 200 180 180 200Z"
+          fill="#555c66"
+        />
+        <path
+          d="M150 196 C190 170 240 152 300 148"
+          stroke="#fff"
+          strokeWidth="2"
+          strokeDasharray="8 7"
+          fill="none"
+        />
         <g fill="#3f8a3a">
           <circle cx="215" cy="78" r="22" />
           <circle cx="255" cy="62" r="26" />
@@ -83,7 +99,7 @@ function RoadScene() {
 }
 
 /**
- * "Leave a Review" dialog. Name, optional phone (admin only), whole-star rating, text and a consent tick.
+ * "Leave a Review" dialog. Name, optional private phone, whole-star rating and text. Posted straight away (no approval step).
  * Validated here with the shared zod schema and again on the server.
  */
 export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModalProps) {
@@ -92,7 +108,6 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
   const [phone, setPhone] = useState('');
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
-  const [consent, setConsent] = useState(false);
   const [company, setCompany] = useState(''); // honeypot: humans never see or fill this
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>('idle');
@@ -119,17 +134,15 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
     ratingErr: `${uid}-rating-err`,
     text: `${uid}-text`,
     textErr: `${uid}-text-err`,
-    consent: `${uid}-consent`,
-    consentErr: `${uid}-consent-err`,
   };
 
-  function validate(): { ok: true; data: ReturnType<typeof publicReviewSchema.parse> } | { ok: false } {
+  function validate():
+    { ok: true; data: ReturnType<typeof publicReviewSchema.parse> } | { ok: false } {
     const parsed = publicReviewSchema.safeParse({
       name,
       phone: phone.trim() || undefined,
       rating: rating || undefined,
       text,
-      consent,
       company,
       startedAt,
     });
@@ -137,10 +150,10 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
     if (!parsed.success) {
       for (const issue of parsed.error.issues) {
         const key = issue.path[0] as keyof Errors;
-        if (key in { name: 1, phone: 1, rating: 1, text: 1 } && !next[key]) next[key] = issue.message;
+        if (key in { name: 1, phone: 1, rating: 1, text: 1 } && !next[key])
+          next[key] = issue.message;
       }
     }
-    if (!consent) next.consent = 'Please tick the box to allow us to display your review.';
 
     if (parsed.success && Object.keys(next).length === 0) {
       setErrors({});
@@ -155,9 +168,7 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
           ? `#${CSS.escape(ids.phone)}`
           : next.rating
             ? 'input[name="rating"]'
-            : next.text
-              ? `#${CSS.escape(ids.text)}`
-              : `#${CSS.escape(ids.consent)}`;
+            : `#${CSS.escape(ids.text)}`;
       formRef.current?.querySelector<HTMLElement>(first)?.focus();
     });
     return { ok: false };
@@ -181,7 +192,11 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(result.data),
       });
-      const json = (await res.json().catch(() => null)) as { ok?: boolean; message?: string; fieldErrors?: Errors } | null;
+      const json = (await res.json().catch(() => null)) as {
+        ok?: boolean;
+        message?: string;
+        fieldErrors?: Errors;
+      } | null;
 
       if (res.ok && json?.ok) {
         rememberSubmit();
@@ -215,8 +230,8 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
         <div className="flex flex-col items-center gap-4 px-6 py-12 text-center" role="status">
           <CircleCheck className="size-12 text-green-700" aria-hidden="true" />
           <p className="text-base text-ink">
-            You already submitted a review recently. Thank you! Please try again a little later if you would like to add
-            another.
+            You already submitted a review recently. Thank you! Please try again a little later if
+            you would like to add another.
           </p>
           <Button onClick={onClose} data-autofocus>
             Close
@@ -226,7 +241,7 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
         <div className="flex flex-col items-center gap-4 px-6 py-12 text-center" role="status">
           <CircleCheck className="size-14 text-green-700" aria-hidden="true" />
           <p className="text-lg font-semibold text-green-900">
-            Thank you! Your review has been submitted and will appear after approval.
+            Thank you! Your review has been posted.
           </p>
           <Button onClick={onClose} data-autofocus>
             Close
@@ -237,15 +252,26 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
           <header className="relative overflow-hidden bg-gradient-to-b from-white to-green-50/40 px-5 pb-12 pt-5 sm:px-8">
             <RoadScene />
             <div className="relative flex items-center gap-3 pr-12">
-              <Image src="/assets/brand/krishna-golden-flute.png" alt="" width={56} height={56} className="size-12 object-contain sm:size-14" />
+              <Image
+                src="/assets/brand/krishna-golden-flute.png"
+                alt=""
+                width={56}
+                height={56}
+                className="size-12 object-contain sm:size-14"
+              />
               <span aria-hidden="true" className="h-10 w-px bg-green-900/30" />
               <p className="font-display text-xl font-bold italic leading-tight text-green-900 sm:text-2xl">
                 Gopal Krushna
-                <span className="block text-sm font-semibold text-orange-600 sm:text-base">Driving Training School</span>
+                <span className="block text-sm font-semibold text-orange-600 sm:text-base">
+                  Driving Training School
+                </span>
               </p>
             </div>
             <div className="relative mt-5">
-              <p aria-hidden="true" className="text-3xl font-extrabold tracking-tight text-green-900 sm:text-4xl">
+              <p
+                aria-hidden="true"
+                className="text-3xl font-extrabold tracking-tight text-green-900 sm:text-4xl"
+              >
                 Share Your Experience
               </p>
               <p className="mt-1.5 max-w-[26rem] text-sm text-ink/80 sm:text-base">
@@ -255,13 +281,21 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
             </div>
           </header>
 
-          <form ref={formRef} onSubmit={onSubmit} noValidate className="space-y-4 px-5 pb-6 pt-1 sm:px-8">
+          <form
+            ref={formRef}
+            onSubmit={onSubmit}
+            noValidate
+            className="space-y-4 px-5 pb-6 pt-1 sm:px-8"
+          >
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor={ids.name} className={labelBase}>
                   <User className="size-6 text-green-800" strokeWidth={1.6} aria-hidden="true" />
                   <span>
-                    Your Name <span aria-hidden="true" className="text-red-600">*</span>
+                    Your Name{' '}
+                    <span aria-hidden="true" className="text-red-600">
+                      *
+                    </span>
                     <span className="sr-only"> (required)</span>
                   </span>
                 </label>
@@ -340,9 +374,16 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
 
             <div>
               <label htmlFor={ids.text} className={labelBase}>
-                <MessageSquareText className="size-6 text-green-800" strokeWidth={1.6} aria-hidden="true" />
+                <MessageSquareText
+                  className="size-6 text-green-800"
+                  strokeWidth={1.6}
+                  aria-hidden="true"
+                />
                 <span>
-                  Your Review <span aria-hidden="true" className="text-red-600">*</span>
+                  Your Review{' '}
+                  <span aria-hidden="true" className="text-red-600">
+                    *
+                  </span>
                   <span className="sr-only"> (required)</span>
                 </span>
               </label>
@@ -375,29 +416,6 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
               </div>
             </div>
 
-            <div>
-              <label className="flex cursor-pointer items-center gap-3 rounded-xl bg-gradient-to-r from-orange-50 to-orange-50/30 px-4 py-3 text-sm text-ink sm:text-base">
-                <input
-                  id={ids.consent}
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(e) => {
-                    setConsent(e.target.checked);
-                    clearError('consent');
-                  }}
-                  aria-invalid={Boolean(errors.consent)}
-                  aria-describedby={errors.consent ? ids.consentErr : undefined}
-                  className="focus-ring size-5 shrink-0 rounded border-2 border-ink/70 accent-green-800"
-                />
-                Allow us to display this review on our website.
-              </label>
-              {errors.consent ? (
-                <p id={ids.consentErr} className="mt-1.5 text-sm font-medium text-red-700">
-                  {errors.consent}
-                </p>
-              ) : null}
-            </div>
-
             {/* honeypot: hidden from people and assistive tech; bots tend to fill every field */}
             <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
               <label>
@@ -413,7 +431,11 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
               </label>
             </div>
 
-            <div aria-live="polite" role="status" className="min-h-5 text-sm font-medium text-red-700">
+            <div
+              aria-live="polite"
+              role="status"
+              className="min-h-5 text-sm font-medium text-red-700"
+            >
               {status === 'error' || message ? message : ''}
             </div>
 

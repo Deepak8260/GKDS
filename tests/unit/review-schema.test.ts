@@ -77,7 +77,7 @@ describe('publicReviewSchema', () => {
   });
 
   it('has no photo or email field (phone is optional and admin-only)', () => {
-    expect(Object.keys(publicReviewSchema.shape).sort()).toEqual(['company', 'consent', 'name', 'phone', 'rating', 'startedAt', 'text']);
+    expect(Object.keys(publicReviewSchema.shape).sort()).toEqual(['company', 'name', 'phone', 'rating', 'startedAt', 'text']);
   });
 
   it('accepts an empty or valid Indian mobile number and rejects junk', () => {

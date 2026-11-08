@@ -37,7 +37,7 @@ export const reviewsSchema = z
 
 /**
  * What a visitor may send from the public "Leave a Review" form (validated in the browser AND on the server).
- * Only a name, a whole-star rating and the text — no photo, email or phone.
+ * A name, a whole-star rating and the text, plus an optional phone number kept privately (never shown).
  * `company` is a hidden honeypot field (humans leave it empty); `startedAt` is when the form opened (ms epoch).
  */
 export const publicReviewSchema = z.object({
@@ -64,8 +64,6 @@ export const publicReviewSchema = z.object({
     .regex(/^(\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}$/, 'Enter a valid 10-digit mobile number.')
     .optional()
     .or(z.literal('').transform(() => undefined)),
-  /** The visitor agrees the review may be shown on the website. */
-  consent: z.boolean().optional(),
   company: z.string().max(200).optional().default(''),
   startedAt: z.number().int().nonnegative(),
 });
