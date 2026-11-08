@@ -20,6 +20,15 @@ export default defineConfig({
     command: `npx next start -p ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
+    // deterministic admin tests: the default code, a test secret, and no GitHub (so nothing real is ever touched)
+    env: {
+      ADMIN_CODE: 'gkds1993',
+      ADMIN_JWT_SECRET: 'playwright-test-secret-not-for-production',
+      ADMIN_CODE_RESET: '',
+      GITHUB_TOKEN: '',
+      GITHUB_OWNER: '',
+      GITHUB_REPO: '',
+    },
     timeout: 120_000,
   },
 });

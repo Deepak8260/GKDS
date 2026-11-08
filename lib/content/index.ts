@@ -27,7 +27,7 @@ const seedFiles: Record<ContentName, unknown> = {
 };
 
 /** Validated seed (throws if a bundled seed file is invalid — caught by the unit tests/build). */
-function getSeed<K extends ContentName>(name: K): ContentMap[K] {
+export function getSeed<K extends ContentName>(name: K): ContentMap[K] {
   return contentSchemas[name].parse(seedFiles[name]) as ContentMap[K];
 }
 

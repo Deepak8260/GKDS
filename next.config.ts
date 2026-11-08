@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
     // Only local images are allowed: bundled files (public/assets) and the private-repo proxy.
     localPatterns: [{ pathname: '/api/media/**' }, { pathname: '/assets/**' }],
   },
+  // /malika is only an alias of /admin: the access code is what protects the panel, not the URL.
+  async rewrites() {
+    return [
+      { source: '/malika', destination: '/admin' },
+      { source: '/malika/:path*', destination: '/admin/:path*' },
+    ];
+  },
   async headers() {
     return [
       // security headers (+ CSP in production) on every response
