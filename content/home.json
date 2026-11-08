@@ -1,0 +1,131 @@
+{
+  "hero": {
+    "eyebrow": "BALESWAR'S FIRST AND TRUSTED DRIVING SCHOOL",
+    "titleLead": "Learn to Drive",
+    "titleHighlight": "with Confidence",
+    "subtitle": "Professional driving training with certified instructors, practical lessons and complete guidance to make you a safe, skilled and responsible driver.",
+    "image": "/assets/photos/premises/school-entrance.webp",
+    "imageAlt": "Gopal Krushna Driving Training School entrance with its green, white and orange signboard and the Krishna emblem",
+    "primaryCta": "Enquire Now",
+    "secondaryCta": "Call Now"
+  },
+  "trustBar": [
+    {
+      "icon": "award",
+      "title": "30+ Years",
+      "text": "Experience"
+    },
+    {
+      "icon": "users",
+      "title": "Certified Trainers"
+    },
+    {
+      "icon": "car",
+      "title": "Car & Small Car",
+      "text": "Training"
+    },
+    {
+      "icon": "shield-check",
+      "title": "Safe & Practical",
+      "text": "Training"
+    }
+  ],
+  "aboutTeaser": {
+    "eyebrow": "ABOUT US",
+    "title": "Gopal Krushna Driving Training School",
+    "body": "A trusted name in Baleswar for quality driving training. With over 30 years of experience, we have helped over 1000 learners become confident and responsible drivers through practical, hands-on training and personal guidance.",
+    "image": "/assets/photos/training/driving-lesson-instructor.webp",
+    "imageAlt": "Instructor guiding a learner behind the wheel during a practice session",
+    "stats": [
+      {
+        "icon": "calendar-days",
+        "title": "Since 1993",
+        "subtitle": "Serving Baleswar"
+      },
+      {
+        "icon": "users",
+        "title": "1000+",
+        "subtitle": "Trained Drivers"
+      },
+      {
+        "icon": "star",
+        "title": "High Success Rate",
+        "subtitle": "in Driving Tests"
+      }
+    ]
+  },
+  "whyChoose": {
+    "eyebrow": "WHY CHOOSE US",
+    "lead": "Learn Driving",
+    "highlight": "The Right Way",
+    "items": [
+      {
+        "icon": "graduation-cap",
+        "title": "Experienced & Friendly Trainers"
+      },
+      {
+        "icon": "road",
+        "title": "Real Road Training"
+      },
+      {
+        "icon": "car",
+        "title": "Well-Maintained Vehicles"
+      },
+      {
+        "icon": "shield-check",
+        "title": "Safety First Approach"
+      },
+      {
+        "icon": "users",
+        "title": "Personalized Guidance"
+      }
+    ]
+  },
+  "coursesIntro": {
+    "eyebrow": "OUR DRIVING COURSES",
+    "lead": "Choose the Right Course",
+    "highlight": "for You",
+    "subtitle": "Flexible and practical driving courses designed for beginners as well as experienced learners."
+  },
+  "journey": {
+    "eyebrow": "OUR TRAINING COURSES",
+    "lead": "A Simple and Practical",
+    "highlight": "Learning Journey",
+    "steps": [
+      {
+        "icon": "clipboard-list",
+        "title": "Registration",
+        "text": "Join the course with basic details"
+      },
+      {
+        "icon": "car",
+        "title": "Practical Training",
+        "text": "Hands-on practice with instructor"
+      },
+      {
+        "icon": "road",
+        "title": "Road Experience",
+        "text": "Learn on real road conditions"
+      },
+      {
+        "icon": "badge-check",
+        "title": "Test Preparation",
+        "text": "Guidance for the driving test"
+      },
+      {
+        "icon": "id-card",
+        "title": "Get Your Licence",
+        "text": "Become a licensed driver"
+      }
+    ]
+  },
+  "reviewsIntro": {
+    "eyebrow": "STUDENT REVIEWS",
+    "title": "What Our Learners Say"
+  },
+  "contactTeaser": {
+    "eyebrow": "GET IN TOUCH",
+    "title": "Contact Us",
+    "body": "Have a question or want to enroll? Feel free to reach out to us. We're here to help you."
+  }
+}
