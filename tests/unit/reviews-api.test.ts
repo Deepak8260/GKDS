@@ -6,6 +6,7 @@ const mocks = vi.hoisted(() => ({
   createFile: vi.fn(),
   getFile: vi.fn(),
   putJson: vi.fn(),
+  putBinary: vi.fn(),
   revalidateTag: vi.fn(),
   writeFile: vi.fn(),
 }));
@@ -22,7 +23,7 @@ vi.mock('@/lib/github', async () => {
 });
 vi.mock('@/lib/github-write', async () => {
   const actual = await vi.importActual<typeof import('@/lib/github-write')>('@/lib/github-write');
-  return { ...actual, createFile: mocks.createFile, getFile: mocks.getFile, putJson: mocks.putJson };
+  return { ...actual, createFile: mocks.createFile, getFile: mocks.getFile, putJson: mocks.putJson, putBinary: mocks.putBinary };
 });
 vi.mock('@/lib/validators', async () => {
   const actual = await vi.importActual<typeof import('@/lib/validators')>('@/lib/validators');
@@ -74,6 +75,7 @@ describe('POST /api/reviews/submit', () => {
     mocks.createFile.mockReset().mockResolvedValue({ path: 'x', sha: 'y' });
     mocks.getFile.mockReset().mockResolvedValue({ text: JSON.stringify({ items: [{ id: 'old' }] }), sha: 'sha-1' });
     mocks.putJson.mockReset().mockResolvedValue({ path: 'x', sha: 'y' });
+    mocks.putBinary.mockReset().mockResolvedValue({ path: 'x', sha: 'y' });
     mocks.revalidateTag.mockReset();
     mocks.writeFile.mockReset().mockResolvedValue(undefined);
     vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -117,6 +119,28 @@ describe('POST /api/reviews/submit', () => {
       expect(mocks.createFile.mock.calls[0][1]).toContain('98765 43210');
     });
 
+    it('stores an uploaded photo as a 256×256 WebP and links it from the review', async () => {
+      const sharp = (await import('sharp')).default;
+      const png = await sharp({ create: { width: 400, height: 300, channels: 3, background: '#cc3300' } }).png().toBuffer();
+      const res = await call({ ...goodBody(), photo: png.toString('base64') });
+      expect(res.status).toBe(200);
+      expect(mocks.putBinary).toHaveBeenCalledTimes(1);
+      const [path, bytes] = mocks.putBinary.mock.calls[0] as [string, Buffer];
+      expect(path).toMatch(/^media\/reviews\/[a-z0-9]{9}\.webp$/);
+      const meta = await sharp(bytes).metadata();
+      expect([meta.format, meta.width, meta.height]).toEqual(['webp', 256, 256]);
+      const [, doc] = mocks.putJson.mock.calls[0] as [string, { items: { avatar?: string }[] }];
+      expect(doc.items[1].avatar).toBe(path);
+    });
+
+    it('a photo that is not really an image is dropped but the review is still posted', async () => {
+      const res = await call({ ...goodBody(), photo: Buffer.from('<script>alert(1)</script>').toString('base64') });
+      expect(res.status).toBe(200);
+      expect(mocks.putBinary).not.toHaveBeenCalled();
+      const [, doc] = mocks.putJson.mock.calls[0] as [string, { items: Record<string, unknown>[] }];
+      expect(doc.items[1].avatar).toBeUndefined();
+    });
+
     it('re-reads and retries when someone saved at the same moment', async () => {
       const { ConflictError } = await import('@/lib/github-write');
       mocks.putJson.mockRejectedValueOnce(new ConflictError('content/reviews.json', null));
@@ -154,8 +178,8 @@ describe('POST /api/reviews/submit', () => {
       expect(mocks.putJson).not.toHaveBeenCalled();
     });
 
-    it('rejects bodies over 8 KB', async () => {
-      const res = await call({ ...goodBody(), text: 'x'.repeat(9000) });
+    it('rejects bodies over 120 KB', async () => {
+      const res = await call({ ...goodBody(), photo: 'A'.repeat(130_000) });
       expect(res.status).toBe(413);
       expect(mocks.putJson).not.toHaveBeenCalled();
     });

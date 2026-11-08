@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useId, useRef, useState, type FormEvent } from 'react';
-import { ArrowRight, CircleCheck, MessageSquareText, Phone, User } from 'lucide-react';
+import { useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import { ArrowRight, Camera, CircleCheck, MessageSquareText, Phone, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { publicReviewSchema } from '@/lib/validators';
@@ -14,7 +14,7 @@ const MAX_TEXT = 600;
 const GENERIC = 'Could not submit right now. Please try again later.';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
-type Errors = Partial<Record<'name' | 'phone' | 'rating' | 'text', string>>;
+type Errors = Partial<Record<'name' | 'phone' | 'rating' | 'text' | 'photo', string>>;
 
 interface ReviewFormModalProps {
   schoolName: string;
@@ -38,6 +38,35 @@ function rememberSubmit() {
 
 const fieldBase =
   'focus-ring w-full rounded-xl border bg-white px-4 py-2.5 text-base text-ink shadow-sm placeholder:text-muted/60 aria-[invalid=true]:border-red-600';
+const PHOTO_SIZE = 256;
+const MAX_PHOTO_FILE = 10 * 1024 * 1024;
+
+/** Centre-crop to a square and shrink in the browser, so only a small WebP/JPEG (~20 KB) is ever uploaded. */
+async function shrinkPhoto(file: File): Promise<{ base64: string; preview: string }> {
+  const bitmap = await createImageBitmap(file);
+  const side = Math.min(bitmap.width, bitmap.height);
+  const canvas = document.createElement('canvas');
+  canvas.width = PHOTO_SIZE;
+  canvas.height = PHOTO_SIZE;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('no canvas');
+  ctx.drawImage(
+    bitmap,
+    (bitmap.width - side) / 2,
+    (bitmap.height - side) / 2,
+    side,
+    side,
+    0,
+    0,
+    PHOTO_SIZE,
+    PHOTO_SIZE,
+  );
+  bitmap.close();
+  let url = canvas.toDataURL('image/webp', 0.8);
+  if (!url.startsWith('data:image/webp')) url = canvas.toDataURL('image/jpeg', 0.8);
+  return { base64: url.slice(url.indexOf(',') + 1), preview: url };
+}
+
 const labelBase = 'mb-1.5 flex items-center gap-2.5 text-base font-bold text-ink';
 
 /** Decorative road + trees scene that fades into the white header (no extra image request). */
@@ -106,6 +135,7 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
   const uid = useId();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [photo, setPhoto] = useState<{ base64: string; preview: string } | null>(null);
   const [rating, setRating] = useState(0);
   const [text, setText] = useState('');
   const [company, setCompany] = useState(''); // honeypot: humans never see or fill this
@@ -126,9 +156,28 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
     setErrors(next);
     if (Object.keys(next).length === 0 && status !== 'error') setMessage('');
   }
+  async function onPhoto(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    clearError('photo');
+    if (!file.type.startsWith('image/'))
+      return setErrors((p) => ({ ...p, photo: 'Please choose an image file (JPG, PNG or WebP).' }));
+    if (file.size > MAX_PHOTO_FILE)
+      return setErrors((p) => ({
+        ...p,
+        photo: 'That photo is too large. Please choose one under 10 MB.',
+      }));
+    try {
+      setPhoto(await shrinkPhoto(file));
+    } catch {
+      setErrors((p) => ({ ...p, photo: 'We could not read that photo. Please try another one.' }));
+    }
+  }
   const ids = {
     name: `${uid}-name`,
     nameErr: `${uid}-name-err`,
+    photo: `${uid}-photo`,
     phone: `${uid}-phone`,
     phoneErr: `${uid}-phone-err`,
     ratingErr: `${uid}-rating-err`,
@@ -141,6 +190,7 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
     const parsed = publicReviewSchema.safeParse({
       name,
       phone: phone.trim() || undefined,
+      photo: photo?.base64,
       rating: rating || undefined,
       text,
       company,
@@ -353,6 +403,63 @@ export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModal
                   </p>
                 ) : null}
               </div>
+            </div>
+
+            <div>
+              <span className={labelBase}>
+                <Camera className="size-6 text-green-800" strokeWidth={1.6} aria-hidden="true" />
+                <span>
+                  Your Photo <span className="text-sm font-normal text-ink/80">(Optional)</span>
+                </span>
+              </span>
+              <div className="flex items-center gap-4">
+                {photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- a local data: preview, not a remote image
+                  <img
+                    src={photo.preview}
+                    alt="Your chosen photo"
+                    width={64}
+                    height={64}
+                    className="size-16 rounded-full object-cover ring-2 ring-orange-200"
+                  />
+                ) : (
+                  <span
+                    aria-hidden="true"
+                    className="flex size-16 items-center justify-center rounded-full bg-green-50 text-green-800"
+                  >
+                    <User className="size-7" strokeWidth={1.5} />
+                  </span>
+                )}
+                <div className="flex flex-wrap items-center gap-2">
+                  <label
+                    htmlFor={ids.photo}
+                    className="inline-flex min-h-11 cursor-pointer items-center rounded-full border-2 border-green-900 bg-white px-4 text-sm font-bold text-green-900 focus-within:ring-2 focus-within:ring-orange-500 hover:bg-green-50"
+                  >
+                    {photo ? 'Change photo' : 'Add a photo'}
+                    <input
+                      id={ids.photo}
+                      type="file"
+                      accept="image/*"
+                      onChange={onPhoto}
+                      className="sr-only"
+                    />
+                  </label>
+                  {photo ? (
+                    <button
+                      type="button"
+                      onClick={() => setPhoto(null)}
+                      className="focus-ring inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-sm font-semibold text-muted hover:text-ink"
+                    >
+                      <X className="size-4" aria-hidden="true" /> Remove
+                    </button>
+                  ) : (
+                    <span className="text-sm text-muted">Shown next to your review.</span>
+                  )}
+                </div>
+              </div>
+              {errors.photo ? (
+                <p className="mt-1.5 text-sm font-medium text-red-700">{errors.photo}</p>
+              ) : null}
             </div>
 
             <div>

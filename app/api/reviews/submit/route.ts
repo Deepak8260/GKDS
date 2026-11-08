@@ -1,7 +1,7 @@
 import { revalidateTag } from 'next/cache';
 import { getReviews, getSeed } from '@/lib/content';
 import { isGithubConfigured } from '@/lib/github';
-import { ConflictError, createFile, getFile, putJson } from '@/lib/github-write';
+import { ConflictError, createFile, getFile, putBinary, putJson } from '@/lib/github-write';
 import { clientIp, hashIp } from '@/lib/rate-limit';
 import { reviewLimits } from '@/lib/review-limits';
 import { findContactInfo, sanitizeText } from '@/lib/sanitize';
@@ -11,7 +11,7 @@ import { publicReviewSchema, reviewsSchema } from '@/lib/validators';
 export const runtime = 'nodejs';
 export const maxDuration = 15;
 
-const MAX_BODY_BYTES = 8 * 1024;
+const MAX_BODY_BYTES = 120 * 1024; // text fields are tiny; the rest is the optional, browser-shrunk photo
 const MIN_FILL_MS = 3000;
 const NO_STORE = { 'Cache-Control': 'no-store' };
 
@@ -147,8 +147,10 @@ export async function POST(request: Request) {
       published: true,
       featured: false,
     };
-    if (hasGithub) await appendReview(review);
-    else await appendReviewLocally(review);
+    const avatar = await storeAvatar(id, parsed.data.photo, hasGithub);
+    const stored: NewReview = avatar ? { ...review, avatar } : review;
+    if (hasGithub) await appendReview(stored);
+    else await appendReviewLocally(stored);
 
     // The phone number is optional and never public: keep it in a private file next to the review id
     if (parsed.data.phone && hasGithub) {
@@ -182,7 +184,42 @@ type NewReview = {
   date: string;
   published: boolean;
   featured: boolean;
+  avatar?: string;
 };
+
+const AVATAR_MAX_BYTES = 70 * 1024;
+
+/**
+ * Turn the optional uploaded photo into a clean 256×256 WebP. Anything that is not a real image is dropped
+ * (the review is still posted, just without a photo). Returns the stored media path, or undefined.
+ */
+async function storeAvatar(id: string, photo: string | undefined, hasGithub: boolean): Promise<string | undefined> {
+  if (!photo) return undefined;
+  try {
+    const input = Buffer.from(photo, 'base64');
+    if (input.length === 0 || input.length > AVATAR_MAX_BYTES * 2) return undefined;
+    const { default: sharp } = await import('sharp');
+    const out = await sharp(input, { limitInputPixels: 4096 * 4096 })
+      .rotate()
+      .resize(256, 256, { fit: 'cover', position: 'attention' })
+      .webp({ quality: 78 })
+      .toBuffer();
+    if (hasGithub) {
+      const path = `media/reviews/${id}.webp`;
+      await putBinary(path, out, { message: `review: photo for ${id}` });
+      return path;
+    }
+    // local development without GitHub: keep the file in the public folder so it can be seen while testing
+    const { mkdir, writeFile } = await import('node:fs/promises');
+    const dir = `${process.cwd()}/public/assets/reviews`;
+    await mkdir(dir, { recursive: true });
+    await writeFile(`${dir}/${id}.webp`, out);
+    return `/assets/reviews/${id}.webp`;
+  } catch {
+    console.warn('[reviews] photo skipped (not a usable image or could not be stored)');
+    return undefined;
+  }
+}
 
 /** Add one review to reviews.json. Re-reads and retries when someone else saved at the same moment. */
 async function appendReview(review: NewReview) {

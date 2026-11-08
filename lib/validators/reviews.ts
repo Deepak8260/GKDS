@@ -64,6 +64,8 @@ export const publicReviewSchema = z.object({
     .regex(/^(\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5}$/, 'Enter a valid 10-digit mobile number.')
     .optional()
     .or(z.literal('').transform(() => undefined)),
+  /** Optional profile photo: a small image (base64, no data: prefix) already cropped by the browser. Re-encoded on the server. */
+  photo: z.string().max(90_000).optional(),
   company: z.string().max(200).optional().default(''),
   startedAt: z.number().int().nonnegative(),
 });
