@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { FooterWave } from '@/components/layout/footer-wave';
 import { PageHero } from '@/components/layout/page-hero';
 import { PeacockFeather } from '@/components/layout/peacock-feather';
 import { AboutStats } from '@/components/sections/about/about-stats';
@@ -65,8 +64,7 @@ export default async function AboutPage() {
 
       {/* peacock feather sits on top of the footer wave (bottom-left, desktop only) */}
       <div className="relative">
-        <PeacockFeather className="absolute -left-3 bottom-12 z-0 h-32 md:bottom-20 xl:h-40" />
-        <FooterWave />
+        <PeacockFeather className="absolute -left-3 bottom-0 z-0 h-20 xl:h-24" />
       </div>
     </>
   );

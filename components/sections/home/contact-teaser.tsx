@@ -1,5 +1,4 @@
 import { Clock, MapPin, Phone } from 'lucide-react';
-import { FooterWave } from '@/components/layout/footer-wave';
 import { PeacockFeather } from '@/components/layout/peacock-feather';
 import { Container } from '@/components/ui/container';
 import { Reveal } from '@/components/ui/reveal';
@@ -82,7 +81,6 @@ export function ContactTeaser({ contact, site }: ContactTeaserProps) {
         </Container>
       </Reveal>
 
-      <FooterWave />
     </section>
   );
 }
