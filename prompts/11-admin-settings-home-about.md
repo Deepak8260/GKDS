@@ -38,7 +38,7 @@ Accordion sections in the same order as the public page, each with a small thumb
 8. **Contact teaser** — Eyebrow, Title, Body (note: phones/address/hours/map come from Site Settings).
 
 ## 3. About page (`about.json`)
-Sections: **Hero** (title, subtitle, image + alt) · **Story** (eyebrow, title first part, highlighted part, paragraphs `RepeaterField` of textareas (1–5), image + alt) · **Stats strip** (4 items {icon, title, subtitle}) · **Mission** (title, text) · **Vision** (title, text) · **Section titles** (`missionVisionTitle`, `valuesTitle`) · **Values** (`RepeaterField` {icon, title, text}, 3–6).
+Sections: **Hero** (title, subtitle, image + alt) · **Story** (eyebrow, title first part, highlighted part, paragraphs `RepeaterField` of textareas (1–5), image + alt + optional "Image focus" (`imagePosition`, e.g. "75% center", with a live crop preview)) · **Stats strip** (4 items {icon, title, subtitle}) · **Mission** (title, text) · **Vision** (title, text) · **Section titles** (`missionVisionTitle`, `valuesTitle`) · **Values** (`RepeaterField` {icon, title, text}, 3–6).
 
 ## 4. Implementation notes
 - Build ONE reusable `ContentEditor` pattern: page config describes sections/fields declaratively (path, label, component, validation hints), so adding a field later needs one line. Reuse across the three pages (and later prompts).

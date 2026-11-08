@@ -15,13 +15,17 @@ export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
 }
 
-/** schema.org DrivingSchool (a LocalBusiness) built from site settings. Placeholder phone numbers (with "X") are omitted. */
+/** A standalone JSON-LD document: `@context` + the school entity. */
 export function drivingSchoolJsonLd(site: Site) {
+  return { '@context': 'https://schema.org', ...drivingSchoolEntity(site) };
+}
+
+/** schema.org DrivingSchool (a LocalBusiness) built from site settings, without `@context` (for use in an `@graph`). Placeholder phone numbers (with "X") are omitted. */
+export function drivingSchoolEntity(site: Site) {
   const phones = site.phones.filter((p) => !/x/i.test(p)).map((p) => p.replace(/[^\d+]/g, ''));
   const sameAs = Object.values(site.social).filter((u): u is string => Boolean(u));
 
   return {
-    '@context': 'https://schema.org',
     '@type': 'DrivingSchool',
     '@id': `${SITE_URL}/#school`,
     name: site.name,

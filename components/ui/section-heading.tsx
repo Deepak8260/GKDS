@@ -18,6 +18,8 @@ interface SectionHeadingProps {
   /** `before`: dash inline before the heading. `above`: dash on its own line above the heading. */
   dash?: 'before' | 'above';
   align?: 'left' | 'center';
+  /** Put the highlighted words on their own line (e.g. "Gopal Krushna" / "Driving Training School"). */
+  stack?: boolean;
   className?: string;
 }
 
@@ -45,6 +47,7 @@ export function SectionHeading({
   size = 'md',
   dash = 'above',
   align = 'left',
+  stack = false,
   className,
 }: SectionHeadingProps) {
   const heading = (
@@ -58,7 +61,7 @@ export function SectionHeading({
       {highlight ? (
         <>
           {' '}
-          <span className="text-orange-500">{highlight}</span>
+          <span className={cn('text-orange-500', stack && 'block')}>{highlight}</span>
         </>
       ) : null}
     </Tag>

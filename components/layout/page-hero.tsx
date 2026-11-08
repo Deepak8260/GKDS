@@ -67,7 +67,11 @@ export function PageHero({
               return (
                 <li key={`${item.label}-${i}`} className="flex items-center gap-1.5">
                   {item.href && !last ? (
-                    <Link href={item.href} className="focus-ring rounded hover:text-white hover:underline">
+                    // py-3 / -my-3 gives a 44px-tall touch target without changing the layout
+                    <Link
+                      href={item.href}
+                      className="focus-ring -my-3 inline-flex min-w-11 items-center rounded py-3 hover:text-white hover:underline"
+                    >
                       {item.label}
                     </Link>
                   ) : (

@@ -10,6 +10,12 @@ export const aboutSchema = z.object({
     paragraphs: z.array(required(1500)).min(1).max(5),
     image: mediaPath,
     imageAlt: text(200),
+    /** Optional focus point for cropping the photo into its frame, e.g. "75% center" (CSS object-position). */
+    imagePosition: z
+      .string()
+      .trim()
+      .regex(/^(?:(?:\d{1,3}%|left|center|right)\s+(?:\d{1,3}%|top|center|bottom))?$/, 'Use e.g. "75% center"')
+      .optional(),
   }),
   stats: z.array(statItem).min(1).max(4),
   missionVisionTitle: required(60),

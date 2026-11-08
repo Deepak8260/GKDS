@@ -1,5 +1,5 @@
 import { Clock, MapPin, Phone } from 'lucide-react';
-import { WaveDivider } from '@/components/layout/wave-divider';
+import { FooterWave } from '@/components/layout/footer-wave';
 import { PeacockFeather } from '@/components/layout/peacock-feather';
 import { Container } from '@/components/ui/container';
 import { Reveal } from '@/components/ui/reveal';
@@ -82,10 +82,7 @@ export function ContactTeaser({ contact, site }: ContactTeaserProps) {
         </Container>
       </Reveal>
 
-      {/* green wave leading into the footer */}
-      <div aria-hidden="true" className="relative z-10 bg-green-900">
-        <WaveDivider flip />
-      </div>
+      <FooterWave />
     </section>
   );
 }

@@ -1,17 +1,78 @@
 import type { Metadata } from 'next';
+import { FooterWave } from '@/components/layout/footer-wave';
 import { PageHero } from '@/components/layout/page-hero';
+import { PeacockFeather } from '@/components/layout/peacock-feather';
+import { AboutStats } from '@/components/sections/about/about-stats';
+import { MissionVision } from '@/components/sections/about/mission-vision';
+import { Story } from '@/components/sections/about/story';
+import { Values } from '@/components/sections/about/values';
+import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
+import { getAbout, getSite } from '@/lib/content';
+import { SITE_URL, absoluteUrl, drivingSchoolEntity, jsonLdString } from '@/lib/json-ld';
+import { mediaUrl } from '@/lib/media';
+import { buildMetadata, truncate } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'About Us' };
+export async function generateMetadata(): Promise<Metadata> {
+  const [about, site] = await Promise.all([getAbout(), getSite()]);
+  return buildMetadata({
+    title: about.hero.title,
+    description: truncate(about.story.paragraphs[0] ?? about.hero.subtitle, 155),
+    path: '/about',
+    image: site.ogImage ? mediaUrl(site.ogImage) : undefined,
+    siteName: site.name,
+  });
+}
 
-/** Placeholder — built in prompt 04. */
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [about, site] = await Promise.all([getAbout(), getSite()]);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'AboutPage',
+        '@id': `${SITE_URL}/about#page`,
+        url: absoluteUrl('/about'),
+        name: about.hero.title,
+        description: about.hero.subtitle,
+        about: { '@id': `${SITE_URL}/#school` },
+        inLanguage: 'en-IN',
+      },
+      // Interim: prompt 09 moves the school entity to one global script in the root layout.
+      drivingSchoolEntity(site),
+    ],
+  };
+
   return (
-    <PageHero
-      title="About Us"
-      subtitle="Know more about Gopal Krushna Driving Training School, our journey, values and commitment to safe driving."
-      breadcrumb={[{ label: 'Home', href: '/' }, { label: 'About Us' }]}
-      image="/assets/photos/premises/school-entrance.webp"
-      imageAlt="Gopal Krushna Driving Training School building"
-    />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
+
+      <PageHero
+        title={about.hero.title}
+        subtitle={about.hero.subtitle}
+        breadcrumb={[{ label: 'Home', href: '/' }, { label: about.hero.title }]}
+        image={about.hero.image}
+        imageAlt={about.hero.imageAlt}
+        imagePosition="center 28%"
+      />
+
+      <Story story={about.story} />
+      <AboutStats stats={about.stats} />
+
+      <Reveal as="section" className="section-y pt-6 md:pt-10">
+        <Container className="grid gap-10 lg:grid-cols-[1fr_auto_1fr] lg:gap-12">
+          <MissionVision heading={about.missionVisionTitle} mission={about.mission} vision={about.vision} />
+          <span aria-hidden="true" className="h-px w-full bg-line lg:h-auto lg:w-px" />
+          <Values heading={about.valuesTitle} values={about.values} />
+        </Container>
+      </Reveal>
+
+      {/* peacock feather sits on top of the footer wave (bottom-left, desktop only) */}
+      <div className="relative">
+        <PeacockFeather className="absolute -left-3 bottom-12 z-0 h-32 md:bottom-20 xl:h-40" />
+        <FooterWave />
+      </div>
+    </>
   );
 }

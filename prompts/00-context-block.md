@@ -55,7 +55,7 @@ Gradients: `brand-orange` = linear 90° #FF8A2A → #F26B0F; `hero-green` = line
 **Buttons:** primary = `brand-orange` gradient, white text, 600 weight, `px-6 h-12`, trailing arrow icon, hover `orange-600` + translateY(-1px); secondary = white, 1.5px orange (or green-800) border, matching text; ghost = text only. Focus ring: 2px orange-500 with 2px offset.
 **Layout:** container `max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8`; section padding `py-12 md:py-20`; grid gap 24px; breakpoints sm 640, md 768, lg 1024, xl 1280. Mobile-first.
 **Inner-page hero pattern:** dark green gradient panel (~260px tall desktop, 220px mobile), breadcrumb (white, small, `Home › Page`), upright serif white H1, subtitle in white with a 3px orange bar on its left, a photo on the right (60% width, fading into the green via `hero-green` overlay), and a **wavy bottom edge**: cream page colour curves up into the green, with an orange swoosh stroke riding the wave (reusable inline SVG `WaveDivider`). Home hero is the same idea on a cream background (see prompt 03).
-**Decoration:** peacock-feather image (decorative, `aria-hidden`, hidden below `md`) bottom-left above the footer on Home and About.
+**Decoration:** peacock-feather image (decorative, `aria-hidden`, hidden below `lg` so it never overlaps single-column text) bottom-left above the footer on Home and About.
 **Motion:** subtle fade-up on scroll (once), 150–250ms transitions, everything disabled under `prefers-reduced-motion`.
 
 ## 6. Shared component catalogue (build once in prompt 01; reuse everywhere; never duplicate)
@@ -99,7 +99,7 @@ interface Home { hero: { eyebrow: string; titleLead: string; titleHighlight: str
   reviewsIntro: { eyebrow: string; title: string };
   contactTeaser: { eyebrow: string; title: string; body: string } }
 interface About { hero: Hero;
-  story: { eyebrow: string; titleLead: string; titleHighlight: string; paragraphs: string[]; image: MediaPath; imageAlt: string };
+  story: { eyebrow: string; titleLead: string; titleHighlight: string; paragraphs: string[]; image: MediaPath; imageAlt: string; imagePosition?: string /* optional crop focus, e.g. "75% center" */ };
   stats: {icon: IconName; title: string; subtitle: string}[];
   mission: { title: string; text: string }; vision: { title: string; text: string };
   valuesTitle: string; missionVisionTitle: string; values: Feature[] }

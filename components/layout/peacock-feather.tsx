@@ -3,7 +3,8 @@ import { cn } from '@/lib/utils';
 
 /**
  * Decorative peacock feather (real artwork, transparent background). Position it with `className`,
- * e.g. "absolute bottom-0 left-0". Hidden on small screens.
+ * e.g. "absolute bottom-0 left-0". Only shown from `lg` up: on tablets the single-column text
+ * would run into it.
  */
 export function PeacockFeather({ className }: { className?: string }) {
   return (
@@ -14,7 +15,7 @@ export function PeacockFeather({ className }: { className?: string }) {
       width={480}
       height={424}
       sizes="260px"
-      className={cn('pointer-events-none hidden h-44 w-auto select-none md:block', className)}
+      className={cn('pointer-events-none hidden h-44 w-auto select-none lg:block', className)}
     />
   );
 }

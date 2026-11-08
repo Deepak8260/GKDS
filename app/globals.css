@@ -37,9 +37,9 @@ body {
   min-height: 100dvh;
 }
 
+/* Page and section headings use the serif display face. h3 (card/row titles) stays in the sans body font. */
 h1,
-h2,
-h3 {
+h2 {
   font-family: var(--font-display), Georgia, serif;
 }
 
