@@ -7,28 +7,23 @@ import { Journey } from '@/components/sections/home/journey';
 import { ReviewsTeaser } from '@/components/sections/home/reviews-teaser';
 import { TrustBar } from '@/components/sections/home/trust-bar';
 import { WhyChoose } from '@/components/sections/home/why-choose';
-import { drivingSchoolJsonLd, jsonLdString } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { getFeaturedReviews, getHome, getPublishedCourses, getSite } from '@/lib/content';
+import { buildMetadata } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSite();
-  const image = site.ogImage ? [{ url: mediaUrl(site.ogImage) }] : undefined;
   return {
-    title: { absolute: site.seo.title },
-    description: site.seo.description,
-    keywords: site.seo.keywords,
-    alternates: { canonical: '/' },
-    openGraph: {
-      type: 'website',
-      url: '/',
+    ...buildMetadata({
       title: site.seo.title,
       description: site.seo.description,
+      path: '/',
+      image: site.ogImage ? mediaUrl(site.ogImage) : undefined,
       siteName: site.name,
-      locale: 'en_IN',
-      images: image,
-    },
-    twitter: { card: 'summary_large_image', title: site.seo.title, description: site.seo.description },
+    }),
+    // the home title is already complete: no " | site name" suffix
+    title: { absolute: site.seo.title },
+    keywords: site.seo.keywords,
   };
 }
 
@@ -42,11 +37,6 @@ export default async function HomePage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        // Interim: prompt 09 moves this to one global entity in the root layout.
-        dangerouslySetInnerHTML={{ __html: jsonLdString(drivingSchoolJsonLd(site)) }}
-      />
       <Hero hero={home.hero} phone={site.phones[0]} />
       <TrustBar items={home.trustBar} />
       <AboutTeaser about={home.aboutTeaser} />

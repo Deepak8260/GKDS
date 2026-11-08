@@ -1,6 +1,8 @@
-import Image from 'next/image';
+import { SafeImage as Image } from '@/components/ui/safe-image';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
+import { JsonLd } from '@/components/seo/json-ld';
+import { breadcrumbJsonLd } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/container';
@@ -93,6 +95,7 @@ export function PageHero({
       </Container>
 
       <WaveDivider className="absolute inset-x-0 bottom-[-1px]" />
+      <JsonLd data={breadcrumbJsonLd(breadcrumb)} />
     </section>
   );
 }

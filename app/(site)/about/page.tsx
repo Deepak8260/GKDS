@@ -9,7 +9,8 @@ import { Values } from '@/components/sections/about/values';
 import { Container } from '@/components/ui/container';
 import { Reveal } from '@/components/ui/reveal';
 import { getAbout, getSite } from '@/lib/content';
-import { SITE_URL, absoluteUrl, drivingSchoolEntity, jsonLdString } from '@/lib/json-ld';
+import { JsonLd } from '@/components/seo/json-ld';
+import { SCHOOL_ID, SITE_URL, absoluteUrl } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata, truncate } from '@/lib/seo';
 
@@ -25,28 +26,22 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [about, site] = await Promise.all([getAbout(), getSite()]);
+  const about = await getAbout();
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'AboutPage',
-        '@id': `${SITE_URL}/about#page`,
-        url: absoluteUrl('/about'),
-        name: about.hero.title,
-        description: about.hero.subtitle,
-        about: { '@id': `${SITE_URL}/#school` },
-        inLanguage: 'en-IN',
-      },
-      // Interim: prompt 09 moves the school entity to one global script in the root layout.
-      drivingSchoolEntity(site),
-    ],
+    '@type': 'AboutPage',
+    '@id': `${SITE_URL}/about#page`,
+    url: absoluteUrl('/about'),
+    name: about.hero.title,
+    description: about.hero.subtitle,
+    about: { '@id': SCHOOL_ID },
+    inLanguage: 'en-IN',
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
+      <JsonLd data={jsonLd} />
 
       <PageHero
         title={about.hero.title}

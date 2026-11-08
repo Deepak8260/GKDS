@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { SafeImage as Image } from '@/components/ui/safe-image';
 import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';

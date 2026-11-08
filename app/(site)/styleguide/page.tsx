@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Phone } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -36,8 +37,11 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-/** Temporary visual check of the design system (blocked in prompt 09). */
+/** Temporary visual check of the design system (404 in production). */
 export default function StyleguidePage() {
+  // developer-only page: 404 in production
+  if (process.env.NODE_ENV === 'production') notFound();
+
   return (
     <>
       <PageHero

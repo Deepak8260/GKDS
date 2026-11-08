@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { getSite } from '@/lib/content';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { mediaUrl } from '@/lib/media';
+import { SITE_URL } from '@/lib/site-url';
 import './globals.css';
 
 // Variable fonts (no explicit weights): one file per style instead of one per weight.
@@ -20,12 +23,10 @@ const body = Inter({
   variable: '--font-body',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSite();
   return {
-    metadataBase: new URL(siteUrl),
+    metadataBase: new URL(SITE_URL),
     title: {
       default: 'Gopal Krushna Driving Training School | Baleswar, Odisha',
       template: '%s | Gopal Krushna Driving Training School',
@@ -50,7 +51,16 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN" className={`${display.variable} ${body.variable}`}>
-      <body className="bg-cream font-body text-ink antialiased">{children}</body>
+      <body className="bg-cream font-body text-ink antialiased">
+        {children}
+        {/* only on Vercel: elsewhere their scripts would 404 */}
+        {process.env.VERCEL ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
+      </body>
     </html>
   );
 }

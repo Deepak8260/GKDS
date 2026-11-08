@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { SafeImage as Image } from '@/components/ui/safe-image';
 import { Phone } from 'lucide-react';
 import { SteeringWheelIcon } from '@/components/icons/custom-icons';
 import { Button } from '@/components/ui/button';

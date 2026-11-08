@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
+import { SafeImage as Image } from '@/components/ui/safe-image';
 import { useCallback, useMemo, useState } from 'react';
 import { Camera, Maximize2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

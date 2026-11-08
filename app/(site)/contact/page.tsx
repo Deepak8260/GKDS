@@ -9,7 +9,8 @@ import { Container } from '@/components/ui/container';
 import { Reveal } from '@/components/ui/reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { getSite } from '@/lib/content';
-import { SITE_URL, absoluteUrl, drivingSchoolEntity, jsonLdString } from '@/lib/json-ld';
+import { JsonLd } from '@/components/seo/json-ld';
+import { SCHOOL_ID, SITE_URL, absoluteUrl } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata, truncate } from '@/lib/seo';
 
@@ -31,35 +32,20 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   const site = await getSite();
 
-  // phone numbers that are still placeholders ("9XXXXXXXXX") are left out of structured data
-  const realPhones = site.phones.filter((p) => !/x/i.test(p)).map((p) => p.replace(/[^\d+]/g, ''));
-  const contactPoints = (realPhones.length ? realPhones : [undefined]).map((telephone) => ({
-    '@type': 'ContactPoint',
-    contactType: 'customer service',
-    ...(telephone ? { telephone } : { email: site.email }),
-    areaServed: 'IN-OR',
-    availableLanguage: ['en', 'or', 'hi'],
-  }));
-
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'ContactPage',
-        '@id': `${SITE_URL}/contact#page`,
-        url: absoluteUrl('/contact'),
-        name: TITLE,
-        description: SUBTITLE,
-        about: { '@id': `${SITE_URL}/#school` },
-        inLanguage: 'en-IN',
-      },
-      { ...drivingSchoolEntity(site), contactPoint: contactPoints },
-    ],
+    '@type': 'ContactPage',
+    '@id': `${SITE_URL}/contact#page`,
+    url: absoluteUrl('/contact'),
+    name: TITLE,
+    description: SUBTITLE,
+    about: { '@id': SCHOOL_ID },
+    inLanguage: 'en-IN',
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
+      <JsonLd data={jsonLd} />
 
       <PageHero
         title={TITLE}

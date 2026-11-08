@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import { SafeImage as Image } from '@/components/ui/safe-image';
 import { useEffect, useRef, type PointerEvent } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { mediaUrl } from '@/lib/media';

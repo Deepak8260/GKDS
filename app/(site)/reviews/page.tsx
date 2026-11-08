@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/layout/page-hero';
 import { ReviewsClient } from '@/components/sections/reviews/reviews-client';
-import { formatRating, parseCount, type ReviewItem } from '@/components/sections/reviews/review-utils';
+import { formatRating, type ReviewItem } from '@/components/sections/reviews/review-utils';
 import { ShareBanner } from '@/components/sections/reviews/share-banner';
 import { Container } from '@/components/ui/container';
 import { StatBar } from '@/components/ui/stat-bar';
 import { getPublishedReviews, getReviewStats, getReviews, getSite } from '@/lib/content';
 import { formatRelative } from '@/lib/date';
-import { absoluteUrl, drivingSchoolEntity, jsonLdString } from '@/lib/json-ld';
+import { JsonLd } from '@/components/seo/json-ld';
+import { SCHOOL_ID } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata, truncate } from '@/lib/seo';
 
@@ -37,33 +38,24 @@ export default async function ReviewsPage() {
   const now = new Date();
   const items: ReviewItem[] = published.map((r) => ({ ...r, relative: formatRelative(r.date, now) }));
 
+  // The school and its aggregate rating are in the site-wide graph; here we add only the individual reviews.
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        ...drivingSchoolEntity(site),
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: stats.rating,
-          reviewCount: parseCount(stats.ratingCount, published.length),
-          bestRating: 5,
-          worstRating: 1,
-        },
-        review: published.slice(0, 5).map((r) => ({
-          '@type': 'Review',
-          author: { '@type': 'Person', name: r.name },
-          reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
-          reviewBody: r.text,
-          datePublished: r.date.slice(0, 10),
-          itemReviewed: { '@id': absoluteUrl('/#school') },
-        })),
-      },
-    ],
+    '@id': SCHOOL_ID,
+    '@type': 'DrivingSchool',
+    review: published.slice(0, 5).map((r) => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: r.name },
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+      reviewBody: r.text,
+      datePublished: r.date.slice(0, 10),
+      itemReviewed: { '@id': SCHOOL_ID },
+    })),
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
+      {published.length ? <JsonLd data={jsonLd} /> : null}
 
       <PageHero
         title={doc.hero.title}

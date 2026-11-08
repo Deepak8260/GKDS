@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { SafeImage as Image } from '@/components/ui/safe-image';
 import { Phone } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { CheckList } from '@/components/ui/check-list';

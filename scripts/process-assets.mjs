@@ -122,4 +122,10 @@ for (const [from, to, width, quality] of [
   done('brand/odisha-regd-badge.webp');
 }
 
+/* ---------- PWA manifest icons (from the favicon master, padded square) ---------- */
+for (const size of [192, 512]) {
+  await sharp(join(root, 'public', 'assets', 'brand', 'apple-touch-icon.png')).resize(size, size, { fit: 'contain', background: '#FFFAF3' }).png().toFile(dest('brand/icon-' + size + '.png'));
+  done('brand/icon-' + size + '.png');
+}
+
 console.log(report.join('\n'));
