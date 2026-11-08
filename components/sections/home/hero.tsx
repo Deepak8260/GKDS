@@ -17,7 +17,7 @@ interface HeroProps {
 export function Hero({ hero, phone }: HeroProps) {
   return (
     <section aria-labelledby="home-hero-title" className="relative isolate overflow-hidden bg-cream">
-      <div className="container-x relative z-10 flex flex-col justify-center pb-6 pt-10 lg:min-h-[560px] lg:py-16">
+      <div className="container-x relative z-10 flex flex-col justify-center pb-4 pt-8 lg:min-h-[430px] lg:py-10">
         <div className="lg:w-[46%]">
           <p className="flex items-center gap-3 text-[12.5px] font-bold uppercase tracking-[0.12em] text-ink">
             <span aria-hidden="true" className="h-4 w-[3px] rounded bg-orange-500" />

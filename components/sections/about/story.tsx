@@ -7,7 +7,7 @@ import type { About } from '@/lib/validators';
 /** Our Story: framed photo on the left, eyebrow + two-tone title + paragraphs on the right. */
 export function Story({ story }: { story: About['story'] }) {
   return (
-    <Reveal as="section" className="section-y pb-6 pt-10 md:pb-8 md:pt-16">
+    <Reveal as="section" className="section-y pb-6 pt-10 md:pb-8 md:pt-10">
       <Container className="grid items-center gap-10 lg:grid-cols-[48fr_52fr] lg:gap-14">
         <FramedImage
           src={story.image}

@@ -71,7 +71,7 @@ export default async function CoursesPage() {
         imagePosition="center 70%"
       />
 
-      <Reveal as="section" className="section-y pb-8 pt-10 md:pb-12 md:pt-16">
+      <Reveal as="section" className="section-y pb-8 pt-10 md:pb-8 md:pt-10">
         <Container>
           <SectionHeading
             lead={doc.intro.lead}
@@ -108,7 +108,7 @@ export default async function CoursesPage() {
       <Included title={doc.includedTitle} items={doc.included} />
       <Highlights highlights={doc.highlights} />
 
-      <Reveal as="section" className="pb-16 md:pb-24">
+      <Reveal as="section" className="pb-12 md:pb-16">
         <Container>
           <CTABanner
             lead={doc.cta.lead}

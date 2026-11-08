@@ -12,7 +12,7 @@ interface IncludedProps {
 /** "What's Included in the Training?": a row of icon tiles. */
 export function Included({ title, items }: IncludedProps) {
   return (
-    <Reveal as="section" className="py-8 md:py-12">
+    <Reveal as="section" className="py-8 md:py-8">
       <Container>
         <SectionHeading lead={title} dash="before" size="sm" />
         <ul className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5 xl:gap-4">

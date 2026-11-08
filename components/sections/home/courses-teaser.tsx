@@ -18,7 +18,7 @@ interface CoursesTeaserProps {
 export function CoursesTeaser({ intro, courses }: CoursesTeaserProps) {
   if (courses.length === 0) return null;
   return (
-    <Reveal as="section" className="section-y pb-8 pt-10 md:pb-12 md:pt-14">
+    <Reveal as="section" className="section-y pb-8 pt-10 md:pb-8 md:pt-10">
       <Container>
         <SectionHeading
           eyebrow={intro.eyebrow}

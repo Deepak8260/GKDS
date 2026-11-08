@@ -87,7 +87,7 @@ export default async function ReviewsPage() {
         />
       </Container>
 
-      <section className="section-y pb-10 pt-12 md:pb-14 md:pt-16" aria-label="Student reviews">
+      <section className="section-y pb-10 pt-10 md:pb-10 md:pt-10" aria-label="Student reviews">
         <Container>
           <ReviewsClient
             titleLead={doc.titleLead}

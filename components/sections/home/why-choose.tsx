@@ -7,7 +7,7 @@ import type { Home } from '@/lib/validators';
 /** Full-width peach band: heading on the left, five icon tiles on the right. */
 export function WhyChoose({ why }: { why: Home['whyChoose'] }) {
   return (
-    <Reveal as="section" className="bg-orange-50 py-10 md:py-12">
+    <Reveal as="section" className="bg-orange-50 py-10 md:py-8">
       <Container className="grid items-center gap-8 lg:grid-cols-[280px_1fr] lg:gap-10">
         <SectionHeading eyebrow={why.eyebrow} lead={why.lead} highlight={why.highlight} />
         <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5 lg:gap-4">

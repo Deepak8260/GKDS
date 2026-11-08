@@ -56,7 +56,7 @@ export default async function ContactPage() {
         imagePosition="center 60%"
       />
 
-      <Reveal as="section" className="py-10 md:py-16">
+      <Reveal as="section" className="py-10 md:py-12">
         {/* Phones: intro + tiles, then the call card, then the map. Desktop: call card sits in the right column. */}
         <Container className="grid gap-10 lg:grid-cols-[52fr_44fr] lg:gap-x-12">
           <div className="min-w-0">

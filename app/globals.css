@@ -69,7 +69,7 @@ h2 {
   }
   /* Vertical rhythm for page sections */
   .section-y {
-    @apply py-12 md:py-20;
+    @apply py-10 md:py-14;
   }
   /* Consistent keyboard focus ring (use on custom interactive elements) */
   .focus-ring {

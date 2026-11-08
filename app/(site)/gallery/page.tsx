@@ -49,7 +49,7 @@ export default async function GalleryPage() {
         imagePosition="center 30%"
       />
 
-      <section className="section-y pb-16 pt-10 md:pb-24 md:pt-16" aria-label={`${doc.titleLead} ${doc.titleHighlight}`}>
+      <section className="section-y pb-12 pt-10 md:pb-16 md:pt-10" aria-label={`${doc.titleLead} ${doc.titleHighlight}`}>
         <Container>
           <GalleryClient
             titleLead={doc.titleLead}

@@ -61,7 +61,7 @@ export function PageHero({
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-hero-green" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-green-900/55 md:hidden" />
 
-      <Container className="relative flex min-h-[220px] flex-col justify-center pb-14 pt-8 md:min-h-[260px] md:pb-20 md:pt-10">
+      <Container className="relative flex min-h-[170px] flex-col justify-center pb-12 pt-8 md:min-h-[200px] md:pb-16 md:pt-10">
         <nav aria-label="Breadcrumb" className="mb-3 text-sm text-white/80">
           <ol className="flex flex-wrap items-center gap-1.5">
             {breadcrumb.map((item, i) => {
