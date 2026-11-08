@@ -40,6 +40,8 @@ export const siteSchema = z.object({
   openDays: z.array(z.number().int().min(0).max(6)).max(7),
   openFrom: timeOfDay,
   openTo: timeOfDay,
+  /** Days with different hours from the default (e.g. Sunday opens later): [{ day: 0, from, to }]. */
+  dayHours: z.array(z.object({ day: z.number().int().min(0).max(6), from: timeOfDay, to: timeOfDay })).max(7).optional(),
   social: z.object({
     youtube: optionalUrl.optional(),
     facebook: optionalUrl.optional(),

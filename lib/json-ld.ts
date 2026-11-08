@@ -72,16 +72,7 @@ export function drivingSchoolEntity(site: Site, rating?: RatingSummary) {
     ...(site.map.lat !== undefined && site.map.lng !== undefined
       ? { geo: { '@type': 'GeoCoordinates', latitude: site.map.lat, longitude: site.map.lng } }
       : {}),
-    openingHoursSpecification: site.openDays.length
-      ? [
-          {
-            '@type': 'OpeningHoursSpecification',
-            dayOfWeek: site.openDays.map((d) => DAY_NAMES[d]),
-            opens: site.openFrom,
-            closes: site.openTo,
-          },
-        ]
-      : undefined,
+    openingHoursSpecification: openingHours(site),
     areaServed: { '@type': 'City', name: site.address.city },
     contactPoint: contactPoints(site),
     ...(sameAs.length ? { sameAs } : {}),
@@ -97,6 +88,21 @@ export function drivingSchoolEntity(site: Site, rating?: RatingSummary) {
         }
       : {}),
   };
+}
+
+/** One spec for the regular hours, plus one per day that has its own hours (e.g. Sunday). */
+export function openingHours(site: Pick<Site, 'openDays' | 'openFrom' | 'openTo' | 'dayHours'>) {
+  const overridden = new Map((site.dayHours ?? []).map((d) => [d.day, d]));
+  const regular = site.openDays.filter((d) => !overridden.has(d));
+  const specs = [];
+  if (regular.length) {
+    specs.push({ '@type': 'OpeningHoursSpecification', dayOfWeek: regular.map((d) => DAY_NAMES[d]), opens: site.openFrom, closes: site.openTo });
+  }
+  for (const d of site.openDays) {
+    const o = overridden.get(d);
+    if (o) specs.push({ '@type': 'OpeningHoursSpecification', dayOfWeek: [DAY_NAMES[d]], opens: o.from, closes: o.to });
+  }
+  return specs.length ? specs : undefined;
 }
 
 /** schema.org WebSite entity (published by the school). */

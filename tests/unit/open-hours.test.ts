@@ -117,3 +117,20 @@ describe('addressLines', () => {
     expect(addressLines({ ...base, landmark: '  ' })[0]).toBe('Near Baleswar Bus Stand,');
   });
 });
+
+describe('days with their own hours (Sunday opens later)', () => {
+  const schedule = { openDays: [0, 1, 2, 3, 4, 5, 6], openFrom: '05:00', openTo: '21:00', dayHours: [{ day: 0, from: '06:00', to: '21:00' }] };
+  // 2026-11-08 is a Sunday; IST = UTC + 5:30
+  const ist = (iso: string) => new Date(`${iso}+05:30`);
+
+  it('Sunday 5:30 AM is still closed and opens at 6:00 AM', () => {
+    expect(getOpenStatus(ist('2026-11-08T05:30:00'), schedule)).toMatchObject({ open: false, detail: 'Opens today 6:00 AM' });
+    expect(getOpenStatus(ist('2026-11-08T06:00:00'), schedule)).toMatchObject({ open: true, detail: 'Closes 9:00 PM' });
+  });
+  it('Monday 5:00 AM is open', () => {
+    expect(getOpenStatus(ist('2026-11-09T05:00:00'), schedule)).toMatchObject({ open: true });
+  });
+  it('after 9 PM Saturday the next opening is Sunday 6:00 AM', () => {
+    expect(getOpenStatus(ist('2026-11-07T21:30:00'), schedule)).toMatchObject({ open: false, detail: 'Opens Sunday 6:00 AM' });
+  });
+});

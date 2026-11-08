@@ -6,6 +6,8 @@ export interface Schedule {
   /** "HH:MM", 24-hour, IST. */
   openFrom: string;
   openTo: string;
+  /** Days whose hours differ from openFrom/openTo. */
+  dayHours?: { day: number; from: string; to: string }[];
 }
 
 export interface OpenStatus {
@@ -56,31 +58,42 @@ export function istParts(date: Date): { day: number; minutes: number } {
  * The opening minute is inclusive and the closing minute exclusive (open 08:00–17:59, closed from 18:00).
  */
 export function getOpenStatus(date: Date, schedule: Schedule): OpenStatus {
-  const { openDays, openFrom, openTo } = schedule;
   const { day, minutes } = istParts(date);
-  const from = toMinutes(openFrom);
-  const to = toMinutes(openTo);
-  const days = new Set(openDays);
+  const closed: OpenStatus = { open: false, label: 'Closed now', detail: '' };
 
-  if (days.size === 0 || from === to) return { open: false, label: 'Closed now', detail: '' };
+  // the opening range for each weekday (null = closed all day)
+  const rangeFor = (d: number): { from: number; to: number; fromText: string; toText: string } | null => {
+    if (!schedule.openDays.includes(d)) return null;
+    const o = schedule.dayHours?.find((x) => x.day === d);
+    const fromText = o?.from ?? schedule.openFrom;
+    const toText = o?.to ?? schedule.openTo;
+    const from = toMinutes(fromText);
+    const to = toMinutes(toText);
+    return from === to ? null : { from, to, fromText, toText };
+  };
 
-  const overnight = from > to; // e.g. 22:00 → 02:00
-  const openToday = days.has(day) && (overnight ? minutes >= from : minutes >= from && minutes < to);
-  const openFromYesterday = overnight && days.has((day + 6) % 7) && minutes < to;
-
-  if (openToday || openFromYesterday) {
-    return { open: true, label: 'Open now', detail: `Closes ${formatTime12(openTo)}` };
+  const today = rangeFor(day);
+  const yesterday = rangeFor((day + 6) % 7);
+  if (today) {
+    const overnight = today.from > today.to; // e.g. 22:00 → 02:00
+    if (overnight ? minutes >= today.from : minutes >= today.from && minutes < today.to) {
+      return { open: true, label: 'Open now', detail: `Closes ${formatTime12(today.toText)}` };
+    }
+  }
+  if (yesterday && yesterday.from > yesterday.to && minutes < yesterday.to) {
+    return { open: true, label: 'Open now', detail: `Closes ${formatTime12(yesterday.toText)}` };
   }
 
   // find the next opening: later today, otherwise the next open weekday (up to a week away)
   for (let offset = 0; offset <= 7; offset++) {
     const d = (day + offset) % 7;
-    if (!days.has(d)) continue;
+    const r = rangeFor(d);
+    if (!r) continue;
     if (offset === 0) {
-      if (minutes < from) return { open: false, label: 'Closed now', detail: `Opens today ${formatTime12(openFrom)}` };
+      if (minutes < r.from) return { open: false, label: 'Closed now', detail: `Opens today ${formatTime12(r.fromText)}` };
       continue; // already past today's opening
     }
-    return { open: false, label: 'Closed now', detail: `Opens ${DAY_NAMES[d]} ${formatTime12(openFrom)}` };
+    return { open: false, label: 'Closed now', detail: `Opens ${DAY_NAMES[d]} ${formatTime12(r.fromText)}` };
   }
-  return { open: false, label: 'Closed now', detail: '' };
+  return closed;
 }

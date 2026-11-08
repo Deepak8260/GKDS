@@ -75,7 +75,7 @@ export default async function ContactPage() {
             <CallCard
               phones={site.phones}
               text={site.callCardText}
-              schedule={{ openDays: site.openDays, openFrom: site.openFrom, openTo: site.openTo }}
+              schedule={{ openDays: site.openDays, openFrom: site.openFrom, openTo: site.openTo, dayHours: site.dayHours }}
             />
             <div aria-hidden="true" className="my-5 flex items-center gap-4 text-sm font-semibold uppercase tracking-widest text-muted">
               <span className="h-px flex-1 bg-line" />

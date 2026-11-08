@@ -7,31 +7,32 @@
   "favicon": "/assets/brand/favicon.png",
   "ogImage": "/assets/photos/premises/school-entrance.webp",
   "phones": [
-    "+91 9XXXXXXXXX",
-    "+91 9XXXXXXXXX"
+    "+91 91241 63306"
   ],
-  "whatsapp": "919XXXXXXXXX",
+  "whatsapp": "919124163306",
   "whatsappMessage": "Hello! I would like to know more about your driving courses.",
   "callCardText": "Speak to us for course details, timings and admission information. We're happy to help!",
   "email": "gopalkrishna.driving@gmail.com",
   "address": {
-    "line1": "Near Baleswar Bus Stand",
-    "city": "Baleswar",
+    "line1": "S College Road, Motiganj",
+    "line2": "Suelpur, Manikhamb",
+    "city": "Balasore",
     "state": "Odisha",
-    "pin": "756001",
-    "landmark": ""
+    "pin": "756002",
+    "landmark": "Near K.K.S Women"
   },
   "hours": [
     {
       "label": "Mon – Sat",
-      "value": "8:00 AM – 6:00 PM"
+      "value": "5:00 AM – 9:00 PM"
     },
     {
       "label": "Sunday",
-      "value": "Closed"
+      "value": "6:00 AM – 9:00 PM"
     }
   ],
   "openDays": [
+    0,
     1,
     2,
     3,
@@ -39,16 +40,23 @@
     5,
     6
   ],
-  "openFrom": "08:00",
-  "openTo": "18:00",
+  "openFrom": "05:00",
+  "openTo": "21:00",
+  "dayHours": [
+    {
+      "day": 0,
+      "from": "06:00",
+      "to": "21:00"
+    }
+  ],
   "social": {
     "youtube": "https://www.youtube.com/",
     "facebook": "https://www.facebook.com/",
     "instagram": "https://www.instagram.com/"
   },
   "map": {
-    "embedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29895.0!2d86.9!3d21.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sBaleswar%2C%20Odisha!5e0!3m2!1sen!2sin!4v1700000000000",
-    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=Baleswar+Bus+Stand"
+    "embedUrl": "https://www.google.com/maps?q=S%20College%20Road%2C%20near%20K.K.S%20Women%2C%20Motiganj%2C%20Suelpur%2C%20Manikhamb%2C%20Balasore%2C%20Odisha%20756002&output=embed",
+    "directionsUrl": "https://www.google.com/maps/search/?api=1&query=S%20College%20Road%2C%20near%20K.K.S%20Women%2C%20Motiganj%2C%20Suelpur%2C%20Manikhamb%2C%20Balasore%2C%20Odisha%20756002"
   },
   "seo": {
     "title": "Gopal Krushna Driving Training School | Best Driving School in Baleswar, Odisha",

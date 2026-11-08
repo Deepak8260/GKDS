@@ -46,7 +46,9 @@ export const httpsUrl = z
 export function isGoogleMapsEmbed(value: string): boolean {
   try {
     const u = new URL(value);
-    return u.protocol === 'https:' && u.hostname === 'www.google.com' && u.pathname.startsWith('/maps/embed');
+    if (u.protocol !== 'https:' || u.hostname !== 'www.google.com') return false;
+    // the "Embed a map" link, or the simple ?q=…&output=embed form
+    return u.pathname.startsWith('/maps/embed') || (u.pathname === '/maps' && u.searchParams.get('output') === 'embed');
   } catch {
     return false;
   }

@@ -37,7 +37,7 @@ describe('phone numbers in structured data', () => {
     expect(real).toHaveLength(2);
     expect(real[0]).toMatchObject({ '@type': 'ContactPoint', telephone: '+919876543210', contactType: 'customer service', areaServed: 'IN-OR' });
     expect(real[0].availableLanguage).toEqual(['en', 'or', 'hi']);
-    const placeholder = contactPoints(site);
+    const placeholder = contactPoints(withPhones(['+91 9XXXXXXXXX']));
     expect(placeholder).toHaveLength(1);
     expect(placeholder[0]).toMatchObject({ email: 'gopalkrishna.driving@gmail.com' });
     expect('telephone' in placeholder[0]).toBe(false);
@@ -56,21 +56,17 @@ describe('drivingSchoolEntity', () => {
   it('has a postal address for Baleswar, Odisha, India', () => {
     expect(entity.address).toMatchObject({
       '@type': 'PostalAddress',
-      addressLocality: 'Baleswar',
+      addressLocality: 'Balasore',
       addressRegion: 'Odisha',
-      postalCode: '756001',
+      postalCode: '756002',
       addressCountry: 'IN',
     });
   });
 
-  it('builds opening hours from the open days (0 = Sunday) and times', () => {
+  it('builds opening hours: regular days plus Sunday with its own hours', () => {
     expect(entity.openingHoursSpecification).toEqual([
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        opens: '08:00',
-        closes: '18:00',
-      },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '05:00', closes: '21:00' },
+      { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Sunday'], opens: '06:00', closes: '21:00' },
     ]);
   });
 
