@@ -16,6 +16,7 @@ public/assets/
     training/    driving-lesson-instructor.webp   training-ground-wagonr.webp
     premises/    school-entrance.webp
     facilities/  classroom.webp   reception.webp
+    events/      road-safety-week-gathering.webp   road-safety-week-group.webp
   decor/
     green-saffron-wave.webp    layered green + saffron ribbon (transparent) — bottom of the Home hero
     peacock-feather.webp       peacock feather (transparent) — corner of the Home contact section
@@ -33,6 +34,7 @@ public/assets/
 | `photos/vehicles/maruti-800-training-car.webp` | Small Car Driving Course card, Gallery "Our Vehicles" |
 | `photos/training/driving-lesson-instructor.webp` | Courses "Training Highlights" photo, Gallery "Training" |
 | `photos/facilities/classroom.webp`, `reception.webp` | Gallery "Facilities" |
+| `photos/events/road-safety-week-*.webp` | Road Safety Week (Sadak Suraksha Saptaha) events — Gallery "Events" |
 | `brand/odisha-seal.png` | Header "Govt. of Odisha / Regd. No. 10/13" badge (desktop + mobile menu) |
 | `decor/green-saffron-wave.webp` | Home hero bottom edge |
 | `decor/peacock-feather.webp` | Home contact section corner |

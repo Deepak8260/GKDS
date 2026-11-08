@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Gallery",
-    "subtitle": "A glimpse of our training vehicles, premises and practical driving sessions.",
+    "subtitle": "A glimpse of our training vehicles, premises, practical driving sessions and community events.",
     "image": "/assets/photos/premises/school-entrance.webp",
     "imageAlt": "Gopal Krushna Driving Training School entrance with its green, white and orange signboard and the Krishna emblem"
   },
@@ -27,6 +27,11 @@
       "id": "facilities",
       "label": "Facilities",
       "icon": "users"
+    },
+    {
+      "id": "events",
+      "label": "Events",
+      "icon": "calendar-days"
     }
   ],
   "items": [
@@ -92,6 +97,24 @@
       "order": 7,
       "published": true,
       "createdAt": "2026-09-01T10:30:00.000Z"
+    },
+    {
+      "id": "g8",
+      "src": "/assets/photos/events/road-safety-week-gathering.webp",
+      "alt": "Officials and participants in blue and white team shirts gathered for a Road Safety Week event of the Commerce and Transport Department, Odisha, with a speaker addressing the group",
+      "category": "events",
+      "order": 8,
+      "published": true,
+      "createdAt": "2026-09-01T10:35:00.000Z"
+    },
+    {
+      "id": "g9",
+      "src": "/assets/photos/events/road-safety-week-group.webp",
+      "alt": "Group of participants standing in front of the Road Safety Week banner with helmet and no-mobile-phone safety signs",
+      "category": "events",
+      "order": 9,
+      "published": true,
+      "createdAt": "2026-09-01T10:40:00.000Z"
     }
   ]
 }

@@ -24,7 +24,7 @@ export function FilterPills({ pills, active, onChange }: FilterPillsProps) {
     <div
       role="group"
       aria-label="Filter photos by category"
-      className="no-scrollbar -mx-4 flex snap-x gap-3 overflow-x-auto px-4 py-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:py-0"
+      className="no-scrollbar -mx-4 flex snap-x gap-2.5 overflow-x-auto px-4 py-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:min-w-0 lg:flex-1 lg:flex-wrap lg:justify-end lg:overflow-visible lg:px-0 lg:py-0"
     >
       {pills.map((pill) => {
         const isActive = pill.id === active;
@@ -35,7 +35,7 @@ export function FilterPills({ pills, active, onChange }: FilterPillsProps) {
             aria-pressed={isActive}
             onClick={() => onChange(pill.id)}
             className={cn(
-              'focus-ring inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full px-4 text-[14px] font-semibold transition-colors',
+              'focus-ring inline-flex h-11 shrink-0 snap-start items-center gap-2 rounded-full px-3.5 text-[14px] font-semibold transition-colors',
               isActive
                 ? 'bg-green-800 text-white shadow-card'
                 : 'border border-line bg-white text-green-900 shadow-card hover:border-orange-500',
