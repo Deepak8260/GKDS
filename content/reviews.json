@@ -11,5 +11,16 @@
   "ctaTitleLead": "Share",
   "ctaTitleHighlight": "Your Experience",
   "ctaText": "Have you trained with us? We'd love to hear your feedback!",
-  "items": []
+  "items": [
+    {
+      "id": "5p0g20pol",
+      "name": "Kumar Deepak",
+      "rating": 5,
+      "text": "aefadf fa fas fa fadsf daf sdf sdf sdf",
+      "date": "2026-11-08T17:01:11.142Z",
+      "published": true,
+      "featured": false,
+      "avatar": "media/reviews/5p0g20pol.webp"
+    }
+  ]
 }
