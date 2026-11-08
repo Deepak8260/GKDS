@@ -1,17 +1,64 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/layout/page-hero';
+import { GalleryClient } from '@/components/sections/gallery/gallery-client';
+import { Container } from '@/components/ui/container';
+import { getGallery, getPublishedGallery, getSite } from '@/lib/content';
+import { absoluteUrl, jsonLdString } from '@/lib/json-ld';
+import { mediaUrl } from '@/lib/media';
+import { buildMetadata, truncate } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Gallery' };
+export async function generateMetadata(): Promise<Metadata> {
+  const [doc, site] = await Promise.all([getGallery(), getSite()]);
+  return buildMetadata({
+    title: 'Photo Gallery',
+    description: truncate(`${doc.hero.subtitle} See our cars, classrooms and training ground in ${site.address.city}.`, 155),
+    path: '/gallery',
+    image: mediaUrl(doc.hero.image || site.ogImage),
+    siteName: site.name,
+  });
+}
 
-/** Placeholder — built in prompt 06. */
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const [doc, items] = await Promise.all([getGallery(), getPublishedGallery()]);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ImageGallery',
+    name: `${doc.titleLead} ${doc.titleHighlight}`.trim(),
+    description: doc.hero.subtitle,
+    url: absoluteUrl('/gallery'),
+    image: items.slice(0, 12).map((i) => ({
+      '@type': 'ImageObject',
+      contentUrl: absoluteUrl(mediaUrl(i.src)),
+      caption: i.alt,
+    })),
+  };
+
   return (
-    <PageHero
-      title="Gallery"
-      subtitle="A glimpse of our training vehicles, premises and practical driving sessions."
-      breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Gallery' }]}
-      image="/assets/photos/premises/school-entrance.webp"
-      imageAlt="Gopal Krushna Driving Training School building"
-    />
+    <>
+      {items.length > 0 ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }} />
+      ) : null}
+
+      <PageHero
+        title={doc.hero.title}
+        subtitle={doc.hero.subtitle}
+        breadcrumb={[{ label: 'Home', href: '/' }, { label: doc.hero.title }]}
+        image={doc.hero.image}
+        imageAlt={doc.hero.imageAlt}
+        imagePosition="center 30%"
+      />
+
+      <section className="section-y pb-16 pt-10 md:pb-24 md:pt-16" aria-label={`${doc.titleLead} ${doc.titleHighlight}`}>
+        <Container>
+          <GalleryClient
+            titleLead={doc.titleLead}
+            titleHighlight={doc.titleHighlight}
+            categories={doc.categories}
+            items={items}
+          />
+        </Container>
+      </section>
+    </>
   );
 }
