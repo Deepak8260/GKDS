@@ -29,13 +29,13 @@ export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', v
         // Header logo loads eagerly (it is in the first paint); the footer logo stays lazy.
         loading={eager ? 'eager' : 'lazy'}
         // The emblem PNG has transparent margins, so the box is oversized and scaled to make the artwork prominent.
-        className="size-12 shrink-0 scale-125 object-contain md:size-16"
+        className="size-12 shrink-0 scale-125 object-contain md:size-[68px]"
       />
       <span aria-hidden="true" className={cn('h-10 w-px shrink-0 md:h-12', dark ? 'bg-white/30' : 'bg-line')} />
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            'font-display text-[19px] font-bold italic md:text-[23px]',
+            'font-display text-[22px] font-bold italic md:text-[28px]',
             dark ? 'text-white' : 'text-green-900',
           )}
         >
@@ -43,7 +43,7 @@ export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', v
         </span>{' '}
         <span
           className={cn(
-            'mt-1 font-display text-xs font-semibold italic md:text-[14px]',
+            'mt-1 font-display text-xs font-semibold italic md:text-[15px]',
             dark ? 'text-orange-100' : 'text-orange-600',
           )}
         >

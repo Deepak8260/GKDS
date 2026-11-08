@@ -17,10 +17,11 @@ export function Header({ site, courses }: HeaderProps) {
     <header
       id="site-header"
       data-scrolled="false"
-      className="sticky top-0 z-50 border-b border-line bg-white transition-shadow data-[scrolled=true]:shadow-card"
+      className="group sticky top-0 z-50 px-3 pb-3 pt-3 sm:px-5 lg:px-8"
     >
       <ScrollShadow targetId="site-header" />
-      <div className="container-x flex h-16 items-center justify-between gap-4 md:h-[72px]">
+      {/* floating, rounded bar: never touches the left or right edge of the screen */}
+      <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between gap-4 rounded-full border border-line/70 bg-white/95 pl-4 pr-3 shadow-[0_6px_24px_-8px_rgba(11,61,30,0.18)] backdrop-blur transition-shadow group-data-[scrolled=true]:shadow-[0_10px_30px_-8px_rgba(11,61,30,0.28)] sm:pl-6 sm:pr-4 md:h-20 lg:pl-8 lg:pr-5">
         <Logo src={site.logo} name={site.shortName} eager />
         <div className="flex items-center gap-6">
           <DesktopNav courses={navCourses} />

@@ -14,7 +14,7 @@ export interface NavCourse {
 }
 
 const linkBase =
-  'focus-ring relative inline-flex items-center rounded-md py-2 text-base font-medium transition-colors hover:text-orange-600';
+  'focus-ring relative inline-flex items-center rounded-md py-2 text-[16px] font-medium transition-colors hover:text-orange-600';
 const underline =
   'after:absolute after:inset-x-0 after:-bottom-[7px] after:h-[3px] after:rounded-full after:bg-orange-500 after:content-[""]';
 
@@ -123,7 +123,7 @@ function CoursesMenu({ courses, active }: { courses: NavCourse[]; active: boolea
               <Link
                 role="menuitem"
                 href={`/courses#${c.slug}`}
-                className="focus-ring block rounded-lg px-3 py-2.5 text-[14px] font-medium text-green-900 hover:bg-orange-50 hover:text-orange-600"
+                className="focus-ring block rounded-lg px-3 py-2.5 text-[15px] font-medium text-green-900 hover:bg-orange-50 hover:text-orange-600"
               >
                 {c.title}
               </Link>
@@ -133,7 +133,7 @@ function CoursesMenu({ courses, active }: { courses: NavCourse[]; active: boolea
             <Link
               role="menuitem"
               href="/courses"
-              className="focus-ring block rounded-lg px-3 py-2.5 text-[14px] font-semibold text-orange-600 hover:bg-orange-50"
+              className="focus-ring block rounded-lg px-3 py-2.5 text-[15px] font-semibold text-orange-600 hover:bg-orange-50"
             >
               All Courses
             </Link>
@@ -148,7 +148,7 @@ function CoursesMenu({ courses, active }: { courses: NavCourse[]; active: boolea
 export function DesktopNav({ courses }: { courses: NavCourse[] }) {
   const pathname = usePathname();
   return (
-    <nav aria-label="Primary" className="hidden items-center gap-7 xl:gap-9 lg:flex">
+    <nav aria-label="Primary" className="hidden items-center gap-7 xl:gap-11 lg:flex">
       {NAV_ITEMS.map((item) => {
         const active = isActivePath(pathname, item.href);
         if (item.hasDropdown) {

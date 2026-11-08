@@ -28,7 +28,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px; /* sticky header */
+  scroll-padding-top: 120px; /* sticky header */
   -webkit-text-size-adjust: 100%;
 }
 
