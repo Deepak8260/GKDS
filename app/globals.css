@@ -75,8 +75,10 @@ h2 {
   .focus-ring {
     @apply outline-none focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
   }
-  /* Orange outline when a card is the :target of an anchor (course cards etc.) */
-  .target-highlight:target {
+  /* Orange ring when a card is the :target of an anchor (full page load) or flashed by JS
+     (data-flash, set by components/sections/courses/anchor-flash.tsx for client-side navigation). */
+  .target-highlight:target,
+  .target-highlight[data-flash='true'] {
     @apply animate-highlight rounded-2xl;
   }
 }

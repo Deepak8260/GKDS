@@ -19,7 +19,7 @@ function RoadArt() {
     <svg
       viewBox="0 0 320 160"
       aria-hidden="true"
-      className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-auto text-green-700/20 md:block"
+      className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-auto text-green-700/20 lg:block"
       preserveAspectRatio="xMaxYMid slice"
     >
       <path d="M130 160 C170 110 210 70 300 20 L320 20 L320 160 Z" fill="currentColor" opacity="0.5" />
@@ -38,7 +38,8 @@ export function CTABanner({ lead, highlight, text, action, icon, className }: CT
       )}
     >
       <RoadArt />
-      <div className="relative flex flex-col items-center gap-5 text-center md:flex-row md:gap-6 md:text-left">
+      {/* stacked and centred until lg: side-by-side needs room for the title, text AND the actions */}
+      <div className="relative flex flex-col items-center gap-5 text-center lg:flex-row lg:gap-6 lg:text-left">
         <span className="flex size-16 shrink-0 items-center justify-center text-green-700">
           {icon ?? <Car className="size-14" strokeWidth={1.5} aria-hidden="true" />}
         </span>
@@ -54,7 +55,7 @@ export function CTABanner({ lead, highlight, text, action, icon, className }: CT
           </h2>
           {text ? <p className="mt-2 text-base text-ink/80">{text}</p> : null}
         </div>
-        {action ? <div className="flex shrink-0 flex-wrap items-center justify-center gap-3 md:pr-24">{action}</div> : null}
+        {action ? <div className="flex shrink-0 flex-wrap items-center justify-center gap-3 lg:pr-24">{action}</div> : null}
       </div>
     </div>
   );
