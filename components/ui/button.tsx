@@ -1,4 +1,4 @@
-import { LocLink as Link } from '@/components/i18n/loc-link';
+import Link from 'next/link';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { ArrowRight, LoaderCircle } from 'lucide-react';
 import { cn, isExternalHref } from '@/lib/utils';

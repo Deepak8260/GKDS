@@ -1,9 +1,3 @@
-import { en } from '@/lib/i18n/dict';
-import { fmt } from '@/lib/i18n/locales';
-
-/** Wording for the badge (English by default; the Odia site passes its own). */
-export type HoursLabels = typeof en.hours;
-
 /** Working-hours logic for the "Open now / Closed now" badge. Pure functions, always evaluated in India time (IST). */
 
 export interface Schedule {
@@ -25,6 +19,7 @@ export interface OpenStatus {
 }
 
 export const TIME_ZONE = 'Asia/Kolkata';
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as const;
 const DAY_INDEX: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
 /** "08:30" → 510 (minutes after midnight). */
@@ -34,11 +29,11 @@ export function toMinutes(hhmm: string): number {
 }
 
 /** "18:00" → "6:00 PM"; "08:30" → "8:30 AM"; "00:00" → "12:00 AM". */
-export function formatTime12(hhmm: string, labels: Pick<HoursLabels, 'am' | 'pm'> = en.hours): string {
+export function formatTime12(hhmm: string): string {
   const total = toMinutes(hhmm);
   const h24 = Math.floor(total / 60) % 24;
   const m = total % 60;
-  const suffix = h24 >= 12 ? labels.pm : labels.am;
+  const suffix = h24 >= 12 ? 'PM' : 'AM';
   const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
   return `${h12}:${String(m).padStart(2, '0')} ${suffix}`;
 }
@@ -62,10 +57,9 @@ export function istParts(date: Date): { day: number; minutes: number } {
  *  - closed → "Closed now" · "Opens today 8:00 AM" / "Opens Monday 8:00 AM"
  * The opening minute is inclusive and the closing minute exclusive (open 08:00–17:59, closed from 18:00).
  */
-export function getOpenStatus(date: Date, schedule: Schedule, labels: HoursLabels = en.hours): OpenStatus {
+export function getOpenStatus(date: Date, schedule: Schedule): OpenStatus {
   const { day, minutes } = istParts(date);
-  const time = (hhmm: string) => formatTime12(hhmm, labels);
-  const closed: OpenStatus = { open: false, label: labels.closedNow, detail: '' };
+  const closed: OpenStatus = { open: false, label: 'Closed now', detail: '' };
 
   // the opening range for each weekday (null = closed all day)
   const rangeFor = (d: number): { from: number; to: number; fromText: string; toText: string } | null => {
@@ -83,11 +77,11 @@ export function getOpenStatus(date: Date, schedule: Schedule, labels: HoursLabel
   if (today) {
     const overnight = today.from > today.to; // e.g. 22:00 → 02:00
     if (overnight ? minutes >= today.from : minutes >= today.from && minutes < today.to) {
-      return { open: true, label: labels.openNow, detail: fmt(labels.closes, { time: time(today.toText) }) };
+      return { open: true, label: 'Open now', detail: `Closes ${formatTime12(today.toText)}` };
     }
   }
   if (yesterday && yesterday.from > yesterday.to && minutes < yesterday.to) {
-    return { open: true, label: labels.openNow, detail: fmt(labels.closes, { time: time(yesterday.toText) }) };
+    return { open: true, label: 'Open now', detail: `Closes ${formatTime12(yesterday.toText)}` };
   }
 
   // find the next opening: later today, otherwise the next open weekday (up to a week away)
@@ -96,10 +90,10 @@ export function getOpenStatus(date: Date, schedule: Schedule, labels: HoursLabel
     const r = rangeFor(d);
     if (!r) continue;
     if (offset === 0) {
-      if (minutes < r.from) return { open: false, label: labels.closedNow, detail: fmt(labels.opensToday, { time: time(r.fromText) }) };
+      if (minutes < r.from) return { open: false, label: 'Closed now', detail: `Opens today ${formatTime12(r.fromText)}` };
       continue; // already past today's opening
     }
-    return { open: false, label: labels.closedNow, detail: fmt(labels.opensDay, { day: labels.days[d], time: time(r.fromText) }) };
+    return { open: false, label: 'Closed now', detail: `Opens ${DAY_NAMES[d]} ${formatTime12(r.fromText)}` };
   }
   return closed;
 }

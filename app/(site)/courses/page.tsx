@@ -12,32 +12,27 @@ import { CTABanner } from '@/components/ui/cta-banner';
 import { Reveal } from '@/components/ui/reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { getCourses, getPublishedCourses, getSite } from '@/lib/content';
-import { tFor } from '@/lib/i18n';
-import { fmt, localizePath, type Locale } from '@/lib/i18n/locales';
 import { SITE_URL, absoluteUrl, jsonLdString } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata, truncate } from '@/lib/seo';
 import { cn, telHref } from '@/lib/utils';
 
-export async function coursesMetadata(locale: Locale): Promise<Metadata> {
-  const [doc, site] = await Promise.all([getCourses(locale), getSite(locale)]);
-  const t = tFor(locale).meta;
+export async function generateMetadata(): Promise<Metadata> {
+  const [doc, site] = await Promise.all([getCourses(), getSite()]);
   return buildMetadata({
-    title: fmt(t.coursesTitle, { city: site.address.city }),
+    title: `Driving Courses in ${site.address.city}`,
     description: truncate(
-      fmt(t.coursesDescription, { city: site.address.city, state: site.address.state, hero: doc.hero.subtitle, intro: doc.intro.subtitle }),
+      `Car and small-car driving courses in ${site.address.city}, ${site.address.state}. ${doc.hero.subtitle} ${doc.intro.subtitle}`,
       155,
     ),
     path: '/courses',
     image: mediaUrl(doc.hero.image || site.ogImage),
     siteName: site.name,
-    locale,
   });
 }
 
-export async function CoursesPageView({ locale }: { locale: Locale }) {
-  const [doc, courses, site] = await Promise.all([getCourses(locale), getPublishedCourses(locale), getSite(locale)]);
-  const t = tFor(locale);
+export default async function CoursesPage() {
+  const [doc, courses, site] = await Promise.all([getCourses(), getPublishedCourses(), getSite()]);
   const phone = site.phones[0];
   const layout = courseGridLayout(courses.length);
 
@@ -52,7 +47,7 @@ export async function CoursesPageView({ locale }: { locale: Locale }) {
         '@type': 'Course',
         name: c.title,
         description: c.description,
-        url: absoluteUrl(`${localizePath('/courses', locale)}#${c.slug}`),
+        url: absoluteUrl(`/courses#${c.slug}`),
         provider: { '@type': 'DrivingSchool', '@id': `${SITE_URL}/#school`, name: site.name },
       },
     })),
@@ -69,11 +64,10 @@ export async function CoursesPageView({ locale }: { locale: Locale }) {
       <PageHero
         title={doc.hero.title}
         subtitle={doc.hero.subtitle}
-        breadcrumb={[{ label: t.nav.home, href: '/' }, { label: t.nav.courses }]}
+        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Courses' }]}
         image={doc.hero.image}
         imageAlt={doc.hero.imageAlt}
         imagePosition="center 70%"
-        locale={locale}
       />
 
       <Reveal as="section" className="section-y pb-8 pt-10 md:pb-8 md:pt-10">
@@ -90,16 +84,20 @@ export async function CoursesPageView({ locale }: { locale: Locale }) {
             <ul className={cn('mt-8', layout.grid)}>
               {courses.map((course, i) => (
                 <li key={course.id} className={cn('min-w-0', i === courses.length - 1 && layout.last)}>
-                  <CourseCard course={course} phone={phone} wide={courses.length === 1} locale={locale} className="h-full" />
+                  <CourseCard course={course} phone={phone} wide={courses.length === 1} className="h-full" />
                 </li>
               ))}
             </ul>
           ) : (
             <Card tone="green-soft" className="mt-8 flex flex-col items-center gap-4 px-6 py-12 text-center">
-              <p className="font-display text-2xl font-bold italic text-green-900">{t.courses.emptyTitle}</p>
-              <p className="max-w-md text-ink/80">{t.courses.emptyText}</p>
+              <p className="font-display text-2xl font-bold italic text-green-900">
+                Courses will be updated soon
+              </p>
+              <p className="max-w-md text-ink/80">
+                Call us for course details, fees and timings — we are happy to help.
+              </p>
               <Button href={telHref(phone)} icon={<Phone className="size-5" aria-hidden="true" />}>
-                {t.actions.callNow}
+                Call Now
               </Button>
             </Card>
           )}
@@ -117,10 +115,10 @@ export async function CoursesPageView({ locale }: { locale: Locale }) {
             action={
               <>
                 <Button href={telHref(phone)} icon={<Phone className="size-5" aria-hidden="true" />}>
-                  {t.actions.callNow}
+                  Call Now
                 </Button>
                 <Button href="/contact" variant="ghost" arrow>
-                  {t.actions.visitContact}
+                  Visit Contact Page
                 </Button>
               </>
             }

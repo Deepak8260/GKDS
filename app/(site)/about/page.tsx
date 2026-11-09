@@ -5,42 +5,37 @@ import { AboutStats } from '@/components/sections/about/about-stats';
 import { MissionVision } from '@/components/sections/about/mission-vision';
 import { Story } from '@/components/sections/about/story';
 import { Values } from '@/components/sections/about/values';
-import { JsonLd } from '@/components/seo/json-ld';
 import { Container } from '@/components/ui/container';
 import { Reveal } from '@/components/ui/reveal';
 import { getAbout, getSite } from '@/lib/content';
-import { tFor } from '@/lib/i18n';
-import { LANG_TAG, localizePath, type Locale } from '@/lib/i18n/locales';
+import { JsonLd } from '@/components/seo/json-ld';
 import { SCHOOL_ID, SITE_URL, absoluteUrl } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata, truncate } from '@/lib/seo';
 
-export async function aboutMetadata(locale: Locale): Promise<Metadata> {
-  const [about, site] = await Promise.all([getAbout(locale), getSite(locale)]);
+export async function generateMetadata(): Promise<Metadata> {
+  const [about, site] = await Promise.all([getAbout(), getSite()]);
   return buildMetadata({
     title: about.hero.title,
     description: truncate(about.story.paragraphs[0] ?? about.hero.subtitle, 155),
     path: '/about',
     image: site.ogImage ? mediaUrl(site.ogImage) : undefined,
     siteName: site.name,
-    locale,
   });
 }
 
-export async function AboutPageView({ locale }: { locale: Locale }) {
-  const about = await getAbout(locale);
-  const t = tFor(locale);
-  const path = localizePath('/about', locale);
+export default async function AboutPage() {
+  const about = await getAbout();
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
-    '@id': `${SITE_URL}${path}#page`,
-    url: absoluteUrl(path),
+    '@id': `${SITE_URL}/about#page`,
+    url: absoluteUrl('/about'),
     name: about.hero.title,
     description: about.hero.subtitle,
     about: { '@id': SCHOOL_ID },
-    inLanguage: LANG_TAG[locale],
+    inLanguage: 'en-IN',
   };
 
   return (
@@ -50,11 +45,10 @@ export async function AboutPageView({ locale }: { locale: Locale }) {
       <PageHero
         title={about.hero.title}
         subtitle={about.hero.subtitle}
-        breadcrumb={[{ label: t.nav.home, href: '/' }, { label: about.hero.title }]}
+        breadcrumb={[{ label: 'Home', href: '/' }, { label: about.hero.title }]}
         image={about.hero.image}
         imageAlt={about.hero.imageAlt}
         imagePosition="center 28%"
-        locale={locale}
       />
 
       <Story story={about.story} />

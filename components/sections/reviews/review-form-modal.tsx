@@ -5,14 +5,13 @@ import { useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react
 import { ArrowRight, Camera, CircleCheck, MessageSquareText, Phone, User, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
-import { en, type Dict } from '@/lib/i18n/dict';
-import { fmt } from '@/lib/i18n/locales';
 import { publicReviewSchema } from '@/lib/validators';
 import { RatingPicker } from './rating-picker';
 
 const STORAGE_KEY = 'gkds:review-submitted-at';
 const COOLDOWN_MS = 10 * 60 * 1000;
 const MAX_TEXT = 600;
+const GENERIC = 'Could not submit right now. Please try again later.';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 type Errors = Partial<Record<'name' | 'phone' | 'rating' | 'text' | 'photo', string>>;
@@ -20,8 +19,6 @@ type Errors = Partial<Record<'name' | 'phone' | 'rating' | 'text' | 'photo', str
 interface ReviewFormModalProps {
   schoolName: string;
   onClose: () => void;
-  /** Wording in the page language (English by default). */
-  t?: Dict['reviewForm'];
 }
 
 function readLastSubmit(): number {
@@ -134,10 +131,8 @@ function RoadScene() {
  * "Leave a Review" dialog. Name, optional private phone, whole-star rating and text. Posted straight away (no approval step).
  * Validated here with the shared zod schema and again on the server.
  */
-export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm }: ReviewFormModalProps) {
+export default function ReviewFormModal({ schoolName, onClose }: ReviewFormModalProps) {
   const uid = useId();
-  /** English validation and server messages → the page language. */
-  const tr = (message: string) => t.messages[message] ?? message;
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [photo, setPhoto] = useState<{ base64: string; preview: string } | null>(null);
@@ -167,16 +162,16 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
     if (!file) return;
     clearError('photo');
     if (!file.type.startsWith('image/'))
-      return setErrors((p) => ({ ...p, photo: t.photoNotImage }));
+      return setErrors((p) => ({ ...p, photo: 'Please choose an image file (JPG, PNG or WebP).' }));
     if (file.size > MAX_PHOTO_FILE)
       return setErrors((p) => ({
         ...p,
-        photo: t.photoTooBig,
+        photo: 'That photo is too large. Please choose one under 10 MB.',
       }));
     try {
       setPhoto(await shrinkPhoto(file));
     } catch {
-      setErrors((p) => ({ ...p, photo: t.photoUnreadable }));
+      setErrors((p) => ({ ...p, photo: 'We could not read that photo. Please try another one.' }));
     }
   }
   const ids = {
@@ -206,7 +201,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
       for (const issue of parsed.error.issues) {
         const key = issue.path[0] as keyof Errors;
         if (key in { name: 1, phone: 1, rating: 1, text: 1 } && !next[key])
-          next[key] = tr(issue.message);
+          next[key] = issue.message;
       }
     }
 
@@ -235,7 +230,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
     const result = validate();
     if (!result.ok) {
       setStatus('idle');
-      setMessage(t.checkFields);
+      setMessage('Please check the highlighted fields.');
       return;
     }
 
@@ -259,16 +254,16 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
         return;
       }
       if (json?.fieldErrors) {
-        setErrors(Object.fromEntries(Object.entries(json.fieldErrors).map(([k, v]) => [k, tr(String(v))])) as Errors);
+        setErrors(json.fieldErrors);
         setStatus('idle');
-        setMessage(tr(json.message ?? 'Please check the highlighted fields.'));
+        setMessage(json.message ?? 'Please check the highlighted fields.');
         return;
       }
       setStatus('error');
-      setMessage(tr(json?.message ?? 'Could not submit right now. Please try again later.'));
+      setMessage(json?.message ?? GENERIC);
     } catch {
       setStatus('error');
-      setMessage(t.networkError);
+      setMessage('We could not reach the server. Please check your connection and try again.');
     }
   }
 
@@ -276,9 +271,8 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
     <Modal
       open
       onClose={onClose}
-      title={t.dialogTitle}
-      description={fmt(t.dialogDescription, { name: schoolName })}
-      closeLabel={t.closeDialog}
+      title="Leave a Review"
+      description={`Tell us about your experience at ${schoolName}.`}
       bare
       className="sm:max-w-[640px] sm:rounded-[28px]"
     >
@@ -286,20 +280,21 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
         <div className="flex flex-col items-center gap-4 px-6 py-12 text-center" role="status">
           <CircleCheck className="size-12 text-green-700" aria-hidden="true" />
           <p className="text-base text-ink">
-            {t.alreadySent}
+            You already submitted a review recently. Thank you! Please try again a little later if
+            you would like to add another.
           </p>
           <Button onClick={onClose} data-autofocus>
-            {t.close}
+            Close
           </Button>
         </div>
       ) : status === 'success' ? (
         <div className="flex flex-col items-center gap-4 px-6 py-12 text-center" role="status">
           <CircleCheck className="size-14 text-green-700" aria-hidden="true" />
           <p className="text-lg font-semibold text-green-900">
-            {t.thanks}
+            Thank you! Your review has been posted.
           </p>
           <Button onClick={onClose} data-autofocus>
-            {t.close}
+            Close
           </Button>
         </div>
       ) : (
@@ -316,9 +311,9 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
               />
               <span aria-hidden="true" className="h-10 w-px bg-green-900/30" />
               <p className="font-display text-xl font-bold italic leading-tight text-green-900 sm:text-2xl">
-                {t.brandName}
+                Gopal Krushna
                 <span className="block text-sm font-semibold text-orange-600 sm:text-base">
-                  {t.brandSub}
+                  Driving Training School
                 </span>
               </p>
             </div>
@@ -327,10 +322,10 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                 aria-hidden="true"
                 className="text-3xl font-extrabold tracking-tight text-green-900 sm:text-4xl"
               >
-                {t.heading}
+                Share Your Experience
               </p>
               <p className="mt-1.5 max-w-[26rem] text-sm text-ink/80 sm:text-base">
-                {t.intro}
+                Your feedback helps us improve our training and service.
               </p>
               <span aria-hidden="true" className="mt-3 block h-1 w-12 rounded-full bg-orange-500" />
             </div>
@@ -347,11 +342,11 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                 <label htmlFor={ids.name} className={labelBase}>
                   <User className="size-6 text-green-800" strokeWidth={1.6} aria-hidden="true" />
                   <span>
-                    {t.name}{' '}
+                    Your Name{' '}
                     <span aria-hidden="true" className="text-red-600">
                       *
                     </span>
-                    <span className="sr-only">{t.required}</span>
+                    <span className="sr-only"> (required)</span>
                   </span>
                 </label>
                 <input
@@ -368,7 +363,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                   }}
                   aria-invalid={Boolean(errors.name)}
                   aria-describedby={errors.name ? ids.nameErr : undefined}
-                  placeholder={t.namePlaceholder}
+                  placeholder="e.g. Amit Sahoo"
                   className={`${fieldBase} ${errors.name ? 'border-red-600' : 'border-line'}`}
                 />
                 {errors.name ? (
@@ -382,7 +377,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                 <label htmlFor={ids.phone} className={labelBase}>
                   <Phone className="size-6 text-green-800" strokeWidth={1.6} aria-hidden="true" />
                   <span>
-                    {t.phone} <span className="text-sm font-normal text-ink/80">{t.optional}</span>
+                    Phone Number <span className="text-sm font-normal text-ink/80">(Optional)</span>
                   </span>
                 </label>
                 <input
@@ -399,7 +394,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                   }}
                   aria-invalid={Boolean(errors.phone)}
                   aria-describedby={errors.phone ? ids.phoneErr : undefined}
-                  placeholder={t.phonePlaceholder}
+                  placeholder="e.g. 98765 43210"
                   className={`${fieldBase} ${errors.phone ? 'border-red-600' : 'border-line'}`}
                 />
                 {errors.phone ? (
@@ -414,7 +409,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
               <span className={labelBase}>
                 <Camera className="size-6 text-green-800" strokeWidth={1.6} aria-hidden="true" />
                 <span>
-                  {t.photo} <span className="text-sm font-normal text-ink/80">{t.optional}</span>
+                  Your Photo <span className="text-sm font-normal text-ink/80">(Optional)</span>
                 </span>
               </span>
               <div className="flex items-center gap-4">
@@ -422,7 +417,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                   // eslint-disable-next-line @next/next/no-img-element -- a local data: preview, not a remote image
                   <img
                     src={photo.preview}
-                    alt={t.photoAlt}
+                    alt="Your chosen photo"
                     width={64}
                     height={64}
                     className="size-16 rounded-full object-cover ring-2 ring-orange-200"
@@ -440,7 +435,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                     htmlFor={ids.photo}
                     className="inline-flex min-h-11 cursor-pointer items-center rounded-full border-2 border-green-900 bg-white px-4 text-sm font-bold text-green-900 focus-within:ring-2 focus-within:ring-orange-500 hover:bg-green-50"
                   >
-                    {photo ? t.changePhoto : t.addPhoto}
+                    {photo ? 'Change photo' : 'Add a photo'}
                     <input
                       id={ids.photo}
                       type="file"
@@ -455,10 +450,10 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                       onClick={() => setPhoto(null)}
                       className="focus-ring inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-sm font-semibold text-muted hover:text-ink"
                     >
-                      <X className="size-4" aria-hidden="true" /> {t.removePhoto}
+                      <X className="size-4" aria-hidden="true" /> Remove
                     </button>
                   ) : (
-                    <span className="text-sm text-muted">{t.photoHint}</span>
+                    <span className="text-sm text-muted">Shown next to your review.</span>
                   )}
                 </div>
               </div>
@@ -469,7 +464,6 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
 
             <div>
               <RatingPicker
-                t={t}
                 value={rating}
                 onChange={(n) => {
                   setRating(n);
@@ -493,11 +487,11 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                   aria-hidden="true"
                 />
                 <span>
-                  {t.review}{' '}
+                  Your Review{' '}
                   <span aria-hidden="true" className="text-red-600">
                     *
                   </span>
-                  <span className="sr-only">{t.required}</span>
+                  <span className="sr-only"> (required)</span>
                 </span>
               </label>
               <textarea
@@ -512,7 +506,7 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                 }}
                 aria-invalid={Boolean(errors.text)}
                 aria-describedby={errors.text ? ids.textErr : undefined}
-                placeholder={t.reviewPlaceholder}
+                placeholder="Tell us about your experience — the training, instructors, vehicles, and overall service."
                 className={`${fieldBase} resize-y ${errors.text ? 'border-red-600' : 'border-line'}`}
               />
               <div className="mt-1 flex items-start justify-between gap-3">
@@ -558,14 +552,14 @@ export default function ReviewFormModal({ schoolName, onClose, t = en.reviewForm
                 onClick={onClose}
                 className="focus-ring inline-flex h-12 min-w-[8.5rem] items-center justify-center rounded-full border-2 border-green-900 bg-white px-6 text-base font-bold text-green-900 hover:bg-green-50"
               >
-                {t.cancel}
+                Cancel
               </button>
               <button
                 type="submit"
                 disabled={submitting}
                 className="focus-ring inline-flex h-12 min-w-[12rem] items-center justify-center gap-2 rounded-full bg-gradient-to-b from-orange-400 to-orange-600 px-7 text-base font-bold text-white shadow-[0_8px_20px_-6px_rgba(234,88,12,0.6)] hover:from-orange-500 hover:to-orange-700 disabled:opacity-70"
               >
-                {submitting ? t.submitting : status === 'error' ? t.tryAgain : t.submit}
+                {submitting ? 'Submitting…' : status === 'error' ? 'Try again' : 'Submit Review'}
                 {submitting ? null : <ArrowRight className="size-5" aria-hidden="true" />}
               </button>
             </div>

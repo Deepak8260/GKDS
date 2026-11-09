@@ -1,10 +1,9 @@
 'use client';
 
-import { LocLink as Link } from '@/components/i18n/loc-link';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { ChevronDown } from 'lucide-react';
-import type { Dict } from '@/lib/i18n/dict';
 import { NAV_ITEMS, isActivePath } from '@/lib/nav';
 import { cn } from '@/lib/utils';
 import { useClickOutside } from '@/lib/hooks/use-click-outside';
@@ -19,7 +18,7 @@ const linkBase =
 const underline =
   'after:absolute after:inset-x-0 after:-bottom-[7px] after:h-[3px] after:rounded-full after:bg-orange-500 after:content-[""]';
 
-function CoursesMenu({ courses, active, t }: { courses: NavCourse[]; active: boolean; t: Dict['nav'] }) {
+function CoursesMenu({ courses, active }: { courses: NavCourse[]; active: boolean }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [lastPath, setLastPath] = useState(pathname);
@@ -96,14 +95,14 @@ function CoursesMenu({ courses, active, t }: { courses: NavCourse[]; active: boo
           aria-current={active ? 'page' : undefined}
           className={cn(linkBase, 'hover:text-orange-600')}
         >
-          {t.courses}
+          Courses
         </Link>
         <button
           ref={buttonRef}
           type="button"
           aria-haspopup="menu"
           aria-expanded={open}
-          aria-label={t.coursesMenu}
+          aria-label="Courses menu"
           onClick={() => setOpen((v) => !v)}
           className="focus-ring -ml-1 flex size-8 items-center justify-center rounded-full hover:text-orange-600"
         >
@@ -116,7 +115,7 @@ function CoursesMenu({ courses, active, t }: { courses: NavCourse[]; active: boo
         <ul
           ref={menuRef}
           role="menu"
-          aria-label={t.courses}
+          aria-label="Courses"
           className="absolute left-1/2 top-full z-50 mt-3 w-64 -translate-x-1/2 animate-fade-up rounded-xl border border-line bg-white p-2 shadow-card-lg"
         >
           {courses.map((c) => (
@@ -136,7 +135,7 @@ function CoursesMenu({ courses, active, t }: { courses: NavCourse[]; active: boo
               href="/courses"
               className="focus-ring block rounded-lg px-3 py-2.5 text-[15px] font-semibold text-orange-600 hover:bg-orange-50"
             >
-              {t.allCourses}
+              All Courses
             </Link>
           </li>
         </ul>
@@ -146,14 +145,14 @@ function CoursesMenu({ courses, active, t }: { courses: NavCourse[]; active: boo
 }
 
 /** Desktop primary navigation (≥ lg) with the Courses dropdown. */
-export function DesktopNav({ courses, t }: { courses: NavCourse[]; t: Dict['nav'] }) {
+export function DesktopNav({ courses }: { courses: NavCourse[] }) {
   const pathname = usePathname();
   return (
-    <nav aria-label={t.primary} className="hidden items-center gap-7 xl:gap-11 lg:flex">
+    <nav aria-label="Primary" className="hidden items-center gap-7 xl:gap-11 lg:flex">
       {NAV_ITEMS.map((item) => {
         const active = isActivePath(pathname, item.href);
         if (item.hasDropdown) {
-          return <CoursesMenu key={item.href} courses={courses} active={active} t={t} />;
+          return <CoursesMenu key={item.href} courses={courses} active={active} />;
         }
         return (
           <Link
@@ -162,7 +161,7 @@ export function DesktopNav({ courses, t }: { courses: NavCourse[]; t: Dict['nav'
             aria-current={active ? 'page' : undefined}
             className={cn(linkBase, active ? ['text-orange-600', underline] : 'text-green-900')}
           >
-            {t[item.id]}
+            {item.label}
           </Link>
         );
       })}

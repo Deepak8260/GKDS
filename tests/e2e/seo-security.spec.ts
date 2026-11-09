@@ -6,13 +6,10 @@ test('robots.txt blocks private areas and points to the sitemap', async ({ reque
   expect(body).toMatch(/Sitemap: https?:\/\/.+\/sitemap\.xml/);
 });
 
-test('sitemap lists the six public pages in English and Odia with absolute URLs and language alternates', async ({ request }) => {
+test('sitemap lists the six public pages with absolute URLs', async ({ request }) => {
   const body = await (await request.get('/sitemap.xml')).text();
   const locs = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  expect(locs).toHaveLength(12);
-  expect(locs.filter((l) => /\/or(\/|$)/.test(l))).toHaveLength(6);
-  expect(body).toContain('hreflang="or-IN"');
-  expect(body).toContain('hreflang="en-IN"');
+  expect(locs).toHaveLength(6);
   for (const l of locs) expect(l).toMatch(/^https?:\/\//);
   expect(locs.some((l) => l.endsWith('/styleguide') || l.includes('/admin'))).toBe(false);
 });

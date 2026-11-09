@@ -15,7 +15,6 @@ Because Vercel does not build the `data` branch, saving something in the admin n
 README.md
 content/
   site.json  home.json  about.json  courses.json  gallery.json  reviews.json
-  or/<same names>.json                                 (Odia translations saved in the admin → Translations; optional)
 media/
   branding/  pages/  courses/  gallery/  avatars/      (WebP images, content-hashed names)
 submissions/
@@ -93,7 +92,3 @@ The repo is private, so images are served through the site at `/api/media/media/
 ## Backups
 
 `git clone --mirror https://github.com/<you>/gkds.git` backs up code **and** the `data` branch. Every admin save is a commit, so older versions of any content file can be restored from GitHub history or from the **History** button in each admin editor. **Dashboard → Download backup** gives a ZIP of all page text and settings.
-
-## Odia language
-
-The public site exists in English (`/`, `/about`, …) and Odia (`/or`, `/or/about`, …). Fixed words (menus, buttons, form messages) live in `lib/i18n/dict.ts` and `dict-or.ts`. Editable page text is translated in **Admin → Translations**; those lines are saved as `content/or/<name>.json` on the `data` branch and win over the translations bundled in `content-seed/or/`. A line with no Odia text shows in English on the Odia site. Visitors' reviews are never translated. The choice is remembered in the `gkds_lang` cookie (new visitors get a one-time "English or Odia?" question; returning Odia readers are redirected to `/or`). Have a native Odia speaker proofread the bundled wording.

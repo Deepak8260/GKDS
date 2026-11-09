@@ -1,5 +1,4 @@
 import type { MetadataRoute } from 'next';
-import { localizePath } from '@/lib/i18n/locales';
 import { absoluteUrl } from '@/lib/json-ld';
 
 // Public pages only. Admin, API and the style guide are never listed.
@@ -14,14 +13,10 @@ export const SITEMAP_ROUTES = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
-  // every page twice (English and Odia), each pointing at its twin so search engines show the right language
-  return SITEMAP_ROUTES.flatMap((r) =>
-    (['en', 'or'] as const).map((locale) => ({
-      url: absoluteUrl(localizePath(r.path, locale)),
-      lastModified,
-      changeFrequency: r.changeFrequency,
-      priority: r.priority,
-      alternates: { languages: { 'en-IN': absoluteUrl(r.path), 'or-IN': absoluteUrl(localizePath(r.path, 'or')) } },
-    })),
-  );
+  return SITEMAP_ROUTES.map((r) => ({
+    url: absoluteUrl(r.path),
+    lastModified,
+    changeFrequency: r.changeFrequency,
+    priority: r.priority,
+  }));
 }

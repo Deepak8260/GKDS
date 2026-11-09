@@ -9,16 +9,13 @@ import { SORT_OPTIONS, type SortMode } from './review-utils';
 interface SortSelectProps {
   value: SortMode;
   onChange: (value: SortMode) => void;
-  /** Wording in the page language. */
-  labels: { sortBy: string; recent: string; highest: string; lowest: string };
 }
 
 /**
  * Accessible "select-only combobox" (WAI-ARIA pattern): a button that opens a listbox.
  * Enter / Space / ↓ / ↑ open it, ↑ ↓ Home End move, Enter / Space choose, Esc closes, Tab closes.
  */
-export function SortSelect({ value, onChange, labels }: SortSelectProps) {
-  const optionLabel = (id: SortMode) => labels[id];
+export function SortSelect({ value, onChange }: SortSelectProps) {
   const uid = useId();
   const labelId = `${uid}-label`;
   const buttonId = `${uid}-button`;
@@ -89,7 +86,7 @@ export function SortSelect({ value, onChange, labels }: SortSelectProps) {
   return (
     <div ref={wrapRef} className="relative">
       <span id={labelId} className="sr-only">
-        {labels.sortBy}
+        Sort reviews by
       </span>
       <button
         ref={buttonRef}
@@ -105,7 +102,7 @@ export function SortSelect({ value, onChange, labels }: SortSelectProps) {
         onKeyDown={onKeyDown}
         className="focus-ring inline-flex h-11 min-w-[11.5rem] items-center justify-between gap-3 rounded-xl border border-green-800 bg-white px-4 text-[14px] font-semibold text-green-900 hover:bg-green-50"
       >
-        {optionLabel(SORT_OPTIONS[selectedIndex].id)}
+        {SORT_OPTIONS[selectedIndex].label}
         <ChevronDown className={cn('size-4 transition-transform', open && 'rotate-180')} aria-hidden="true" />
       </button>
 
@@ -130,7 +127,7 @@ export function SortSelect({ value, onChange, labels }: SortSelectProps) {
                 opt.id === value && 'font-semibold',
               )}
             >
-              {optionLabel(opt.id)}
+              {opt.label}
               {opt.id === value ? <Check className="size-4 text-orange-600" aria-hidden="true" /> : null}
             </li>
           ))}

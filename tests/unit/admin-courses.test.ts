@@ -93,7 +93,7 @@ describe('courses document rules the editor relies on', () => {
 describe('every place that lists courses derives from getPublishedCourses()', () => {
   const read = (p: string) => readFileSync(p, 'utf8');
   it('header dropdown (site shell), home teaser and the courses page', () => {
-    for (const file of ['components/layout/site-shell.tsx', 'components/pages/home-page.tsx', 'components/pages/courses-page.tsx']) {
+    for (const file of ['components/layout/site-shell.tsx', 'app/(site)/page.tsx', 'app/(site)/courses/page.tsx']) {
       const src = read(file);
       expect(src, file).toContain('getPublishedCourses');
       // never reads the raw list (which includes hidden drafts) for display

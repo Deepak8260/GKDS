@@ -2,27 +2,24 @@
 
 import { useState } from 'react';
 import { Award } from 'lucide-react';
-import type { Dict } from '@/lib/i18n/dict';
-import { fmt } from '@/lib/i18n/locales';
 import { cn } from '@/lib/utils';
 
 const STAR_PATH =
   'M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3 6.1 20.6l1.3-6.6L2.5 9.4l6.6-.8L12 2.5z';
+const WORDS = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
 
 interface RatingPickerProps {
   value: number;
   onChange: (value: number) => void;
   error?: string;
   errorId?: string;
-  t: Dict['reviewForm'];
 }
 
 /**
  * Whole-star rating picker built on a real radio group, so arrow keys, focus and screen readers
  * behave natively. Hovering previews a rating. Shown as a soft orange panel with a word above each star.
  */
-export function RatingPicker({ value, onChange, error, errorId, t }: RatingPickerProps) {
-  const WORDS = t.words;
+export function RatingPicker({ value, onChange, error, errorId }: RatingPickerProps) {
   const [hover, setHover] = useState(0);
   const shown = hover || value;
 
@@ -35,10 +32,10 @@ export function RatingPicker({ value, onChange, error, errorId, t }: RatingPicke
         <Award className="size-9 shrink-0 text-orange-500" strokeWidth={1.5} aria-hidden="true" />
         <div>
           <legend className="float-left w-full whitespace-nowrap text-base font-bold text-ink">
-            {t.rate} <span aria-hidden="true" className="text-red-600">*</span>
-            <span className="sr-only">{t.required}</span>
+            Rate Your Experience <span aria-hidden="true" className="text-red-600">*</span>
+            <span className="sr-only"> (required)</span>
           </legend>
-          <p className="clear-both text-sm text-muted">{t.rateHint}</p>
+          <p className="clear-both text-sm text-muted">Select a rating from 1 to 5 stars.</p>
         </div>
       </div>
 
@@ -65,7 +62,7 @@ export function RatingPicker({ value, onChange, error, errorId, t }: RatingPicke
               checked={value === n}
               onChange={() => onChange(n)}
               className="sr-only"
-              aria-label={fmt(t.starsOption, { n, stars: n === 1 ? t.star : t.starsWord, word: WORDS[n] })}
+              aria-label={`${n} ${n === 1 ? 'star' : 'stars'}, ${WORDS[n]}`}
             />
             <svg viewBox="0 0 24 24" className="size-8 sm:size-9" aria-hidden="true">
               <path

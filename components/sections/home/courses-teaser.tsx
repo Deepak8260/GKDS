@@ -1,12 +1,10 @@
 import { SafeImage as Image } from '@/components/ui/safe-image';
-import { LocLink as Link } from '@/components/i18n/loc-link';
+import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { Pill } from '@/components/ui/pill';
 import { Reveal } from '@/components/ui/reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
-import { tFor } from '@/lib/i18n';
-import type { Locale } from '@/lib/i18n/locales';
 import { mediaUrl } from '@/lib/media';
 import type { Course, Home } from '@/lib/validators';
 
@@ -14,12 +12,10 @@ interface CoursesTeaserProps {
   intro: Home['coursesIntro'];
   /** Published courses, already sorted by `order`. At most two are shown. */
   courses: Course[];
-  locale?: Locale;
 }
 
 /** Heading + up to two horizontal course cards linking to their anchors on /courses. */
-export function CoursesTeaser({ intro, courses, locale = 'en' }: CoursesTeaserProps) {
-  const t = tFor(locale).actions;
+export function CoursesTeaser({ intro, courses }: CoursesTeaserProps) {
   if (courses.length === 0) return null;
   return (
     <Reveal as="section" className="section-y pb-8 pt-10 md:pb-8 md:pt-10">
@@ -29,7 +25,7 @@ export function CoursesTeaser({ intro, courses, locale = 'en' }: CoursesTeaserPr
           lead={intro.lead}
           highlight={intro.highlight}
           subtitle={intro.subtitle}
-          action={{ label: t.viewAllCourses, href: '/courses' }}
+          action={{ label: 'View All Courses', href: '/courses' }}
         />
 
         <ul className="mt-8 grid gap-5 lg:grid-cols-2">

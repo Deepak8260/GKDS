@@ -4,7 +4,7 @@ import { Stars } from '@/components/ui/stars';
 import type { ReviewItem } from './review-utils';
 
 /** One learner review: avatar, name, stars, "3 weeks ago", a rating badge and the text. */
-export function ReviewCard({ review, starsLabel }: { review: ReviewItem; starsLabel?: string }) {
+export function ReviewCard({ review }: { review: ReviewItem }) {
   return (
     <Card as="article" className="relative flex h-full flex-col p-6">
       {/* rating badge, e.g. "5★" (the stars next to the name already announce the rating) */}
@@ -20,7 +20,7 @@ export function ReviewCard({ review, starsLabel }: { review: ReviewItem; starsLa
         <Avatar name={review.name} src={review.avatar} size={64} />
         <div className="min-w-0">
           <h3 className="truncate text-lg font-bold text-ink">{review.name}</h3>
-          <Stars value={review.rating} size={20} className="mt-1" label={starsLabel} />
+          <Stars value={review.rating} size={20} className="mt-1" />
           <p className="mt-0.5 text-sm text-muted">
             <time dateTime={review.date}>{review.relative}</time>
           </p>

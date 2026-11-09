@@ -15,8 +15,6 @@ import {
   type GalleryItem,
   type Review,
 } from '@/lib/validators';
-import { localize } from '@/lib/i18n/content';
-import type { Locale } from '@/lib/i18n/locales';
 import { computeReviewStats, type ReviewStats } from './stats';
 
 const seedFiles: Record<ContentName, unknown> = {
@@ -56,36 +54,31 @@ export async function loadContent<K extends ContentName>(name: K): Promise<Conte
   return getSeed(name);
 }
 
-// Every reader takes the language (default English). The Odia pages get the same document with the translated
-// strings swapped in (see lib/i18n); everything that is not text is shared.
-const localized = <K extends ContentName>(name: K) =>
-  cache(async (locale: Locale = 'en'): Promise<ContentMap[K]> => localize(name, await loadContent(name), locale));
-
-export const getSite = localized('site');
-export const getHome = localized('home');
-export const getAbout = localized('about');
-export const getCourses = localized('courses');
-export const getGallery = localized('gallery');
-export const getReviews = localized('reviews');
+export const getSite = cache(() => loadContent('site'));
+export const getHome = cache(() => loadContent('home'));
+export const getAbout = cache(() => loadContent('about'));
+export const getCourses = cache(() => loadContent('courses'));
+export const getGallery = cache(() => loadContent('gallery'));
+export const getReviews = cache(() => loadContent('reviews'));
 
 /** Published courses, ordered by `order`. */
-export const getPublishedCourses = cache(async (locale: Locale = 'en'): Promise<Course[]> => {
-  const { courses } = await getCourses(locale);
+export const getPublishedCourses = cache(async (): Promise<Course[]> => {
+  const { courses } = await getCourses();
   return courses.filter((c) => c.published).sort((a, b) => a.order - b.order);
 });
 
 /** `{ title, slug }` pairs for navigation (header dropdown) and anchors. */
-export const getAllCourseOptions = cache(async (locale: Locale = 'en') =>
-  (await getPublishedCourses(locale)).map((c) => ({ title: c.title, slug: c.slug })),
+export const getAllCourseOptions = cache(async () =>
+  (await getPublishedCourses()).map((c) => ({ title: c.title, slug: c.slug })),
 );
 
 /** Published gallery photos, ordered by `order`. */
-export const getPublishedGallery = cache(async (locale: Locale = 'en'): Promise<GalleryItem[]> => {
-  const { items } = await getGallery(locale);
+export const getPublishedGallery = cache(async (): Promise<GalleryItem[]> => {
+  const { items } = await getGallery();
   return items.filter((i) => i.published).sort((a, b) => a.order - b.order);
 });
 
-/** Published reviews, newest first. (The reviews themselves are the visitors' own words and are never translated.) */
+/** Published reviews, newest first. */
 export const getPublishedReviews = cache(async (): Promise<Review[]> => {
   const { items } = await getReviews();
   return items.filter((r) => r.published).sort((a, b) => Date.parse(b.date) - Date.parse(a.date));

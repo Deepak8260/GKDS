@@ -7,13 +7,12 @@ import { Journey } from '@/components/sections/home/journey';
 import { ReviewsTeaser } from '@/components/sections/home/reviews-teaser';
 import { TrustBar } from '@/components/sections/home/trust-bar';
 import { WhyChoose } from '@/components/sections/home/why-choose';
-import { getFeaturedReviews, getHome, getPublishedCourses, getSite } from '@/lib/content';
-import type { Locale } from '@/lib/i18n/locales';
 import { mediaUrl } from '@/lib/media';
+import { getFeaturedReviews, getHome, getPublishedCourses, getSite } from '@/lib/content';
 import { buildMetadata } from '@/lib/seo';
 
-export async function homeMetadata(locale: Locale): Promise<Metadata> {
-  const site = await getSite(locale);
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSite();
   return {
     ...buildMetadata({
       title: site.seo.title,
@@ -21,7 +20,6 @@ export async function homeMetadata(locale: Locale): Promise<Metadata> {
       path: '/',
       image: site.ogImage ? mediaUrl(site.ogImage) : undefined,
       siteName: site.name,
-      locale,
     }),
     // the home title is already complete: no " | site name" suffix
     title: { absolute: site.seo.title },
@@ -29,11 +27,11 @@ export async function homeMetadata(locale: Locale): Promise<Metadata> {
   };
 }
 
-export async function HomePageView({ locale }: { locale: Locale }) {
+export default async function HomePage() {
   const [home, site, courses, reviews] = await Promise.all([
-    getHome(locale),
-    getSite(locale),
-    getPublishedCourses(locale),
+    getHome(),
+    getSite(),
+    getPublishedCourses(),
     getFeaturedReviews(3),
   ]);
 
@@ -41,12 +39,12 @@ export async function HomePageView({ locale }: { locale: Locale }) {
     <>
       <Hero hero={home.hero} phone={site.phones[0]} />
       <TrustBar items={home.trustBar} />
-      <AboutTeaser about={home.aboutTeaser} locale={locale} />
+      <AboutTeaser about={home.aboutTeaser} />
       <WhyChoose why={home.whyChoose} />
-      <CoursesTeaser intro={home.coursesIntro} courses={courses} locale={locale} />
+      <CoursesTeaser intro={home.coursesIntro} courses={courses} />
       <Journey journey={home.journey} />
-      <ReviewsTeaser intro={home.reviewsIntro} reviews={reviews} locale={locale} />
-      <ContactTeaser contact={home.contactTeaser} site={site} locale={locale} />
+      <ReviewsTeaser intro={home.reviewsIntro} reviews={reviews} />
+      <ContactTeaser contact={home.contactTeaser} site={site} />
     </>
   );
 }

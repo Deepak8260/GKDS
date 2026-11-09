@@ -1,4 +1,3 @@
-import { fmt } from '@/lib/i18n/locales';
 import type { GalleryCategory, GalleryItem } from '@/lib/validators';
 
 /** Photos shown per "page" before the Load more button. */
@@ -30,17 +29,9 @@ export function swipeDirection(deltaX: number, threshold = SWIPE_THRESHOLD): -1 
   return 0;
 }
 
-export interface CountLabels {
-  none: string;
-  one: string;
-  all: string;
-  part: string;
-}
-
-const EN_COUNT: CountLabels = { none: 'No photos', one: 'Showing 1 photo', all: 'Showing {n} photos', part: 'Showing {shown} of {total} photos' };
-
-export function countLabel(shown: number, total: number, labels: CountLabels = EN_COUNT): string {
-  if (total === 0) return labels.none;
-  if (shown === total) return total === 1 ? labels.one : fmt(labels.all, { n: total });
-  return fmt(labels.part, { shown, total });
+export function countLabel(shown: number, total: number): string {
+  if (total === 0) return 'No photos';
+  return shown === total
+    ? `Showing ${total} ${total === 1 ? 'photo' : 'photos'}`
+    : `Showing ${shown} of ${total} photos`;
 }

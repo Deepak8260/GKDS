@@ -6,7 +6,6 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { mediaUrl } from '@/lib/media';
 import { useFocusTrap } from '@/lib/hooks/use-focus-trap';
 import { useScrollLock } from '@/lib/hooks/use-scroll-lock';
-import type { Dict } from '@/lib/i18n/dict';
 import type { GalleryItem } from '@/lib/validators';
 import { swipeDirection, wrapIndex } from './gallery-utils';
 
@@ -16,7 +15,6 @@ interface LightboxProps {
   index: number;
   onIndexChange: (index: number) => void;
   onClose: () => void;
-  t: Dict['gallery'];
 }
 
 const navButton =
@@ -27,7 +25,7 @@ const navButton =
  * (buttons, ← →, Home/End, swipe), focus trap + focus restore, scroll lock, counter and caption.
  * The previous and next photos are preloaded.
  */
-export default function Lightbox({ items, index, onIndexChange, onClose, t }: LightboxProps) {
+export default function Lightbox({ items, index, onIndexChange, onClose }: LightboxProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const startX = useRef<number | null>(null);
   const count = items.length;
@@ -81,7 +79,7 @@ export default function Lightbox({ items, index, onIndexChange, onClose, t }: Li
       ref={panelRef}
       role="dialog"
       aria-modal="true"
-      aria-label={t.viewer}
+      aria-label="Photo viewer"
       tabIndex={-1}
       className="fixed inset-0 z-[120] flex animate-fade-in flex-col bg-black/90"
     >
@@ -93,7 +91,7 @@ export default function Lightbox({ items, index, onIndexChange, onClose, t }: Li
           type="button"
           data-autofocus
           onClick={onClose}
-          aria-label={t.closeViewer}
+          aria-label="Close photo viewer"
           className="focus-ring flex size-11 items-center justify-center rounded-full bg-white/15 hover:bg-white/30"
         >
           <X className="size-6" aria-hidden="true" />
@@ -108,7 +106,7 @@ export default function Lightbox({ items, index, onIndexChange, onClose, t }: Li
         onClick={(e) => e.target === e.currentTarget && onClose()}
       >
         {count > 1 ? (
-          <button type="button" onClick={() => go(-1)} aria-label={t.previous} className={`${navButton} left-2 sm:left-5`}>
+          <button type="button" onClick={() => go(-1)} aria-label="Previous photo" className={`${navButton} left-2 sm:left-5`}>
             <ChevronLeft className="size-6" aria-hidden="true" />
           </button>
         ) : null}
@@ -126,7 +124,7 @@ export default function Lightbox({ items, index, onIndexChange, onClose, t }: Li
         </div>
 
         {count > 1 ? (
-          <button type="button" onClick={() => go(1)} aria-label={t.next} className={`${navButton} right-2 sm:right-5`}>
+          <button type="button" onClick={() => go(1)} aria-label="Next photo" className={`${navButton} right-2 sm:right-5`}>
             <ChevronRight className="size-6" aria-hidden="true" />
           </button>
         ) : null}

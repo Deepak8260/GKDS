@@ -1,7 +1,5 @@
 import Image from 'next/image';
-import { LocLink as Link } from '@/components/i18n/loc-link';
-import { tFor } from '@/lib/i18n';
-import type { Locale } from '@/lib/i18n/locales';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 interface LogoProps {
@@ -13,14 +11,12 @@ interface LogoProps {
   variant?: 'light' | 'dark';
   /** Load immediately (header). Default: lazy (footer). */
   eager?: boolean;
-  locale?: Locale;
   className?: string;
 }
 
 /** Emblem + vertical divider + two-line brand text. Links to the home page. */
-export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', variant = 'light', eager = false, locale = 'en', className }: LogoProps) {
+export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', variant = 'light', eager = false, className }: LogoProps) {
   const dark = variant === 'dark';
-  const t = tFor(locale).site;
   return (
     // Accessible name = the visible text ("Gopal Krushna Driving Training School") + a hidden "home" hint,
     // so the label always contains the visible words (WCAG 2.5.3).
@@ -39,7 +35,7 @@ export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', v
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            'logo-name font-display text-[22px] font-bold italic md:text-[28px]',
+            'font-display text-[22px] font-bold italic md:text-[28px]',
             dark ? 'text-white' : 'text-green-900',
           )}
         >
@@ -47,13 +43,13 @@ export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', v
         </span>{' '}
         <span
           className={cn(
-            'logo-sub mt-1 font-display text-xs font-semibold italic md:text-[15px]',
+            'mt-1 font-display text-xs font-semibold italic md:text-[15px]',
             dark ? 'text-orange-100' : 'text-orange-600',
           )}
         >
-          {t.brandSub}
+          Driving Training School
         </span>
-        <span className="sr-only">{t.homeHint}</span>
+        <span className="sr-only"> – Home page</span>
       </span>
     </Link>
   );
