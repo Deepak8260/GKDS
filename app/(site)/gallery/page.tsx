@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/layout/page-hero';
+import { DrivingVideos } from '@/components/sections/gallery/driving-videos';
 import { GalleryClient } from '@/components/sections/gallery/gallery-client';
 import { Container } from '@/components/ui/container';
 import { getGallery, getPublishedGallery, getSite } from '@/lib/content';
@@ -20,6 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function GalleryPage() {
   const [doc, items] = await Promise.all([getGallery(), getPublishedGallery()]);
+  const videos = (doc.videos ?? []).filter((v) => v.published);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -59,6 +61,8 @@ export default async function GalleryPage() {
           />
         </Container>
       </section>
+
+      <DrivingVideos title={doc.videosTitle || 'Driving Videos'} subtitle={doc.videosSubtitle} videos={videos} />
     </>
   );
 }

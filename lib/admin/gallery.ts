@@ -1,5 +1,5 @@
 import { newId } from '@/lib/utils';
-import type { GalleryCategory, GalleryItem } from '@/lib/validators';
+import type { GalleryCategory, GalleryItem, GalleryVideo } from '@/lib/validators';
 import { slugify, uniqueSlug } from './courses';
 
 /** Numbers photos 1..n in list order. */
@@ -80,4 +80,9 @@ export const MAX_CATEGORIES = 12;
 /** A new category from its label: unique slug id, a default icon. */
 export function newCategory(label: string, existing: Pick<GalleryCategory, 'id'>[]): GalleryCategory {
   return { id: uniqueSlug(slugify(label) || 'category', existing.map((c) => c.id)), label, icon: 'camera' };
+}
+
+/** A new, empty driving-video entry (the admin fills in the link and title). */
+export function newVideo(): GalleryVideo {
+  return { id: newId(), url: '', title: '', published: true };
 }

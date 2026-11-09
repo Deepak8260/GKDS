@@ -123,6 +123,26 @@ export function HomeEditor() {
 
       <Section
         accordion
+        title="3b. Message from the owner"
+        summary="Welcome video from the owner with a short text (shown once a YouTube link is added)"
+        paths={['ownerMessage']}
+      >
+        <Note>
+          Upload the video to YouTube (it can be &ldquo;Unlisted&rdquo;), then paste its link below. Until a link is added this section is hidden on the website.
+        </Note>
+        <Text path="ownerMessage.videoUrl" label="YouTube video link" maxLength={300} placeholder="https://www.youtube.com/watch?v=…" />
+        <Text path="ownerMessage.videoTitle" label="Video title (read by screen readers)" maxLength={120} />
+        <Text path="ownerMessage.eyebrow" label="Small line above the title" required maxLength={40} />
+        <Text path="ownerMessage.title" label="Title" required maxLength={120} />
+        <Area path="ownerMessage.body" label="Text next to the video" required rows={5} maxLength={800} />
+        <div className="grid gap-5 sm:grid-cols-2">
+          <Text path="ownerMessage.ownerName" label="Owner's name (optional)" maxLength={80} />
+          <Text path="ownerMessage.ownerRole" label="Role (optional)" maxLength={80} />
+        </div>
+      </Section>
+
+      <Section
+        accordion
         title="4. Why choose us"
         summary="Reasons to pick the school (3 to 6 items)"
         paths={['whyChoose']}

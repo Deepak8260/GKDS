@@ -11,8 +11,8 @@ describe('buildCsp', () => {
     expect(directive('default-src')).toBe("'self'");
   });
 
-  it('allows the Google Maps embed as a frame and nothing else as a frame', () => {
-    expect(directive('frame-src')).toBe('https://www.google.com');
+  it('allows only the Google Maps embed and privacy-friendly YouTube as frames', () => {
+    expect(directive('frame-src')).toBe('https://www.google.com https://www.youtube-nocookie.com');
   });
 
   it('allows Vercel analytics but no other third-party scripts', () => {
@@ -23,7 +23,7 @@ describe('buildCsp', () => {
   });
 
   it('allows own images plus data:/blob: (inline icons, image previews) and fonts only from the site', () => {
-    expect(directive('img-src')).toBe("'self' data: blob:");
+    expect(directive('img-src')).toBe("'self' data: blob: https://i.ytimg.com");
     expect(directive('font-src')).toBe("'self'");
   });
 

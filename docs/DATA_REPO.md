@@ -92,3 +92,7 @@ The repo is private, so images are served through the site at `/api/media/media/
 ## Backups
 
 `git clone --mirror https://github.com/<you>/gkds.git` backs up code **and** the `data` branch. Every admin save is a commit, so older versions of any content file can be restored from GitHub history or from the **History** button in each admin editor. **Dashboard → Download backup** gives a ZIP of all page text and settings.
+
+## Videos
+
+Videos are not stored in the repository. Upload them to YouTube ("Unlisted" is fine) and paste the link in the admin: **Home Page → Message from the owner** (the welcome video) and **Gallery → Driving videos** (up to 30). The sections stay hidden until a link is added. Visitors see a thumbnail and press play; nothing from YouTube loads before that, and the player uses youtube-nocookie.com.

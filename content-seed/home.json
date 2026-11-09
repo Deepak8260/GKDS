@@ -54,6 +54,15 @@
       }
     ]
   },
+  "ownerMessage": {
+    "eyebrow": "A Message From The Owner",
+    "title": "A warm welcome to Gopal Krushna Driving Training School",
+    "body": "Watch our owner welcome you and explain how the school works: our trainers, our cars, the way we teach and what you can expect from your first day to your licence.",
+    "videoUrl": "",
+    "videoTitle": "Welcome message from the owner",
+    "ownerName": "",
+    "ownerRole": "Owner, Gopal Krushna Driving Training School"
+  },
   "whyChoose": {
     "eyebrow": "WHY CHOOSE US",
     "lead": "Learn Driving",

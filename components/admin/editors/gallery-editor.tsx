@@ -5,7 +5,7 @@ import { ArrowDown, ArrowUp, CircleAlert, GripVertical, ImagePlus, LoaderCircle,
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { SafeImage as Image } from '@/components/ui/safe-image';
-import { filterItems, filtersActive, galleryStats, categoryCounts, categoryDeleteBlock, MAX_CATEGORIES, moveBefore, newCategory, newPhoto, NO_FILTERS, renumberItems, type GalleryFilters } from '@/lib/admin/gallery';
+import { filterItems, filtersActive, galleryStats, categoryCounts, categoryDeleteBlock, MAX_CATEGORIES, moveBefore, newCategory, newPhoto, newVideo, NO_FILTERS, renumberItems, type GalleryFilters } from '@/lib/admin/gallery';
 import { formatBytes, processImage, rejectReason } from '@/lib/image-client';
 import { mediaUrl } from '@/lib/media';
 import { cn } from '@/lib/utils';
@@ -13,7 +13,7 @@ import type { GalleryCategory, GalleryItem } from '@/lib/validators';
 import { useConfirm } from '../confirm';
 import { Drawer } from '../drawer';
 import { TextField } from '../fields';
-import { Area, Choice, ContentEditor, Icons, Img, Section, Switch, Text, useEditor } from '../editor';
+import { Area, Choice, ContentEditor, Icons, Img, List, Section, Switch, Text, useEditor } from '../editor';
 import { uploadImage } from '../media-client';
 import { useUploadQueue, type UploadItem } from '../use-upload-queue';
 
@@ -631,6 +631,27 @@ function GalleryBody({ catOpen, closeCategories }: { catOpen: boolean; closeCate
             <Text path="titleLead" label="Heading (first word)" required maxLength={40} />
             <Text path="titleHighlight" label="Heading (highlighted word)" maxLength={40} />
           </div>
+        </Section>
+      </div>
+
+      <div className="mt-4">
+        <Section accordion title="Driving videos" summary="YouTube videos shown below the photos on the gallery page" paths={['videos', 'videosTitle', 'videosSubtitle']}>
+          <p className="rounded-lg bg-green-50 px-3 py-2 text-sm text-green-900">
+            Upload each video to YouTube (it can be &ldquo;Unlisted&rdquo;), then paste its link here. Visitors press play on the website; nothing loads from YouTube until they do.
+          </p>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Text path="videosTitle" label="Section heading" maxLength={60} />
+            <Text path="videosSubtitle" label="Line under the heading" maxLength={200} />
+          </div>
+          <List path="videos" noun="video" max={30} createItem={newVideo} itemLabel={(v) => (v as { title?: string }).title || 'New video'}>
+            {(base) => (
+              <>
+                <Text path={`${base}.url`} label="YouTube video link" required maxLength={300} placeholder="https://www.youtube.com/watch?v=…" />
+                <Text path={`${base}.title`} label="Video title" required maxLength={120} />
+                <Switch path={`${base}.published`} label="Show on the website" />
+              </>
+            )}
+          </List>
         </Section>
       </div>
 

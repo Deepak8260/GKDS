@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { feature, mediaPath, required, statItem, text } from './common';
+import { feature, mediaPath, optionalYoutubeUrl, required, statItem, text } from './common';
 
 export const homeSchema = z.object({
   hero: z.object({
@@ -21,6 +21,18 @@ export const homeSchema = z.object({
     imageAlt: text(200),
     stats: z.array(statItem).min(1).max(4),
   }),
+  /** Optional so content saved before this section existed stays valid. Hidden on the site until a video link is set. */
+  ownerMessage: z
+    .object({
+      eyebrow: required(40),
+      title: required(120),
+      body: required(800),
+      videoUrl: optionalYoutubeUrl,
+      videoTitle: text(120),
+      ownerName: text(80),
+      ownerRole: text(80),
+    })
+    .optional(),
   whyChoose: z.object({
     eyebrow: required(40),
     lead: required(60),

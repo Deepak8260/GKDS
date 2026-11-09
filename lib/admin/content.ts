@@ -21,6 +21,16 @@ export interface AdminContent {
   warning?: string;
 }
 
+/** Sections added after a file was first saved are missing from it: show their default text in the editor. */
+function withNewSections<T>(name: ContentName, data: T): T {
+  const seed = getSeed(name) as Record<string, unknown>;
+  const doc = { ...(data as Record<string, unknown>) };
+  for (const key of ['ownerMessage', 'videos', 'videosTitle', 'videosSubtitle']) {
+    if (doc[key] === undefined && seed[key] !== undefined) doc[key] = seed[key];
+  }
+  return doc as T;
+}
+
 /** Load a content document for editing: GitHub (fresh), falling back to the bundled seed. */
 export async function readAdminContent(name: ContentName): Promise<AdminContent> {
   if (!getGithubConfig()) return { data: getSeed(name), sha: null, updatedAt: null };
@@ -38,7 +48,7 @@ export async function readAdminContent(name: ContentName): Promise<AdminContent>
 
   try {
     const parsed = contentSchemas[name].safeParse(JSON.parse(file.text));
-    if (parsed.success) return { data: parsed.data, sha: file.sha, updatedAt };
+    if (parsed.success) return { data: withNewSections(name, parsed.data), sha: file.sha, updatedAt };
   } catch {
     /* fall through to the warning below */
   }

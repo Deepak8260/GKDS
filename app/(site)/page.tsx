@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { AboutTeaser } from '@/components/sections/home/about-teaser';
 import { ContactTeaser } from '@/components/sections/home/contact-teaser';
 import { CoursesTeaser } from '@/components/sections/home/courses-teaser';
+import { OwnerMessage } from '@/components/sections/home/owner-message';
 import { Hero } from '@/components/sections/home/hero';
 import { Journey } from '@/components/sections/home/journey';
 import { ReviewsTeaser } from '@/components/sections/home/reviews-teaser';
@@ -40,6 +41,7 @@ export default async function HomePage() {
       <Hero hero={home.hero} phone={site.phones[0]} />
       <TrustBar items={home.trustBar} />
       <AboutTeaser about={home.aboutTeaser} />
+      <OwnerMessage message={home.ownerMessage} />
       <WhyChoose why={home.whyChoose} />
       <CoursesTeaser intro={home.coursesIntro} courses={courses} />
       <Journey journey={home.journey} />

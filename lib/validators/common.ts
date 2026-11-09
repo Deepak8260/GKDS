@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { youtubeId } from '../video';
 
 /** Trimmed string with a max length (empty allowed). */
 export const text = (max = 200) => z.string().trim().max(max);
@@ -113,3 +114,17 @@ export function uniqueBy<T>(items: T[], key: (item: T) => string): boolean {
   }
   return true;
 }
+
+/** A YouTube link (watch, youtu.be, shorts or embed). */
+export const youtubeUrl = z
+  .string()
+  .trim()
+  .max(300)
+  .refine((v) => youtubeId(v) !== null, 'Paste a YouTube video link, e.g. https://www.youtube.com/watch?v=…');
+
+/** A YouTube link, or empty when no video is set yet. */
+export const optionalYoutubeUrl = z
+  .string()
+  .trim()
+  .max(300)
+  .refine((v) => v === '' || youtubeId(v) !== null, 'Paste a YouTube video link, e.g. https://www.youtube.com/watch?v=…');
