@@ -14,7 +14,7 @@ for (const base of ['/admin', '/malika'] as const) {
   test(`${base}: logs in with the access code and shows the dashboard`, async ({ page }) => {
     await login(page, base);
     await expect(page.getByRole('heading', { name: 'Dashboard', level: 1 })).toBeVisible();
-    await expect(page.getByText('Pending reviews')).toBeVisible();
+    await expect(page.getByText('Average rating')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'GitHub connection' })).toBeVisible();
   });
 

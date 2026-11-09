@@ -18,8 +18,6 @@ export interface AdminNavItem {
   label: string;
   title: string;
   icon: LucideIcon;
-  /** Show the pending-reviews badge. */
-  badge?: 'pending';
 }
 
 export const ADMIN_NAV: AdminNavItem[] = [
@@ -30,7 +28,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { path: '/courses', label: 'Courses', title: 'Courses', icon: Car },
   { path: '/gallery', label: 'Gallery', title: 'Gallery', icon: Images },
   { path: '/media', label: 'Media Library', title: 'Media Library', icon: FolderOpen },
-  { path: '/reviews', label: 'Reviews', title: 'Reviews', icon: Star, badge: 'pending' },
+  { path: '/reviews', label: 'Reviews', title: 'Reviews', icon: Star },
   { path: '/security', label: 'Security', title: 'Security', icon: ShieldCheck },
   { path: '/help', label: 'Help', title: 'Help', icon: CircleHelp },
 ];

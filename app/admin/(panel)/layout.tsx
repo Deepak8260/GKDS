@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { redirect } from 'next/navigation';
 import { AdminShell } from '@/components/admin/admin-shell';
 import { getAdminBase, isAdmin } from '@/lib/auth/guard';
-import { getPendingCount } from '@/lib/admin/stats';
 import { getSite } from '@/lib/content';
 import { mediaUrl } from '@/lib/media';
 
@@ -11,9 +10,9 @@ export default async function PanelLayout({ children }: { children: ReactNode })
   const base = await getAdminBase();
   if (!(await isAdmin())) redirect(`${base}/login`);
 
-  const [site, pending] = await Promise.all([getSite(), getPendingCount()]);
+  const site = await getSite();
   return (
-    <AdminShell pending={pending} logo={mediaUrl(site.logo)}>
+    <AdminShell logo={mediaUrl(site.logo)}>
       {children}
     </AdminShell>
   );

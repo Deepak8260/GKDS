@@ -321,7 +321,7 @@ function PhotoTile({
         setDragFrom(null);
         setDragOver(null);
       }}
-      className={cn('overflow-hidden rounded-2xl border bg-white shadow-card', dragOver === item.id && dragFrom !== item.id ? 'border-orange-500' : 'border-line', !item.published && 'opacity-70')}
+      className={cn('overflow-hidden rounded-2xl border bg-white shadow-card', dragOver === item.id && dragFrom !== item.id ? 'border-orange-500' : 'border-line', !item.published && 'border-dashed')}
     >
       <div className="relative aspect-[4/3] bg-green-50">
         <Image src={mediaUrl(item.src)} alt="" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" unoptimized />

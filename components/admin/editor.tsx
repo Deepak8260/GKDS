@@ -15,6 +15,7 @@ import { Modal } from '@/components/ui/modal';
 import { useToast } from '@/components/ui/toast';
 import { formatRelative } from '@/lib/date';
 import { getAt, prettyPath, setAt } from '@/lib/admin/path';
+import { dateInputValue, isoFromDateInput } from '@/lib/admin/reviews';
 import { DEFAULTS } from '@/lib/admin/seeds';
 import type { ImageKind } from '@/lib/image-client';
 import type { UploadFolder } from '@/lib/media-upload';
@@ -34,7 +35,7 @@ import { ImageField } from './image-field';
 import { RepeaterField } from './repeater';
 import { useAdminResource } from './use-admin-resource';
 
-type EditableName = 'site' | 'home' | 'about' | 'courses' | 'gallery';
+type EditableName = 'site' | 'home' | 'about' | 'courses' | 'gallery' | 'reviews';
 
 interface EditorApi {
   name: EditableName;
@@ -754,6 +755,31 @@ export function Choice({
               </option>
             ))}
           </select>
+        )}
+      </FieldShell>
+    </Wrap>
+  );
+}
+
+/** Calendar date input. Stores an ISO date-time at noon UTC so the day never shifts with the time zone. */
+export function Day({ path, label, hint, className }: Omit<Common, 'required'>) {
+  const ed = useEditor();
+  return (
+    <Wrap path={path} className={className}>
+      <FieldShell label={label} hint={hint} error={ed.err(path)}>
+        {({ id, describedBy, invalid }) => (
+          <input
+            id={id}
+            type="date"
+            value={dateInputValue(str(ed.get(path)))}
+            onChange={(e) => {
+              const iso = isoFromDateInput(e.target.value);
+              if (iso) ed.set(path, iso);
+            }}
+            aria-invalid={invalid || undefined}
+            aria-describedby={describedBy}
+            className={`focus-ring block h-12 w-full rounded-lg border bg-white px-3.5 text-base text-ink ${invalid ? 'border-red-600' : 'border-line'}`}
+          />
         )}
       </FieldShell>
     </Wrap>

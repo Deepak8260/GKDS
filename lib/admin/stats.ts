@@ -1,6 +1,7 @@
 import 'server-only';
 import { getCourses, getGallery, getReviews } from '@/lib/content';
-import { getGithubConfig, listDir } from '@/lib/github';
+import { computeReviewStats } from '@/lib/content/stats';
+import { getGithubConfig } from '@/lib/github';
 import { getCommits } from '@/lib/github-write';
 
 export interface AdminCounts {
@@ -9,23 +10,15 @@ export interface AdminCounts {
   photos: number;
   photosPublished: number;
   reviewsPublished: number;
-  pending: number;
+  reviewsHidden: number;
+  /** Average of the published reviews, or null when there are none. */
+  rating: number | null;
   lastUpdate: string | null;
 }
 
-/** Number of pending review submissions (files in submissions/reviews/). 0 if GitHub is not connected. */
-export async function getPendingCount(): Promise<number> {
-  if (!getGithubConfig()) return 0;
-  try {
-    const files = await listDir('submissions/reviews', { revalidate: 0 });
-    return files.filter((f) => f.type === 'file' && f.name.endsWith('.json')).length;
-  } catch {
-    return 0;
-  }
-}
-
 export async function getAdminCounts(): Promise<AdminCounts> {
-  const [courses, gallery, reviews, pending] = await Promise.all([getCourses(), getGallery(), getReviews(), getPendingCount()]);
+  const [courses, gallery, reviews] = await Promise.all([getCourses(), getGallery(), getReviews()]);
+  const reviewStats = computeReviewStats(reviews.items);
 
   let lastUpdate: string | null = null;
   if (getGithubConfig()) {
@@ -41,8 +34,9 @@ export async function getAdminCounts(): Promise<AdminCounts> {
     coursesPublished: courses.courses.filter((c) => c.published).length,
     photos: gallery.items.length,
     photosPublished: gallery.items.filter((p) => p.published).length,
-    reviewsPublished: reviews.items.filter((r) => r.published).length,
-    pending,
+    reviewsPublished: reviewStats.count,
+    reviewsHidden: reviews.items.length - reviewStats.count,
+    rating: reviewStats.rating,
     lastUpdate,
   };
 }

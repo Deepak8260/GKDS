@@ -85,7 +85,7 @@ function CourseTile({
       className={cn(
         'rounded-2xl border bg-white p-4 shadow-card transition-opacity',
         dragOver === index && dragFrom !== index ? 'border-orange-500' : 'border-line',
-        !course.published && 'opacity-70',
+        !course.published && 'border-dashed',
       )}
     >
       <div className="flex gap-4">

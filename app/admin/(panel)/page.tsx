@@ -16,7 +16,7 @@ export default async function DashboardPage() {
     { label: 'Courses', value: counts.courses, note: `${counts.coursesPublished} published`, href: '/courses' },
     { label: 'Gallery photos', value: counts.photos, note: `${counts.photosPublished} published`, href: '/gallery' },
     { label: 'Published reviews', value: counts.reviewsPublished, note: 'visible on the website', href: '/reviews' },
-    { label: 'Pending reviews', value: counts.pending, note: counts.pending ? 'waiting for your approval' : 'nothing waiting', href: '/reviews', highlight: counts.pending > 0 },
+    { label: 'Average rating', value: counts.rating !== null ? counts.rating.toFixed(1) : '–', note: counts.reviewsHidden ? `${counts.reviewsHidden} hidden review${counts.reviewsHidden === 1 ? '' : 's'}` : 'from published reviews', href: '/reviews', highlight: false },
   ];
 
   return (

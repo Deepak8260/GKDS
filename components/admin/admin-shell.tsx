@@ -16,7 +16,6 @@ import { ADMIN_NAV } from './nav';
 
 interface AdminShellProps {
   children: ReactNode;
-  pending: number;
   logo: string;
 }
 
@@ -30,7 +29,7 @@ export function AdminShell(props: AdminShellProps) {
   );
 }
 
-function Shell({ children, pending, logo }: AdminShellProps) {
+function Shell({ children, logo }: AdminShellProps) {
   const base = useAdminBase();
   const pathname = usePathname() ?? base;
   const router = useRouter();
@@ -117,11 +116,6 @@ function Shell({ children, pending, logo }: AdminShellProps) {
                 {active ? <span aria-hidden="true" className="absolute inset-y-1.5 left-0 w-1 rounded-r bg-orange-500" /> : null}
                 <Icon className="size-5 shrink-0" aria-hidden="true" />
                 <span className="flex-1">{item.label}</span>
-                {item.badge === 'pending' && pending > 0 ? (
-                  <span className="rounded-full bg-orange-600 px-2 py-0.5 text-xs font-bold text-white" aria-label={`${pending} pending`}>
-                    {pending}
-                  </span>
-                ) : null}
               </Link>
             </li>
           );
