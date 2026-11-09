@@ -236,7 +236,7 @@ function CourseDrawerBody({ index, isNew }: { index: number; isNew: boolean }) {
       </div>
       <Area path={`${base}.description`} label="Short description" required rows={3} maxLength={220} />
       <Text path={`${base}.vehicle`} label="Vehicle name" required maxLength={60} placeholder="WagonR" />
-      <Img path={`${base}.image`} altPath={`${base}.imageAlt`} label="Course image" hint="Landscape photo, at least 800 px wide, showing the whole car." />
+      <Img path={`${base}.image`} altPath={`${base}.imageAlt`} label="Course image" kind="courses" folder="courses" required hint="Landscape photo, at least 800 px wide, showing the whole car." />
       <div>
         <p className="mb-2 text-sm font-medium text-ink">Features (the green tick points, 1 to 6)</p>
         <List path={`${base}.features`} noun="feature" min={1} max={6} createItem={() => ''} itemLabel={(v, i) => String(v || `Feature ${i + 1}`)}>

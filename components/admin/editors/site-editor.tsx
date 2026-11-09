@@ -197,10 +197,12 @@ export function SiteEditor() {
           hint="Example: Govt. of Odisha Regd. No. 10/13. The badge splits it at the word Regd. into two lines."
         />
         <BadgePreview />
-        <Img path="logo" label="Logo" hint="Square, at least 400 × 400 px." />
-        <Img path="favicon" label="Favicon (browser tab icon)" />
+        <Img path="logo" kind="logo" folder="branding" label="Logo" hint="Square, at least 400 × 400 px." />
+        <Img path="favicon" kind="logo" folder="branding" label="Favicon (browser tab icon)" />
         <Img
           path="ogImage"
+          kind="og"
+          folder="branding"
           label="Social share image"
           hint="Shown when the site is shared on WhatsApp or Facebook. 1200 × 630 px works best."
         />

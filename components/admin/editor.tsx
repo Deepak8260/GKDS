@@ -16,6 +16,8 @@ import { useToast } from '@/components/ui/toast';
 import { formatRelative } from '@/lib/date';
 import { getAt, prettyPath, setAt } from '@/lib/admin/path';
 import { DEFAULTS } from '@/lib/admin/seeds';
+import type { ImageKind } from '@/lib/image-client';
+import type { UploadFolder } from '@/lib/media-upload';
 import { parseContent } from '@/lib/validators';
 import {
   AdminLoading,
@@ -32,7 +34,7 @@ import { ImageField } from './image-field';
 import { RepeaterField } from './repeater';
 import { useAdminResource } from './use-admin-resource';
 
-type EditableName = 'site' | 'home' | 'about' | 'courses';
+type EditableName = 'site' | 'home' | 'about' | 'courses' | 'gallery';
 
 interface EditorApi {
   name: EditableName;
@@ -40,6 +42,8 @@ interface EditorApi {
   /** Value at `path` in the last saved version (to detect what changed, e.g. a course slug). */
   getSaved: (path: string) => unknown;
   set: (path: string, value: unknown) => void;
+  /** Change the value at `path` based on its latest value (safe when several updates arrive back to back). */
+  update: (path: string, fn: (current: unknown) => unknown) => void;
   err: (path: string) => string | undefined;
   errors: Record<string, string>;
   /** Replace the listed paths (or a whole section) with the bundled defaults. */
@@ -105,6 +109,13 @@ export function ContentEditor({
     [r.setDraft],
   );
 
+  const update = useCallback(
+    (path: string, fn: (current: unknown) => unknown) =>
+      r.setDraft((d) => (d ? (setAt(d, path, fn(getAt(d, path))) as typeof d) : d)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [r.setDraft],
+  );
+
   const resetPaths = useCallback(
     async (paths: string[]) => {
       const ok = await confirm({
@@ -125,8 +136,8 @@ export function ContentEditor({
   );
 
   const api = useMemo<EditorApi>(
-    () => ({ name, get: (p) => getAt(r.draft, p), getSaved: (p) => getAt(r.saved, p), set, err: (p) => errors[p], errors, resetPaths }),
-    [name, r.draft, r.saved, set, errors, resetPaths],
+    () => ({ name, get: (p) => getAt(r.draft, p), getSaved: (p) => getAt(r.saved, p), set, update, err: (p) => errors[p], errors, resetPaths }),
+    [name, r.draft, r.saved, set, update, errors, resetPaths],
   );
 
   async function onSave() {
@@ -511,17 +522,28 @@ export function Img({
   altPath,
   label,
   hint,
+  kind,
+  folder,
+  required,
 }: {
   path: string;
   altPath?: string;
   label: string;
   hint?: ReactNode;
+  /** Compression preset (default: page photo). */
+  kind?: ImageKind;
+  /** Library folder for new uploads (default: pages). */
+  folder?: UploadFolder;
+  required?: boolean;
 }) {
   const ed = useEditor();
   return (
     <Wrap path={path}>
       <ImageField
         label={label}
+        kind={kind}
+        folder={folder}
+        required={required}
         value={str(ed.get(path))}
         onChange={(v) => ed.set(path, v)}
         alt={altPath ? str(ed.get(altPath)) : undefined}
