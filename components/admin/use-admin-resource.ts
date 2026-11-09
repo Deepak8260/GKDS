@@ -75,38 +75,56 @@ export function useAdminResource<K extends ContentName>(name: K) {
     adminFetch<LoadResponse>(`/api/admin/content/${name}`).then(onLoaded);
   }, [name, onLoaded]);
 
-  const dirty = useMemo(() => draft !== null && JSON.stringify(draft) !== JSON.stringify(saved), [draft, saved]);
+  const dirty = useMemo(
+    () => draft !== null && JSON.stringify(draft) !== JSON.stringify(saved),
+    [draft, saved],
+  );
   useDirtyGuard(dirty);
 
-  const save = useCallback(async (): Promise<boolean> => {
-    if (!draft) return false;
-    setSaving(true);
-    setErrors({});
-    const res = await adminFetch<{ sha: string; updatedAt: string; data: unknown; current?: Conflict }>(`/api/admin/content/${name}`, {
-      method: 'PUT',
-      body: { data: draft, sha },
-    });
-    setSaving(false);
-    if (res.ok) {
-      const d = res.data as { sha: string; updatedAt: string; data: unknown };
-      setSaved(d.data as ContentMap[K]);
-      setDraft(structuredClone(d.data) as ContentMap[K]);
-      setSha(d.sha);
-      setUpdatedAt(d.updatedAt);
-      setWarning('');
-      toast.success('Saved. The website will update within a few seconds.');
-      return true;
-    }
-    if (res.status === 422 && res.data.errors) {
-      setErrors(res.data.errors);
-      toast.error('Please fix the highlighted fields.');
-    } else if (res.status === 409 && res.data.conflict) {
-      setConflict((res.data as { current?: Conflict }).current ?? { data: null, sha: null });
-    } else {
-      toast.error(res.data.message || 'Could not save. Please try again.');
-    }
-    return false;
-  }, [draft, name, sha, toast]);
+  const save = useCallback(
+    async (override?: ContentMap[K]): Promise<boolean> => {
+      const payload = override ?? draft;
+      if (!payload) return false;
+      setSaving(true);
+      setErrors({});
+      const res = await adminFetch<{
+        sha: string;
+        updatedAt: string;
+        data: unknown;
+        current?: Conflict;
+      }>(`/api/admin/content/${name}`, {
+        method: 'PUT',
+        body: { data: payload, sha },
+      });
+      setSaving(false);
+      if (res.ok) {
+        const d = res.data as { sha: string; updatedAt: string; data: unknown };
+        setSaved(d.data as ContentMap[K]);
+        setDraft(structuredClone(d.data) as ContentMap[K]);
+        setSha(d.sha);
+        setUpdatedAt(d.updatedAt);
+        setWarning('');
+        toast.success('Saved. The website will update within a few seconds.');
+        return true;
+      }
+      if (res.status === 422 && res.data.errors) {
+        setErrors(res.data.errors);
+        toast.error('Please fix the highlighted fields.');
+      } else if (res.status === 409 && res.data.conflict) {
+        setConflict((res.data as { current?: Conflict }).current ?? { data: null, sha: null });
+      } else {
+        toast.error(res.data.message || 'Could not save. Please try again.');
+      }
+      return false;
+    },
+    [draft, name, sha, toast],
+  );
+
+  /** After a conflict: keep my draft but base the next save on the newer version (so it overwrites on purpose). */
+  const keepEditing = useCallback(() => {
+    if (conflict) setSha(conflict.sha);
+    setConflict(null);
+  }, [conflict]);
 
   const discard = useCallback(() => {
     setDraft(saved ? (structuredClone(saved) as ContentMap[K]) : null);
@@ -122,5 +140,25 @@ export function useAdminResource<K extends ContentName>(name: K) {
   /** Error message for a dotted field path (e.g. "hero.title"). */
   const errorFor = useCallback((path: string) => errors[path], [errors]);
 
-  return { loading, loadError, draft, setDraft, saved, sha, updatedAt, warning, saving, errors, errorFor, dirty, save, discard, reload, conflict, reloadLatest };
+  return {
+    loading,
+    loadError,
+    draft,
+    setDraft,
+    saved,
+    sha,
+    updatedAt,
+    warning,
+    saving,
+    errors,
+    errorFor,
+    dirty,
+    save,
+    discard,
+    reload,
+    conflict,
+    reloadLatest,
+    keepEditing,
+    setErrors,
+  };
 }
