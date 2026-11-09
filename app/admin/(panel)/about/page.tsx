@@ -1,13 +1,8 @@
 import type { Metadata } from 'next';
-import { AdminPageHeader, EmptyState } from '@/components/admin/blocks';
+import { AboutEditor } from '@/components/admin/editors/about-editor';
 
 export const metadata: Metadata = { title: 'About Page' };
 
 export default function Page() {
-  return (
-    <>
-      <AdminPageHeader title="About Page" />
-      <EmptyState title="Coming soon" description="Edit the About page (built in the next prompt)." />
-    </>
-  );
+  return <AboutEditor />;
 }
