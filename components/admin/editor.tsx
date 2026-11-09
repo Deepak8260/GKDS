@@ -32,11 +32,13 @@ import { ImageField } from './image-field';
 import { RepeaterField } from './repeater';
 import { useAdminResource } from './use-admin-resource';
 
-type EditableName = 'site' | 'home' | 'about';
+type EditableName = 'site' | 'home' | 'about' | 'courses';
 
 interface EditorApi {
   name: EditableName;
   get: (path: string) => unknown;
+  /** Value at `path` in the last saved version (to detect what changed, e.g. a course slug). */
+  getSaved: (path: string) => unknown;
   set: (path: string, value: unknown) => void;
   err: (path: string) => string | undefined;
   errors: Record<string, string>;
@@ -66,6 +68,8 @@ interface ContentEditorProps {
   description: string;
   /** Public page opened by "Preview page". */
   previewPath: string;
+  /** Extra buttons in the page header (e.g. "Add course"). */
+  headerActions?: ReactNode;
   children: ReactNode;
 }
 
@@ -78,6 +82,7 @@ export function ContentEditor({
   title,
   description,
   previewPath,
+  headerActions,
   children,
 }: ContentEditorProps) {
   const toast = useToast();
@@ -120,8 +125,8 @@ export function ContentEditor({
   );
 
   const api = useMemo<EditorApi>(
-    () => ({ name, get: (p) => getAt(r.draft, p), set, err: (p) => errors[p], errors, resetPaths }),
-    [name, r.draft, set, errors, resetPaths],
+    () => ({ name, get: (p) => getAt(r.draft, p), getSaved: (p) => getAt(r.saved, p), set, err: (p) => errors[p], errors, resetPaths }),
+    [name, r.draft, r.saved, set, errors, resetPaths],
   );
 
   async function onSave() {
@@ -175,6 +180,7 @@ export function ContentEditor({
         description={description}
         actions={
           <>
+            {headerActions}
             <Button
               variant="secondary"
               size="sm"
@@ -335,7 +341,16 @@ export function Section({ title, description, paths, accordion, summary, childre
         <Accordion
           key={String(hasError)}
           title={title}
-          summary={summary ?? description}
+          summary={
+            <>
+              <span
+                aria-hidden="true"
+                className={`mr-1.5 inline-block size-2 rounded-full align-middle ${hasError ? 'bg-red-600' : 'bg-green-600'}`}
+              />
+              <span className="sr-only">{hasError ? 'Has errors. ' : 'Valid. '}</span>
+              {summary ?? description}
+            </>
+          }
           defaultOpen={hasError}
         >
           {children}

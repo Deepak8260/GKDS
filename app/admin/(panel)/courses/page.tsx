@@ -1,13 +1,8 @@
 import type { Metadata } from 'next';
-import { AdminPageHeader, EmptyState } from '@/components/admin/blocks';
+import { CoursesEditor } from '@/components/admin/editors/courses-editor';
 
 export const metadata: Metadata = { title: 'Courses' };
 
 export default function Page() {
-  return (
-    <>
-      <AdminPageHeader title="Courses" />
-      <EmptyState title="Coming soon" description="Add, edit and reorder courses (built in a later prompt)." />
-    </>
-  );
+  return <CoursesEditor />;
 }
