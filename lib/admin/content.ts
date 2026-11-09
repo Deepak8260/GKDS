@@ -1,6 +1,6 @@
 import 'server-only';
 import { revalidateTag } from 'next/cache';
-import { getSeed } from '@/lib/content';
+import { getSeed, withNewSections } from '@/lib/content';
 import { getGithubConfig } from '@/lib/github';
 import { getCommits, getFile } from '@/lib/github-write';
 import { contentSchemas, isContentName, type ContentName } from '@/lib/validators';
@@ -19,16 +19,6 @@ export interface AdminContent {
   updatedAt: string | null;
   /** Set when the stored file exists but is invalid: the seed is shown so the admin can save a valid version over it. */
   warning?: string;
-}
-
-/** Sections added after a file was first saved are missing from it: show their default text in the editor. */
-function withNewSections<T>(name: ContentName, data: T): T {
-  const seed = getSeed(name) as Record<string, unknown>;
-  const doc = { ...(data as Record<string, unknown>) };
-  for (const key of ['ownerMessage', 'videos', 'videosTitle', 'videosSubtitle']) {
-    if (doc[key] === undefined && seed[key] !== undefined) doc[key] = seed[key];
-  }
-  return doc as T;
 }
 
 /** Load a content document for editing: GitHub (fresh), falling back to the bundled seed. */

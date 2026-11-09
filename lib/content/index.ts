@@ -31,6 +31,16 @@ export function getSeed<K extends ContentName>(name: K): ContentMap[K] {
   return contentSchemas[name].parse(seedFiles[name]) as ContentMap[K];
 }
 
+/** Content saved before a section existed has no entry for it: use the bundled default (e.g. the driving video) until it is saved. */
+export function withNewSections<T>(name: ContentName, data: T): T {
+  const seed = getSeed(name) as Record<string, unknown>;
+  const doc = { ...(data as Record<string, unknown>) };
+  for (const key of ['ownerMessage', 'videos', 'videosTitle', 'videosSubtitle']) {
+    if (doc[key] === undefined && seed[key] !== undefined) doc[key] = seed[key];
+  }
+  return doc as T;
+}
+
 /**
  * Load one content document:
  *   GitHub (data branch) → zod-validate → return; on ANY failure
@@ -43,7 +53,7 @@ export async function loadContent<K extends ContentName>(name: K): Promise<Conte
   try {
     const raw = await readJson(`content/${name}.json`, { tags: ['content', `content:${name}`] });
     const parsed = contentSchemas[name].safeParse(raw);
-    if (parsed.success) return parsed.data as ContentMap[K];
+    if (parsed.success) return withNewSections(name, parsed.data) as ContentMap[K];
     const first = parsed.error.issues[0];
     console.warn(
       `[content] ${name}.json failed validation (${first?.path.join('.') || 'root'}: ${first?.message}). Using seed content.`,
