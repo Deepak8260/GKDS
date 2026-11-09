@@ -35,7 +35,7 @@ export function Logo({ src = '/assets/brand/logo.svg', name = 'Gopal Krushna', v
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            'font-display text-[22px] font-bold italic md:text-[28px]',
+            'font-display text-[20px] font-bold italic md:text-[25px]',
             dark ? 'text-white' : 'text-green-900',
           )}
         >

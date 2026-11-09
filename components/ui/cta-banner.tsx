@@ -47,7 +47,7 @@ export function CTABanner({ lead, highlight, text, action, icon, iconDivider, cl
         </span>
         {iconDivider ? <span aria-hidden="true" className="hidden h-16 w-px shrink-0 bg-orange-500/40 lg:block" /> : null}
         <div className="min-w-0 flex-1">
-          <h2 className="font-display text-2xl font-bold italic leading-tight text-green-900 md:text-[26px]">
+          <h2 className="font-display text-2xl font-bold italic leading-tight text-green-900 md:text-[23px]">
             {lead}
             {highlight ? (
               <>

@@ -28,7 +28,7 @@ export function Story({ story }: { story: About['story'] }) {
           />
           <div className="mt-6 space-y-5">
             {story.paragraphs.map((p, i) => (
-              <p key={i} className="text-base leading-relaxed text-ink md:text-[15.5px] md:leading-[1.7]">
+              <p key={i} className="text-base leading-relaxed text-ink md:text-[14.5px] md:leading-[1.7]">
                 {p}
               </p>
             ))}

@@ -45,7 +45,7 @@ export function CoursesTeaser({ intro, courses }: CoursesTeaserProps) {
                   />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-xl font-bold text-green-900 md:text-[19px]">
+                  <h3 className="text-xl font-bold text-green-900 md:text-[17px]">
                     <Link
                       href={`/courses#${course.slug}`}
                       className="outline-none after:absolute after:inset-0 after:rounded-2xl after:content-['']"

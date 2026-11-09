@@ -14,7 +14,7 @@ export interface NavCourse {
 }
 
 const linkBase =
-  'focus-ring relative inline-flex items-center rounded-md py-2 text-[16px] font-medium transition-colors hover:text-orange-600';
+  'focus-ring relative inline-flex items-center rounded-md py-2 text-[15px] font-medium transition-colors hover:text-orange-600';
 const underline =
   'after:absolute after:inset-x-0 after:-bottom-[7px] after:h-[3px] after:rounded-full after:bg-orange-500 after:content-[""]';
 

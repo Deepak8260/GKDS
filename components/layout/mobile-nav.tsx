@@ -105,7 +105,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
                 {NAV_ITEMS.map((item) => {
                   const active = isActivePath(pathname, item.href);
                   const row = cn(
-                    'focus-ring flex min-h-12 flex-1 items-center rounded-xl px-4 text-[15.5px] font-semibold',
+                    'focus-ring flex min-h-12 flex-1 items-center rounded-xl px-4 text-[14.5px] font-semibold',
                     active ? 'bg-orange-50 text-orange-700' : 'text-green-900 hover:bg-green-50',
                   );
                   if (item.hasDropdown) {

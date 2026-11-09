@@ -72,7 +72,7 @@ export function StatBar({ items, overlap, large, flat, iconSize, className }: St
               <span
                 className={cn(
                   'block font-bold text-ink',
-                  large ? 'text-[26px] font-extrabold leading-none md:text-4xl' : 'text-[14px] lg:text-base',
+                  large ? 'text-[23px] font-extrabold leading-none md:text-4xl' : 'text-[14px] lg:text-base',
                 )}
               >
                 {item.title}

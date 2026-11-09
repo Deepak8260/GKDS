@@ -22,7 +22,7 @@ export function CheckList({ items, columns = 1, size = 'md', className }: CheckL
           >
             <Check className="size-3.5" strokeWidth={3} />
           </span>
-          <span className={cn('text-ink', size === 'lg' ? 'text-[15.5px]' : 'text-base')}>{item}</span>
+          <span className={cn('text-ink', size === 'lg' ? 'text-[14.5px]' : 'text-base')}>{item}</span>
         </li>
       ))}
     </ul>

@@ -32,6 +32,13 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Slightly smaller root size on laptops and desktops: calmer, more professional proportions */
+@media (min-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+}
+
 body {
   font-family: var(--font-body), system-ui, sans-serif;
   min-height: 100dvh;
