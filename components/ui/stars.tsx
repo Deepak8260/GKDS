@@ -8,12 +8,14 @@ interface StarsProps {
   value: number;
   size?: number;
   className?: string;
+  /** Accessible text in the page language, e.g. "4.5 out of 5 stars" (English by default). */
+  label?: string;
 }
 
 /** Orange star rating with half-star support and an accessible label. */
-export function Stars({ value, size = 18, className }: StarsProps) {
+export function Stars({ value, size = 18, className, label: labelOverride }: StarsProps) {
   const v = Math.max(0, Math.min(5, value));
-  const label = `${Number.isInteger(v) ? v : v.toFixed(1)} out of 5 stars`;
+  const label = labelOverride ?? `${Number.isInteger(v) ? v : v.toFixed(1)} out of 5 stars`;
   return (
     <span
       role="img"

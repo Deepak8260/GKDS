@@ -31,6 +31,10 @@ A fast, mostly static website for a driving school in Balasore (Baleswar), Odish
 * **Admin panel:** access-code login (hashed, lock-out after 5 wrong tries), editors for Site Settings, Home, About, Courses, Gallery, Reviews; Media Library; Dashboard with a launch checklist; History and restore for every page; ZIP backup and restore; Help page; Ctrl/⌘-K search.
 * **Images:** compressed to WebP in the browser before upload, stored with content-hash names, usage tracked so nothing in use can be deleted.
 
+## Languages
+
+English (default) and Odia (`/or/...`). A language button sits in the top bar and first-time visitors are asked once. See `docs/DATA_REPO.md` → *Odia language*.
+
 ## Local development
 
 ```bash

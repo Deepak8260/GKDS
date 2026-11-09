@@ -2,6 +2,7 @@ import { ReviewBubbleIcon } from '@/components/icons/custom-icons';
 import { Container } from '@/components/ui/container';
 import { CTABanner } from '@/components/ui/cta-banner';
 import { Reveal } from '@/components/ui/reveal';
+import type { Dict } from '@/lib/i18n/dict';
 import type { Reviews } from '@/lib/validators';
 import { LeaveReviewButton } from './leave-review-button';
 
@@ -9,10 +10,11 @@ interface ShareBannerProps {
   doc: Pick<Reviews, 'ctaTitleLead' | 'ctaTitleHighlight' | 'ctaText'>;
   schoolName: string;
   accepting: boolean;
+  t?: Pick<Dict, 'reviews' | 'reviewForm'>;
 }
 
 /** Light-green "Share Your Experience" banner with the Leave a Review button. */
-export function ShareBanner({ doc, schoolName, accepting }: ShareBannerProps) {
+export function ShareBanner({ doc, schoolName, accepting, t }: ShareBannerProps) {
   return (
     <Reveal as="section" className="py-8 md:py-10">
       <Container>
@@ -22,7 +24,7 @@ export function ShareBanner({ doc, schoolName, accepting }: ShareBannerProps) {
           text={doc.ctaText}
           icon={<ReviewBubbleIcon size={72} strokeWidth={1.4} className="text-orange-500" />}
           iconDivider
-          action={<LeaveReviewButton schoolName={schoolName} accepting={accepting} />}
+          action={<LeaveReviewButton schoolName={schoolName} accepting={accepting} t={t} />}
         />
       </Container>
     </Reveal>

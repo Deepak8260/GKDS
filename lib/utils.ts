@@ -20,7 +20,9 @@ export function whatsappHref(number: string, message?: string) {
 
 /** "Govt. of Odisha Regd. No. 10/13" -> ["Govt. of Odisha", "Regd. No. 10/13"] */
 export function splitRegNo(regNo: string): [string, string] {
-  const i = regNo.indexOf('Regd.');
+  // English "Govt. of Odisha Regd. No. 10/13" and the Odia wording both break before the registration part
+  const markers = ['Regd.', 'ପଞ୍ଜୀକୃତ', 'ପଞ୍ଜୀକରଣ'];
+  const i = Math.max(...markers.map((m) => regNo.indexOf(m)));
   if (i <= 0) return [regNo, ''];
   return [regNo.slice(0, i).trim(), regNo.slice(i).trim()];
 }

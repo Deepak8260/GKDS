@@ -13,17 +13,19 @@ interface FilterPillsProps {
   pills: FilterPill[];
   active: string;
   onChange: (id: string) => void;
+  /** Screen-reader name of the group of buttons. */
+  groupLabel: string;
 }
 
 /**
  * Category filter: "All Photos" (solid green when active) + one white pill per category with an orange icon.
  * A horizontally scrollable row on small screens.
  */
-export function FilterPills({ pills, active, onChange }: FilterPillsProps) {
+export function FilterPills({ pills, active, onChange, groupLabel }: FilterPillsProps) {
   return (
     <div
       role="group"
-      aria-label="Filter photos by category"
+      aria-label={groupLabel}
       className="no-scrollbar -mx-4 flex min-w-0 self-stretch scroll-px-4 snap-x gap-2.5 overflow-x-auto px-4 py-2 sm:-mx-6 sm:px-6 lg:mx-0 lg:self-auto lg:flex-wrap lg:justify-center lg:overflow-visible lg:px-0 lg:py-0"
     >
       {pills.map((pill) => {

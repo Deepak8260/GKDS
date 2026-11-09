@@ -9,6 +9,8 @@ import { Card } from '@/components/ui/card';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { mediaUrl } from '@/lib/media';
 import { useQueryParam } from '@/lib/hooks/use-query-param';
+import type { Dict } from '@/lib/i18n/dict';
+import { fmt } from '@/lib/i18n/locales';
 import type { GalleryCategory, GalleryItem } from '@/lib/validators';
 import { FilterPills, type FilterPill } from './filter-pills';
 import { ALL, PAGE_SIZE, countLabel, filterByCategory, resolveCategory } from './gallery-utils';
@@ -22,10 +24,12 @@ interface GalleryClientProps {
   categories: GalleryCategory[];
   /** Published photos, already sorted by `order`. */
   items: GalleryItem[];
+  /** Wording in the page language. */
+  t: Dict['gallery'];
 }
 
 /** Heading + category filter + photo grid + Load more + lightbox. Filter state lives in `?category=`. */
-export function GalleryClient({ titleLead, titleHighlight, categories, items }: GalleryClientProps) {
+export function GalleryClient({ titleLead, titleHighlight, categories, items, t }: GalleryClientProps) {
   const [param, setParam] = useQueryParam('category');
   const category = resolveCategory(param, categories);
   const filtered = useMemo(() => filterByCategory(items, category), [items, category]);
@@ -37,7 +41,7 @@ export function GalleryClient({ titleLead, titleHighlight, categories, items }: 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const closeLightbox = useCallback(() => setOpenIndex(null), [setOpenIndex]);
 
-  const pills: FilterPill[] = [{ id: ALL, label: 'All Photos', icon: 'layout-grid' }, ...categories];
+  const pills: FilterPill[] = [{ id: ALL, label: t.allPhotos, icon: 'layout-grid' }, ...categories];
 
   function select(id: string) {
     setParam(id === ALL ? null : id);
@@ -48,7 +52,7 @@ export function GalleryClient({ titleLead, titleHighlight, categories, items }: 
     <>
       <div className="flex flex-col items-center gap-6 text-center">
         <SectionHeading lead={titleLead} highlight={titleHighlight} dash="above" align="center" size="lg" />
-        <FilterPills pills={pills} active={category} onChange={select} />
+        <FilterPills pills={pills} active={category} onChange={select} groupLabel={t.filterLabel} />
       </div>
 
       {filtered.length > 0 ? (
@@ -62,7 +66,7 @@ export function GalleryClient({ titleLead, titleHighlight, categories, items }: 
               <button
                 type="button"
                 onClick={() => setOpenIndex(i)}
-                aria-label={`Open photo: ${item.alt}`}
+                aria-label={fmt(t.openPhoto, { alt: item.alt })}
                 className="group focus-ring relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-line bg-green-50 shadow-card"
               >
                 <Image
@@ -96,29 +100,29 @@ export function GalleryClient({ titleLead, titleHighlight, categories, items }: 
       ) : (
         <Card tone="green-soft" className="mt-8 flex flex-col items-center gap-4 px-6 py-14 text-center">
           <Camera className="size-10 text-orange-500" strokeWidth={1.5} aria-hidden="true" />
-          <p className="font-display text-2xl font-bold italic text-green-900">No photos in this category yet.</p>
+          <p className="font-display text-2xl font-bold italic text-green-900">{t.emptyCategory}</p>
           <Button variant="secondary" onClick={() => select(ALL)}>
-            View all photos
+            {t.viewAll}
           </Button>
         </Card>
       )}
 
       <div className="mt-6 flex flex-col items-center gap-4">
         <p role="status" aria-live="polite" className="text-sm text-muted">
-          {countLabel(visible.length, filtered.length)}
+          {countLabel(visible.length, filtered.length, { none: t.countNone, one: t.countOne, all: t.countAll, part: t.countPart })}
         </p>
         {visible.length < filtered.length ? (
           <Button
             variant="secondary"
             onClick={() => setLimits((l) => ({ ...l, [category]: limit + PAGE_SIZE }))}
           >
-            Load more photos
+            {t.loadMore}
           </Button>
         ) : null}
       </div>
 
       {openIndex !== null ? (
-        <Lightbox items={filtered} index={openIndex} onIndexChange={setOpenIndex} onClose={closeLightbox} />
+        <Lightbox items={filtered} index={openIndex} onIndexChange={setOpenIndex} onClose={closeLightbox} t={t} />
       ) : null}
     </>
   );

@@ -14,6 +14,8 @@ interface ModalProps {
   description?: string;
   children: ReactNode;
   className?: string;
+  /** Screen-reader name of the close button (default English). */
+  closeLabel?: string;
   /** Render the content edge-to-edge with a floating close button; the title stays for screen readers only. */
   bare?: boolean;
 }
@@ -30,6 +32,7 @@ export function Modal({
   children,
   className,
   bare,
+  closeLabel = 'Close dialog',
 }: ModalProps) {
   // true only on the client, so the portal is never rendered during SSR/hydration
   const mounted = useSyncExternalStore(
@@ -90,7 +93,7 @@ export function Modal({
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close dialog"
+              aria-label={closeLabel}
               className="focus-ring absolute right-4 top-4 z-20 flex size-10 items-center justify-center rounded-full bg-white/90 text-ink shadow-card hover:bg-white"
             >
               <X className="size-5" aria-hidden="true" />
@@ -113,7 +116,7 @@ export function Modal({
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close dialog"
+                aria-label={closeLabel}
                 className="focus-ring -mr-2 flex size-10 shrink-0 items-center justify-center rounded-full text-ink/70 hover:bg-green-50"
               >
                 <X className="size-5" aria-hidden="true" />

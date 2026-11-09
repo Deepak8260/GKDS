@@ -1,7 +1,9 @@
 import { SafeImage as Image } from '@/components/ui/safe-image';
-import Link from 'next/link';
+import { LocLink as Link } from '@/components/i18n/loc-link';
 import { ChevronRight } from 'lucide-react';
 import { JsonLd } from '@/components/seo/json-ld';
+import { tFor } from '@/lib/i18n';
+import { localizePath, type Locale } from '@/lib/i18n/locales';
 import { breadcrumbJsonLd } from '@/lib/json-ld';
 import { mediaUrl } from '@/lib/media';
 import { cn } from '@/lib/utils';
@@ -21,6 +23,7 @@ interface PageHeroProps {
   imageAlt: string;
   /** CSS object-position for the photo (e.g. "center 30%"). */
   imagePosition?: string;
+  locale?: Locale;
   className?: string;
 }
 
@@ -35,6 +38,7 @@ export function PageHero({
   image,
   imageAlt,
   imagePosition = 'center',
+  locale = 'en',
   className,
 }: PageHeroProps) {
   return (
@@ -62,7 +66,7 @@ export function PageHero({
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-green-900/55 md:hidden" />
 
       <Container className="relative flex flex-col justify-center pb-10 pt-6 md:pb-12 md:pt-7">
-        <nav aria-label="Breadcrumb" className="mb-2 text-sm text-white/80">
+        <nav aria-label={tFor(locale).nav.breadcrumb} className="mb-2 text-sm text-white/80">
           <ol className="flex flex-wrap items-center gap-1.5">
             {breadcrumb.map((item, i) => {
               const last = i === breadcrumb.length - 1;
@@ -95,7 +99,7 @@ export function PageHero({
       </Container>
 
       <WaveDivider className="absolute inset-x-0 bottom-[-1px] h-8 md:h-12" />
-      <JsonLd data={breadcrumbJsonLd(breadcrumb)} />
+      <JsonLd data={breadcrumbJsonLd(breadcrumb.map((b) => ({ ...b, href: b.href ? localizePath(b.href, locale) : undefined })))} />
     </section>
   );
 }

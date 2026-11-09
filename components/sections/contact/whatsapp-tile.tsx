@@ -1,14 +1,18 @@
 import { ArrowRight } from 'lucide-react';
 import { WhatsappIcon } from '@/components/icons/custom-icons';
+import { tFor } from '@/lib/i18n';
+import type { Locale } from '@/lib/i18n/locales';
 import { whatsappHref } from '@/lib/utils';
 
 interface WhatsappTileProps {
   number: string;
   message: string;
+  locale?: Locale;
 }
 
 /** "Quick Enquiry?" tile: the whole tile opens WhatsApp with a ready-to-send message. */
-export function WhatsappTile({ number, message }: WhatsappTileProps) {
+export function WhatsappTile({ number, message, locale = 'en' }: WhatsappTileProps) {
+  const t = tFor(locale);
   return (
     <a
       href={whatsappHref(number, message)}
@@ -23,11 +27,11 @@ export function WhatsappTile({ number, message }: WhatsappTileProps) {
         <WhatsappIcon size={32} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block text-lg font-bold text-ink">Quick Enquiry?</span>
+        <span className="block text-lg font-bold text-ink">{t.contact.quickEnquiry}</span>
         <span className="block text-[14px] leading-snug text-ink/80">
-          Chat with us on WhatsApp for faster assistance!
+          {t.contact.quickEnquiryText}
         </span>
-        <span className="sr-only"> (opens WhatsApp in a new tab)</span>
+        <span className="sr-only">{t.actions.opensWhatsapp}</span>
       </span>
       <ArrowRight className="size-6 shrink-0 text-ink transition group-hover:translate-x-1" aria-hidden="true" />
     </a>

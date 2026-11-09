@@ -1,16 +1,19 @@
 import { SafeImage as Image } from '@/components/ui/safe-image';
-import Link from 'next/link';
+import { LocLink as Link } from '@/components/i18n/loc-link';
 import { ArrowRight } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Container } from '@/components/ui/container';
 import { Icon } from '@/components/ui/icon';
 import { Reveal } from '@/components/ui/reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
+import { tFor } from '@/lib/i18n';
+import { fmt, type Locale } from '@/lib/i18n/locales';
 import { mediaUrl } from '@/lib/media';
 import type { Home } from '@/lib/validators';
 
 /** Photo · story text · quick-stats card. */
-export function AboutTeaser({ about }: { about: Home['aboutTeaser'] }) {
+export function AboutTeaser({ about, locale = 'en' }: { about: Home['aboutTeaser']; locale?: Locale }) {
+  const t = tFor(locale).actions;
   return (
     <Reveal as="section" className="section-y">
       <Container className="grid items-center gap-8 md:grid-cols-2 lg:grid-cols-[1fr_1.5fr_1fr] lg:gap-10">
@@ -31,8 +34,8 @@ export function AboutTeaser({ about }: { about: Home['aboutTeaser'] }) {
             href="/about"
             className="focus-ring mt-2 inline-flex min-h-11 items-center gap-1.5 rounded-md text-[14px] font-semibold text-orange-700 hover:text-orange-600"
           >
-            Read More
-            <span className="sr-only"> about {about.title}</span>
+            {t.readMore}
+            <span className="sr-only">{fmt(t.readMoreAbout, { title: about.title })}</span>
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>

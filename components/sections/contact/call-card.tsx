@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { ToastProvider, useToast } from '@/components/ui/toast';
+import type { Dict } from '@/lib/i18n/dict';
+import { fmt } from '@/lib/i18n/locales';
 import { getOpenStatus, type Schedule } from '@/lib/open-hours';
 import { cn, telHref } from '@/lib/utils';
 
@@ -20,9 +22,9 @@ const subscribeToMinute = (notify: () => void) => {
 const currentMinute = (): number | null => Math.floor(Date.now() / 60_000);
 const serverMinute = (): number | null => null;
 
-function OpenBadge({ schedule }: { schedule: Schedule }) {
+function OpenBadge({ schedule, labels }: { schedule: Schedule; labels: Dict['hours'] }) {
   const minute = useSyncExternalStore(subscribeToMinute, currentMinute, serverMinute);
-  const status = minute === null ? null : getOpenStatus(new Date(minute * 60_000), schedule);
+  const status = minute === null ? null : getOpenStatus(new Date(minute * 60_000), schedule, labels);
 
   return (
     <p
@@ -42,7 +44,7 @@ function OpenBadge({ schedule }: { schedule: Schedule }) {
           status?.open === false && 'bg-red-600',
         )}
       />
-      {status === null ? 'Check our working hours' : [status.label, status.detail].filter(Boolean).join(' · ')}
+      {status === null ? labels.checkHours : [status.label, status.detail].filter(Boolean).join(' · ')}
     </p>
   );
 }
@@ -70,19 +72,19 @@ async function copyText(text: string): Promise<boolean> {
   }
 }
 
-function CopyButton({ number }: { number: string }) {
+function CopyButton({ number, t }: { number: string; t: Dict['actions'] }) {
   const toast = useToast();
   return (
     <button
       type="button"
-      aria-label={`Copy ${number}`}
+      aria-label={fmt(t.copyNumber, { number })}
       onClick={async () => {
-        if (await copyText(number)) toast.success('Number copied');
+        if (await copyText(number)) toast.success(t.numberCopied);
       }}
       className="focus-ring hidden h-11 shrink-0 items-center gap-1.5 rounded-full px-3.5 text-sm font-semibold text-green-800 hover:bg-green-100 md:inline-flex"
     >
       <Copy className="size-4" aria-hidden="true" />
-      Copy
+      {t.copy}
     </button>
   );
 }
@@ -91,23 +93,25 @@ interface CallCardProps {
   phones: string[];
   text: string;
   schedule: Schedule;
+  /** Wording in the page language. */
+  t: Pick<Dict, 'hours' | 'contact' | 'actions'>;
 }
 
 /**
  * "Call Us Directly": a live Open/Closed badge (India time), one big tap-to-call button per number,
  * and a Copy button on larger screens. This replaces the enquiry form in the design.
  */
-export function CallCard({ phones, text, schedule }: CallCardProps) {
+export function CallCard({ phones, text, schedule, t }: CallCardProps) {
   return (
-    <ToastProvider>
+    <ToastProvider dismissLabel={t.actions.dismiss}>
       <Card as="section" aria-labelledby="call-card-title" className="bg-gradient-to-b from-orange-50 to-white p-7 md:p-8">
         <div id="call-card-title">
-          <SectionHeading as="h2" lead="Call Us" highlight="Directly" size="sm" />
+          <SectionHeading as="h2" lead={t.contact.callLead} highlight={t.contact.callHighlight} size="sm" />
         </div>
         <p className="mt-3 text-base leading-relaxed text-ink/80">{text}</p>
 
         <div className="mt-4">
-          <OpenBadge schedule={schedule} />
+          <OpenBadge schedule={schedule} labels={t.hours} />
         </div>
 
         <ul className="mt-6 space-y-3">
@@ -124,13 +128,13 @@ export function CallCard({ phones, text, schedule }: CallCardProps) {
                 <span className="min-w-0 flex-1 text-left leading-tight">
                   {/* the accessible name is built from the visible words ("Call +91 … Tap to call") */}
                   <span className="block">
-                    <span className="sr-only">Call </span>
+                    <span className="sr-only">{fmt(t.actions.callPhone, { phone: '' }).trim()} </span>
                     {phone}
                   </span>
-                  <span className="block text-[11px] font-semibold opacity-90 md:hidden">Tap to call</span>
+                  <span className="block text-[11px] font-semibold opacity-90 md:hidden">{t.actions.tapToCall}</span>
                 </span>
               </Button>
-              <CopyButton number={phone} />
+              <CopyButton number={phone} t={t.actions} />
             </li>
           ))}
         </ul>

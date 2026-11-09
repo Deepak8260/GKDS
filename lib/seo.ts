@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_LOCALE, localizePath, stripLocale, type Locale } from '@/lib/i18n/locales';
 
 /** Collapse whitespace and cut to `max` characters on a word boundary, adding an ellipsis. */
 export function truncate(text: string, max = 155): string {
@@ -20,6 +21,8 @@ interface BuildMetadataInput {
   image?: string;
   siteName?: string;
   noindex?: boolean;
+  /** Language of the page (default English). `path` may be given in either language form. */
+  locale?: Locale;
 }
 
 /**
@@ -33,19 +36,29 @@ export function buildMetadata({
   image,
   siteName = 'Gopal Krushna Driving Training School',
   noindex,
+  locale = 'en',
 }: BuildMetadataInput): Metadata {
   const fullTitle = `${title} | ${siteName}`;
+  const english = stripLocale(path);
+  const here = localizePath(english, locale);
+  const other: Locale = locale === 'or' ? 'en' : 'or';
   return {
-    title,
+    // the root layout's " | name" template is English, so Odia pages carry their complete title
+    title: locale === 'or' ? { absolute: fullTitle } : title,
     description,
-    alternates: { canonical: path },
+    alternates: {
+      canonical: here,
+      // tells search engines the English and Odia pages are the same page in two languages
+      languages: { 'en-IN': english, 'or-IN': localizePath(english, 'or'), 'x-default': english },
+    },
     openGraph: {
       type: 'website',
-      url: path,
+      url: here,
       title: fullTitle,
       description,
       siteName,
-      locale: 'en_IN',
+      locale: OG_LOCALE[locale],
+      alternateLocale: [OG_LOCALE[other]],
       images: image ? [{ url: image }] : undefined,
     },
     twitter: { card: 'summary_large_image', title: fullTitle, description },

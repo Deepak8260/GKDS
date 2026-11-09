@@ -31,7 +31,7 @@ const toneStyles: Record<ToastTone, { icon: ReactNode; classes: string }> = {
   info: { icon: <Info className="size-5 text-orange-600" aria-hidden="true" />, classes: 'border-orange-100' },
 };
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+export function ToastProvider({ children, dismissLabel = 'Dismiss notification' }: { children: ReactNode; dismissLabel?: string }) {
   const [items, setItems] = useState<ToastItem[]>([]);
   const nextId = useRef(1);
 
@@ -72,7 +72,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={() => dismiss(t.id)}
-              aria-label="Dismiss notification"
+              aria-label={dismissLabel}
               className="focus-ring -m-1 rounded-full p-1 text-muted hover:text-ink"
             >
               <X className="size-4" aria-hidden="true" />

@@ -4,19 +4,23 @@ import { Container } from '@/components/ui/container';
 import { LazyMapFrame } from '@/components/ui/lazy-map-frame';
 import { Reveal } from '@/components/ui/reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
+import { tFor } from '@/lib/i18n';
+import { fmt, type Locale } from '@/lib/i18n/locales';
 import { telHref } from '@/lib/utils';
 import type { Home, Site } from '@/lib/validators';
 
 interface ContactTeaserProps {
   contact: Home['contactTeaser'];
   site: Site;
+  locale?: Locale;
 }
 
 const rowIcon = 'mt-0.5 size-7 shrink-0 text-orange-500';
 
 /** Contact details + lazy Google map, finished with the green wave that leads into the footer. */
-export function ContactTeaser({ contact, site }: ContactTeaserProps) {
+export function ContactTeaser({ contact, site, locale = 'en' }: ContactTeaserProps) {
   const { address } = site;
+  const t = tFor(locale);
   return (
     <section className="relative">
       {/* sits on top of the footer wave (the wave strip below is h-12 / md:h-20) */}
@@ -63,14 +67,14 @@ export function ContactTeaser({ contact, site }: ContactTeaserProps) {
           </ul>
 
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-green-50 shadow-card focus-within:ring-2 focus-within:ring-orange-500 sm:aspect-[16/10]">
-            <LazyMapFrame src={site.map.embedUrl} title={`Map showing ${site.name}`} className="absolute inset-0 size-full border-0" />
+            <LazyMapFrame src={site.map.embedUrl} title={fmt(t.contact.mapShowing, { name: site.name })} className="absolute inset-0 size-full border-0" />
             <a
               href={site.map.directionsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="focus-ring absolute bottom-3 left-3 inline-flex min-h-11 items-center rounded-lg bg-white px-3 text-sm font-semibold text-green-800 shadow-card hover:text-orange-600"
             >
-              View larger map
+              {t.actions.viewLargerMap}
             </a>
           </div>
         </Container>

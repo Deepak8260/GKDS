@@ -5,6 +5,7 @@ import {
   House,
   Images,
   Info,
+  Languages,
   LayoutDashboard,
   Settings,
   ShieldCheck,
@@ -29,6 +30,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { path: '/gallery', label: 'Gallery', title: 'Gallery', icon: Images },
   { path: '/media', label: 'Media Library', title: 'Media Library', icon: FolderOpen },
   { path: '/reviews', label: 'Reviews', title: 'Reviews', icon: Star },
+  { path: '/translations', label: 'Translations', title: 'Translations', icon: Languages },
   { path: '/security', label: 'Security', title: 'Security', icon: ShieldCheck },
   { path: '/help', label: 'Help', title: 'Help', icon: CircleHelp },
 ];

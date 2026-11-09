@@ -1,3 +1,4 @@
+import { fmt } from '@/lib/i18n/locales';
 import type { Review } from '@/lib/validators';
 
 /** A review plus its "3 weeks ago" text, computed on the server so server and browser always agree. */
@@ -42,11 +43,21 @@ export function sortReviews<T extends Review>(items: T[], mode: SortMode): T[] {
   return [...items].sort(compare);
 }
 
-export function countLabel(shown: number, total: number): string {
-  if (total === 0) return 'No reviews yet';
-  return shown === total
-    ? `Showing ${total} ${total === 1 ? 'review' : 'reviews'}`
-    : `Showing ${shown} of ${total} reviews`;
+export interface CountLabels {
+  none: string;
+  one: string;
+  /** "{n}" is replaced by the number. */
+  all: string;
+  /** "{shown}" and "{total}" are replaced by the numbers. */
+  part: string;
+}
+
+const EN_COUNT: CountLabels = { none: 'No reviews yet', one: 'Showing 1 review', all: 'Showing {n} reviews', part: 'Showing {shown} of {total} reviews' };
+
+export function countLabel(shown: number, total: number, labels: CountLabels = EN_COUNT): string {
+  if (total === 0) return labels.none;
+  if (shown === total) return total === 1 ? labels.one : fmt(labels.all, { n: total });
+  return fmt(labels.part, { shown, total });
 }
 
 // moved to lib/format.ts (also needed by the site-wide structured data); re-exported for existing imports

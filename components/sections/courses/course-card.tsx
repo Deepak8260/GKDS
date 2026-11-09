@@ -3,6 +3,8 @@ import { Phone } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { CheckList } from '@/components/ui/check-list';
 import { Pill } from '@/components/ui/pill';
+import { tFor } from '@/lib/i18n';
+import { fmt, type Locale } from '@/lib/i18n/locales';
 import { mediaUrl } from '@/lib/media';
 import { cn, telHref } from '@/lib/utils';
 import type { Course } from '@/lib/validators';
@@ -13,6 +15,7 @@ interface CourseCardProps {
   phone: string;
   /** The only course on the page: photo beside the text on large screens instead of above it. */
   wide?: boolean;
+  locale?: Locale;
   className?: string;
 }
 
@@ -21,7 +24,8 @@ interface CourseCardProps {
  * `id` = slug so `/courses#car-driving` scrolls here (and the `:target` style highlights it).
  * Photo on top (so the whole car is visible); beside the text on tablets and for a single wide card.
  */
-export function CourseCard({ course, phone, wide = false, className }: CourseCardProps) {
+export function CourseCard({ course, phone, wide = false, locale = 'en', className }: CourseCardProps) {
+  const t = tFor(locale);
   return (
     <Card
       as="article"
@@ -52,15 +56,15 @@ export function CourseCard({ course, phone, wide = false, className }: CourseCar
       <div className="min-w-0 flex-1">
         <h3 className="text-2xl font-bold leading-tight text-green-900">{course.title}</h3>
         <p className="mt-2 text-base leading-relaxed text-ink">{course.description}</p>
-        <Pill className="mt-4 text-[14px]">Vehicle: {course.vehicle}</Pill>
+        <Pill className="mt-4 text-[14px]">{fmt(t.courses.vehicle, { vehicle: course.vehicle })}</Pill>
         <CheckList className="mt-5" items={course.features} />
         <a
           href={telHref(phone)}
           className="focus-ring mt-4 inline-flex min-h-11 items-center gap-2 rounded-md text-[14px] font-semibold text-orange-700 hover:text-orange-600 hover:underline"
         >
           <Phone className="size-4" aria-hidden="true" />
-          Call to enrol
-          <span className="sr-only"> in the {course.title}</span>
+          {t.actions.callToEnrol}
+          <span className="sr-only">{fmt(t.courses.callToEnrolSr, { title: course.title })}</span>
         </a>
       </div>
     </Card>

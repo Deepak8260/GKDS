@@ -1,11 +1,12 @@
 'use client';
 
-import Link from 'next/link';
+import { LocLink as Link } from '@/components/i18n/loc-link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { ChevronDown, Menu, Phone, X } from 'lucide-react';
 import { WhatsappIcon } from '@/components/icons/custom-icons';
 import { Button } from '@/components/ui/button';
+import type { Dict } from '@/lib/i18n/dict';
 import { NAV_ITEMS, isActivePath } from '@/lib/nav';
 import { cn, telHref, whatsappHref } from '@/lib/utils';
 import { useFocusTrap } from '@/lib/hooks/use-focus-trap';
@@ -19,12 +20,17 @@ interface MobileNavProps {
   whatsappMessage?: string;
   /** Pre-rendered <RegdBadge/> (server component) */
   badge: ReactNode;
+  /** Pre-rendered language switch (server-rendered props, client component) */
+  languageSwitch?: ReactNode;
+  t: Dict['nav'];
+  callNow: string;
+  whatsappLabel: string;
 }
 
 type Phase = 'closed' | 'open' | 'closing';
 
 /** Hamburger + slide-over menu (below lg). CSS animations only (no animation library). */
-export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: MobileNavProps) {
+export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge, languageSwitch, t, callNow, whatsappLabel }: MobileNavProps) {
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>('closed');
   const [coursesOpen, setCoursesOpen] = useState(false);
@@ -56,7 +62,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
     <div className="lg:hidden">
       <button
         type="button"
-        aria-label="Open menu"
+        aria-label={t.openMenu}
         aria-expanded={phase === 'open'}
         aria-controls="mobile-menu"
         onClick={() => setPhase('open')}
@@ -77,7 +83,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
             ref={panelRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Site menu"
+            aria-label={t.siteMenu}
             tabIndex={-1}
             onAnimationEnd={(e) => {
               if (closing && e.target === e.currentTarget) setPhase('closed');
@@ -88,10 +94,10 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
             )}
           >
             <div className="flex items-center justify-between border-b border-line px-5 py-3">
-              <span className="font-display text-lg font-bold italic text-green-900">Menu</span>
+              <span className="font-display text-lg font-bold italic text-green-900">{t.menu}</span>
               <button
                 type="button"
-                aria-label="Close menu"
+                aria-label={t.closeMenu}
                 data-autofocus
                 onClick={close}
                 className="focus-ring flex size-11 items-center justify-center rounded-full text-ink hover:bg-green-50"
@@ -100,7 +106,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
               </button>
             </div>
 
-            <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-3 py-3">
+            <nav aria-label={t.mobile} className="flex-1 overflow-y-auto px-3 py-3">
               <ul className="space-y-1">
                 {NAV_ITEMS.map((item) => {
                   const active = isActivePath(pathname, item.href);
@@ -113,11 +119,11 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
                       <li key={item.href}>
                         <div className="flex items-center">
                           <Link href={item.href} aria-current={active ? 'page' : undefined} className={row}>
-                            {item.label}
+                            {t[item.id]}
                           </Link>
                           <button
                             type="button"
-                            aria-label="Toggle courses list"
+                            aria-label={t.toggleCourses}
                             aria-expanded={coursesOpen}
                             onClick={() => setCoursesOpen((v) => !v)}
                             className="focus-ring flex size-12 shrink-0 items-center justify-center rounded-xl text-green-900 hover:bg-green-50"
@@ -148,7 +154,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
                   return (
                     <li key={item.href}>
                       <Link href={item.href} aria-current={active ? 'page' : undefined} className={row}>
-                        {item.label}
+                        {t[item.id]}
                       </Link>
                     </li>
                   );
@@ -158,7 +164,7 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
 
             <div className="space-y-3 border-t border-line px-5 py-4">
               <Button href={telHref(phone)} icon={<Phone className="size-5" aria-hidden="true" />} className="w-full">
-                Call Now
+                {callNow}
               </Button>
               <Button
                 href={whatsappHref(whatsapp, whatsappMessage)}
@@ -167,8 +173,9 @@ export function MobileNav({ courses, phone, whatsapp, whatsappMessage, badge }: 
                 icon={<WhatsappIcon size={20} className="text-whatsapp" />}
                 className="w-full"
               >
-                WhatsApp
+                {whatsappLabel}
               </Button>
+              {languageSwitch ? <div className="pt-1">{languageSwitch}</div> : null}
               <div className="pt-1">{badge}</div>
             </div>
           </div>

@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import { addressLines } from '@/lib/address';
+import { tFor } from '@/lib/i18n';
+import { fmt, type Locale } from '@/lib/i18n/locales';
 import { cn, telHref } from '@/lib/utils';
 import type { Site } from '@/lib/validators';
 
@@ -39,15 +41,16 @@ const link =
   'focus-ring inline-flex min-h-11 items-center rounded font-medium text-ink hover:text-orange-700 hover:underline';
 
 /** 2×2 grid: Phone · Email · Address · Working Hours (tiles with nothing to show are skipped). */
-export function ContactTiles({ site }: { site: Site }) {
+export function ContactTiles({ site, locale = 'en' }: { site: Site; locale?: Locale }) {
+  const t = tFor(locale);
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {site.phones.length > 0 ? (
-        <Tile id="contact-phone" title="Phone" tone="green" icon={<Phone className="size-6" strokeWidth={2} />}>
+        <Tile id="contact-phone" title={t.contact.phone} tone="green" icon={<Phone className="size-6" strokeWidth={2} />}>
           <ul>
             {site.phones.map((phone, i) => (
               <li key={`${phone}-${i}`}>
-                <a href={telHref(phone)} aria-label={`Call ${phone}`} className={link}>
+                <a href={telHref(phone)} aria-label={fmt(t.actions.callPhone, { phone })} className={link}>
                   {phone}
                 </a>
               </li>
@@ -57,10 +60,10 @@ export function ContactTiles({ site }: { site: Site }) {
       ) : null}
 
       {site.email ? (
-        <Tile id="contact-email" title="Email" tone="peach" icon={<Mail className="size-6" strokeWidth={2} />}>
+        <Tile id="contact-email" title={t.contact.email} tone="peach" icon={<Mail className="size-6" strokeWidth={2} />}>
           <a
             href={`mailto:${site.email}`}
-            aria-label={`Email ${site.email}`}
+            aria-label={fmt(t.contact.emailLabel, { email: site.email })}
             className={cn(link, '[overflow-wrap:anywhere]')}
           >
             {/* allow a line break before the "@" instead of splitting a word in the middle */}
@@ -76,7 +79,7 @@ export function ContactTiles({ site }: { site: Site }) {
         </Tile>
       ) : null}
 
-      <Tile id="contact-address" title="Address" tone="peach" icon={<MapPin className="size-6" strokeWidth={2} />}>
+      <Tile id="contact-address" title={t.contact.address} tone="peach" icon={<MapPin className="size-6" strokeWidth={2} />}>
         <address className="not-italic">
           {addressLines(site.address).map((line, i) => (
             <span key={i} className="block">
@@ -87,7 +90,7 @@ export function ContactTiles({ site }: { site: Site }) {
       </Tile>
 
       {site.hours.length > 0 ? (
-        <Tile id="contact-hours" title="Working Hours" tone="green" icon={<Clock className="size-6" strokeWidth={2} />}>
+        <Tile id="contact-hours" title={t.contact.workingHours} tone="green" icon={<Clock className="size-6" strokeWidth={2} />}>
           <ul>
             {site.hours.map((h, i) => (
               <li key={`${h.label}-${i}`}>
