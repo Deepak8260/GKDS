@@ -1,6 +1,7 @@
 import { Clock, MapPin, Phone } from 'lucide-react';
 import { PeacockFeather } from '@/components/layout/peacock-feather';
 import { Container } from '@/components/ui/container';
+import { LazyMapFrame } from '@/components/ui/lazy-map-frame';
 import { Reveal } from '@/components/ui/reveal';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { telHref } from '@/lib/utils';
@@ -62,13 +63,7 @@ export function ContactTeaser({ contact, site }: ContactTeaserProps) {
           </ul>
 
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-green-50 shadow-card focus-within:ring-2 focus-within:ring-orange-500 sm:aspect-[16/10]">
-            <iframe
-              src={site.map.embedUrl}
-              title={`Map showing ${site.name}`}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="absolute inset-0 size-full border-0"
-            />
+            <LazyMapFrame src={site.map.embedUrl} title={`Map showing ${site.name}`} className="absolute inset-0 size-full border-0" />
             <a
               href={site.map.directionsUrl}
               target="_blank"

@@ -74,7 +74,7 @@ export function SecurityForms({ lastChanged, githubConnected }: { lastChanged: s
 
       {!githubConnected ? (
         <div role="note" className="mb-6 rounded-xl border border-orange-200 bg-orange-50 p-4 text-sm text-orange-900">
-          GitHub is not connected, so a new code cannot be stored yet. The code from <code>ADMIN_CODE</code> (default <code>gkds1993</code>) is in use.
+          GitHub is not connected, so a new code cannot be stored yet. The code from the <code>ADMIN_CODE</code> setting (or the default one from the documentation) is in use.
         </div>
       ) : null}
 

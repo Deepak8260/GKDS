@@ -5,7 +5,7 @@ The website has **no database**. All content lives as plain files in the **same 
 | Branch | Contains | Deployed by Vercel? |
 |---|---|---|
 | `main` | The website code (and `content-seed/` fallback files) | Yes (production) |
-| `data` | Only content, images and submissions — **never code** | **No** (disabled in `vercel.json`) |
+| `data` | Only content, images and private review contact files — **never code** | **No** (disabled in `vercel.json`) |
 
 Because Vercel does not build the `data` branch, saving something in the admin never triggers a redeploy.
 
@@ -18,7 +18,7 @@ content/
 media/
   branding/  pages/  courses/  gallery/  avatars/      (WebP images, content-hashed names)
 submissions/
-  reviews/<id>.json                                    (pending public reviews, one file each)
+  reviews/<id>.json                                    (a visitor's optional phone number for one review: private, admin-only)
 config/
   admin.json                                           (salted hash of the admin access code — never public)
 ```
@@ -81,10 +81,14 @@ Files appear on the branch as they are first used. The site runs fine if `conten
   ```
 - If GitHub is unreachable, the token is wrong, a file is missing or contains invalid JSON, the site **safely falls back to the bundled seed content** and logs a warning on the server.
 
+## Reviews
+
+A review posted on the public form is added straight to `content/reviews.json` (there is no approval queue). Its optional photo goes to `media/reviews/<id>.webp`, and an optional phone number to the private file `submissions/reviews/<id>.json`, which only the admin panel reads. In the admin you can edit, hide, feature or delete reviews.
+
 ## Images
 
 The repo is private, so images are served through the site at `/api/media/media/<folder>/<file>.webp`. The route fetches the file from GitHub with the server-side token and returns it with a one-year immutable cache header, so GitHub is rarely contacted again.
 
 ## Backups
 
-`git clone --mirror https://github.com/<you>/gkds.git` backs up code **and** the `data` branch. Every admin save is a commit, so older versions of any content file can be restored from GitHub history (or from the admin History screen, once built).
+`git clone --mirror https://github.com/<you>/gkds.git` backs up code **and** the `data` branch. Every admin save is a commit, so older versions of any content file can be restored from GitHub history or from the **History** button in each admin editor. **Dashboard → Download backup** gives a ZIP of all page text and settings.
