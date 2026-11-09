@@ -3,6 +3,7 @@ import { getCourses, getGallery, getReviews } from '@/lib/content';
 import { computeReviewStats } from '@/lib/content/stats';
 import { getGithubConfig } from '@/lib/github';
 import { getCommits } from '@/lib/github-write';
+import { isContentCommit, prettifyCommit } from './commits';
 
 export interface AdminCounts {
   courses: number;
@@ -39,4 +40,30 @@ export async function getAdminCounts(): Promise<AdminCounts> {
     rating: reviewStats.rating,
     lastUpdate,
   };
+}
+
+export interface RecentChange {
+  sha: string;
+  message: string;
+  date: string;
+  url: string;
+}
+
+let recentCache: { at: number; list: RecentChange[] } | null = null;
+
+/** The latest content changes on the data branch (not code commits), friendly wording, cached for 60 s. */
+export async function getRecentChanges(limit = 10): Promise<RecentChange[]> {
+  if (!getGithubConfig()) return [];
+  if (recentCache && Date.now() - recentCache.at < 60_000) return recentCache.list.slice(0, limit);
+  try {
+    const commits = await getCommits(undefined, 60);
+    const list = commits
+      .filter((c) => isContentCommit(c.message))
+      .slice(0, 10)
+      .map((c) => ({ sha: c.sha, message: prettifyCommit(c.message), date: c.date, url: c.url }));
+    recentCache = { at: Date.now(), list };
+    return list.slice(0, limit);
+  } catch {
+    return [];
+  }
 }

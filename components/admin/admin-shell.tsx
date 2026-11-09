@@ -4,12 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { ExternalLink, LogOut, Menu, X } from 'lucide-react';
+import { ExternalLink, LogOut, Menu, Search, X } from 'lucide-react';
 import { useToast } from '@/components/ui/toast';
 import { useFocusTrap } from '@/lib/hooks/use-focus-trap';
 import { useScrollLock } from '@/lib/hooks/use-scroll-lock';
 import { cn } from '@/lib/utils';
 import { adminFetch, useAdminBase } from './admin-client';
+import { CommandPalette, type PaletteItem } from './command-palette';
 import { ConfirmProvider } from './confirm';
 import { DirtyGuardProvider, useDirtyGuardApi } from './dirty-guard';
 import { ADMIN_NAV } from './nav';
@@ -36,6 +37,8 @@ function Shell({ children, logo }: AdminShellProps) {
   const toast = useToast();
   const guard = useDirtyGuardApi();
   const [drawer, setDrawer] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [health, setHealth] = useState<'unknown' | 'ok' | 'bad'>('unknown');
   const drawerRef = useRef<HTMLDivElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -71,7 +74,9 @@ function Shell({ children, logo }: AdminShellProps) {
       .reverse()
       .find((item) => {
         const href = `${base}${item.path}`;
-        return item.path === '' ? pathname === href || pathname === `${href}/` : pathname === href || pathname.startsWith(`${href}/`);
+        return item.path === ''
+          ? pathname === href || pathname === `${href}/`
+          : pathname === href || pathname.startsWith(`${href}/`);
       }) ?? ADMIN_NAV[0];
 
   const go = useCallback(
@@ -95,6 +100,55 @@ function Shell({ children, logo }: AdminShellProps) {
     router.refresh();
   }
 
+  const paletteItems: PaletteItem[] = [
+    ...ADMIN_NAV.map((n) => ({
+      id: `page-${n.path || 'dashboard'}`,
+      label: n.label,
+      hint: 'Page',
+      run: () => {
+        if (guard.confirmLeave()) router.push(`${base}${n.path}`);
+      },
+    })),
+    {
+      id: 'act-website',
+      label: 'View website',
+      hint: 'Action',
+      run: () => window.open('/', '_blank', 'noopener'),
+    },
+    {
+      id: 'act-cache',
+      label: 'Refresh website cache',
+      hint: 'Action',
+      run: () => {
+        adminFetch('/api/admin/revalidate', { method: 'POST', body: {} }).then((r) =>
+          r.ok
+            ? toast.success('Website cache refreshed.')
+            : toast.error('Could not refresh the cache.'),
+        );
+      },
+    },
+    {
+      id: 'act-backup',
+      label: 'Download backup',
+      hint: 'Action',
+      run: () => {
+        const a = document.createElement('a');
+        a.href = '/api/admin/backup';
+        a.download = '';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      },
+    },
+    {
+      id: 'act-shortcuts',
+      label: 'Keyboard shortcuts',
+      hint: 'Help',
+      run: () => setShortcutsOpen(true),
+    },
+    { id: 'act-logout', label: 'Sign out', hint: 'Action', run: () => void logout() },
+  ];
+
   const nav = (
     <nav aria-label="Admin" className="flex-1 overflow-y-auto px-3 py-4">
       <ul className="space-y-1">
@@ -113,7 +167,12 @@ function Shell({ children, logo }: AdminShellProps) {
                   active ? 'bg-orange-50 text-orange-700' : 'text-ink/80 hover:bg-green-50',
                 )}
               >
-                {active ? <span aria-hidden="true" className="absolute inset-y-1.5 left-0 w-1 rounded-r bg-orange-500" /> : null}
+                {active ? (
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-y-1.5 left-0 w-1 rounded-r bg-orange-500"
+                  />
+                ) : null}
                 <Icon className="size-5 shrink-0" aria-hidden="true" />
                 <span className="flex-1">{item.label}</span>
               </Link>
@@ -130,7 +189,9 @@ function Shell({ children, logo }: AdminShellProps) {
         <Image src={logo} alt="" width={64} height={64} className="size-10 object-contain" />
         <div className="leading-tight">
           <p className="font-display text-lg font-bold italic text-green-900">Gopal Krushna</p>
-          <p className="text-xs font-semibold uppercase tracking-wider text-orange-600">Admin Panel</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-orange-600">
+            Admin Panel
+          </p>
         </div>
       </div>
       {nav}
@@ -158,18 +219,34 @@ function Shell({ children, logo }: AdminShellProps) {
 
   return (
     <div className="min-h-screen bg-cream text-ink">
-      <a href="#admin-main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[120] focus:rounded focus:bg-white focus:px-3 focus:py-2">
+      <a
+        href="#admin-main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[120] focus:rounded focus:bg-white focus:px-3 focus:py-2"
+      >
         Skip to content
       </a>
 
       {/* desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] flex-col border-r border-line bg-white lg:flex">{sidebarBody}</aside>
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] flex-col border-r border-line bg-white lg:flex">
+        {sidebarBody}
+      </aside>
 
       {/* mobile drawer */}
       {drawer ? (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <button type="button" aria-label="Close menu" className="absolute inset-0 bg-black/40" onClick={() => setDrawer(false)} />
-          <div ref={drawerRef} role="dialog" aria-modal="true" aria-label="Admin menu" className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col bg-white shadow-card-lg">
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setDrawer(false)}
+          />
+          <div
+            ref={drawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Admin menu"
+            className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col bg-white shadow-card-lg"
+          >
             <button
               type="button"
               onClick={() => {
@@ -202,20 +279,56 @@ function Shell({ children, logo }: AdminShellProps) {
             <p className="truncate text-xs text-muted">
               Admin <span aria-hidden="true">›</span> {current.label}
             </p>
-            <p className="truncate font-display text-xl font-bold text-green-900">{current.title}</p>
+            <p className="truncate font-display text-xl font-bold text-green-900">
+              {current.title}
+            </p>
           </div>
           <span
             role="status"
-            title={health === 'ok' ? 'GitHub connected' : health === 'bad' ? 'GitHub not connected – see Dashboard' : 'Checking GitHub…'}
+            title={
+              health === 'ok'
+                ? 'GitHub connected'
+                : health === 'bad'
+                  ? 'GitHub not connected – see Dashboard'
+                  : 'Checking GitHub…'
+            }
             className="flex items-center gap-1.5 text-xs text-muted"
           >
             <span
               aria-hidden="true"
-              className={cn('size-2.5 rounded-full', health === 'ok' ? 'bg-green-600' : health === 'bad' ? 'bg-red-500' : 'bg-muted/50')}
+              className={cn(
+                'size-2.5 rounded-full',
+                health === 'ok' ? 'bg-green-600' : health === 'bad' ? 'bg-red-500' : 'bg-muted/50',
+              )}
             />
-            <span className="hidden sm:inline">{health === 'ok' ? 'GitHub connected' : health === 'bad' ? 'GitHub not connected' : 'Checking…'}</span>
-            <span className="sr-only sm:hidden">{health === 'ok' ? 'GitHub connected' : health === 'bad' ? 'GitHub not connected' : 'Checking GitHub'}</span>
+            <span className="hidden sm:inline">
+              {health === 'ok'
+                ? 'GitHub connected'
+                : health === 'bad'
+                  ? 'GitHub not connected'
+                  : 'Checking…'}
+            </span>
+            <span className="sr-only sm:hidden">
+              {health === 'ok'
+                ? 'GitHub connected'
+                : health === 'bad'
+                  ? 'GitHub not connected'
+                  : 'Checking GitHub'}
+            </span>
           </span>
+          <button
+            type="button"
+            onClick={() => setPaletteOpen(true)}
+            aria-haspopup="dialog"
+            className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm font-medium text-green-800 hover:bg-green-50"
+          >
+            <Search className="size-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Search</span>
+            <span className="sr-only sm:hidden">Search</span>
+            <kbd className="hidden rounded bg-green-50 px-1.5 py-0.5 font-mono text-[11px] text-green-900 lg:inline">
+              Ctrl K
+            </kbd>
+          </button>
           <a
             href="/"
             target="_blank"
@@ -239,6 +352,13 @@ function Shell({ children, logo }: AdminShellProps) {
         <main id="admin-main" className="mx-auto w-full max-w-[1100px] px-4 py-6 sm:px-6 sm:py-8">
           {children}
         </main>
+        <CommandPalette
+          open={paletteOpen}
+          setOpen={setPaletteOpen}
+          shortcutsOpen={shortcutsOpen}
+          setShortcutsOpen={setShortcutsOpen}
+          items={paletteItems}
+        />
       </div>
     </div>
   );

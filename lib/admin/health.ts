@@ -2,10 +2,18 @@ import 'server-only';
 import { GITHUB_API, getGithubConfig } from '@/lib/github';
 
 export interface HealthCheck {
-  id: 'token' | 'repo' | 'branch' | 'rate';
+  id: 'token' | 'repo' | 'branch' | 'rate' | 'expiry';
   label: string;
   ok: boolean;
   detail: string;
+}
+
+/** "2026-12-09 00:00:00 UTC" (GitHub's token-expiry header) → whole days left from `now`; null when absent or unreadable. */
+export function tokenExpiryDays(header: string | null | undefined, now = Date.now()): number | null {
+  if (!header) return null;
+  const t = Date.parse(header.replace(' UTC', 'Z').replace(' ', 'T'));
+  if (Number.isNaN(t)) return null;
+  return Math.floor((t - now) / 86_400_000);
 }
 
 async function gh(path: string, token: string): Promise<Response | null> {
@@ -85,5 +93,14 @@ export async function checkGithubHealth(): Promise<{ connected: boolean; checks:
       detail: remaining || 'Could not read the rate limit.',
     },
   ];
+  const days = tokenExpiryDays(repo?.headers.get('github-authentication-token-expiration'));
+  if (days !== null) {
+    checks.push({
+      id: 'expiry',
+      label: 'Token expiry',
+      ok: days > 14,
+      detail: days < 0 ? 'The token has expired. Create a new one and update GITHUB_TOKEN.' : days <= 14 ? `The token expires in ${days} day${days === 1 ? '' : 's'}. Create a new one soon and update GITHUB_TOKEN.` : `Expires in ${days} days.`,
+    });
+  }
   return { connected: checks.every((c) => c.ok), checks };
 }

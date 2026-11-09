@@ -215,6 +215,16 @@ export async function getFile(path: string, deps: WriteDeps = {}): Promise<RepoF
   return { text: buffer.toString('utf8'), buffer, sha: json.sha };
 }
 
+/** Read a file as it was at one commit (for History). Returns null if it did not exist then. */
+export async function getFileAtRef(path: string, ref: string, deps: WriteDeps = {}): Promise<string | null> {
+  const config = requireConfig();
+  const url = `${contentsUrl(config, path)}?ref=${encodeURIComponent(ref)}`;
+  const res = await ghCall('GET', url, undefined, deps, { Accept: 'application/vnd.github.raw+json' });
+  if (res.status === 404) return null;
+  if (!res.ok) failFor(res, path);
+  return Buffer.from(await res.arrayBuffer()).toString('utf8');
+}
+
 /** Writes to the same path run one after another within this server instance. */
 const queues = new Map<string, Promise<unknown>>();
 function enqueue<T>(path: string, task: () => Promise<T>): Promise<T> {

@@ -9,7 +9,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { ExternalLink, RotateCcw, X } from 'lucide-react';
+import { ExternalLink, History, RotateCcw, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { useToast } from '@/components/ui/toast';
@@ -29,6 +29,7 @@ import {
   SaveBar,
 } from './blocks';
 import { useConfirm } from './confirm';
+import { HistoryDrawer } from './history-drawer';
 import { FieldShell, NumberField, TextArea, TextField, Toggle } from './fields';
 import { IconPicker } from './icon-picker';
 import { ImageField } from './image-field';
@@ -94,6 +95,7 @@ export function ContentEditor({
   const confirm = useConfirm();
   const r = useAdminResource(name);
   const [attempted, setAttempted] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
 
   // after the first failed save the form re-checks itself on every edit
   const clientErrors = useMemo<Record<string, string>>(() => {
@@ -196,6 +198,14 @@ export function ContentEditor({
             <Button
               variant="secondary"
               size="sm"
+              onClick={() => setHistoryOpen(true)}
+              icon={<History className="size-4" aria-hidden="true" />}
+            >
+              History
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={() => void onResetAll()}
               icon={<RotateCcw className="size-4" aria-hidden="true" />}
             >
@@ -269,6 +279,18 @@ export function ContentEditor({
         onDiscard={() => {
           r.discard();
           setAttempted(false);
+        }}
+      />
+
+      <HistoryDrawer
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        name={name}
+        current={r.draft}
+        onRestore={(data) => {
+          r.setDraft(structuredClone(data) as typeof r.draft);
+          setHistoryOpen(false);
+          toast.success('Loaded into the editor as a draft. Check it, then press Save changes.');
         }}
       />
 

@@ -16,6 +16,8 @@ interface DrawerProps {
   /** Called for the primary button. */
   onDone: () => void;
   doneLabel?: string;
+  /** Hide the Cancel button (read-only drawers just have Close). */
+  hideCancel?: boolean;
   children: ReactNode;
 }
 
@@ -23,7 +25,7 @@ interface DrawerProps {
  * Side drawer for editing one item (full screen on phones). Focus is trapped inside while open and
  * returns to the opener on close. "Cancel" and "Done" are explicit so the caller can undo or keep the edits.
  */
-export function Drawer({ open, title, description, onCancel, onDone, doneLabel = 'Done', children }: DrawerProps) {
+export function Drawer({ open, title, description, onCancel, onDone, doneLabel = 'Done', hideCancel, children }: DrawerProps) {
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -84,9 +86,11 @@ export function Drawer({ open, title, description, onCancel, onDone, doneLabel =
         </div>
         <div className="flex-1 space-y-5 overflow-y-auto px-5 py-5">{children}</div>
         <div className="flex flex-wrap justify-end gap-3 border-t border-line bg-white px-5 py-3">
-          <Button variant="secondary" size="sm" onClick={onCancel}>
-            Cancel
-          </Button>
+          {hideCancel ? null : (
+            <Button variant="secondary" size="sm" onClick={onCancel}>
+              Cancel
+            </Button>
+          )}
           <Button size="sm" onClick={onDone}>
             {doneLabel}
           </Button>
