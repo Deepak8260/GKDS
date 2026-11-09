@@ -119,5 +119,12 @@
   ],
   "videosTitle": "Driving Videos",
   "videosSubtitle": "See how we train: real lessons on real roads.",
-  "videos": []
+  "videos": [
+    {
+      "id": "v-driving-lesson",
+      "url": "/assets/videos/driving-lesson.mp4",
+      "title": "A driving lesson on the road",
+      "published": true
+    }
+  ]
 }

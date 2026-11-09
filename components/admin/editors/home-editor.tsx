@@ -130,7 +130,7 @@ export function HomeEditor() {
         <Note>
           Upload the video to YouTube (it can be &ldquo;Unlisted&rdquo;), then paste its link below. Until a link is added this section is hidden on the website.
         </Note>
-        <Text path="ownerMessage.videoUrl" label="YouTube video link" maxLength={300} placeholder="https://www.youtube.com/watch?v=…" />
+        <Text path="ownerMessage.videoUrl" label="Video link (YouTube link or video file path)" maxLength={300} placeholder="https://www.youtube.com/watch?v=…" />
         <Text path="ownerMessage.videoTitle" label="Video title (read by screen readers)" maxLength={120} />
         <Text path="ownerMessage.eyebrow" label="Small line above the title" required maxLength={40} />
         <Text path="ownerMessage.title" label="Title" required maxLength={120} />

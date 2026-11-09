@@ -646,7 +646,7 @@ function GalleryBody({ catOpen, closeCategories }: { catOpen: boolean; closeCate
           <List path="videos" noun="video" max={30} createItem={newVideo} itemLabel={(v) => (v as { title?: string }).title || 'New video'}>
             {(base) => (
               <>
-                <Text path={`${base}.url`} label="YouTube video link" required maxLength={300} placeholder="https://www.youtube.com/watch?v=…" />
+                <Text path={`${base}.url`} label="Video link (YouTube link or video file path)" required maxLength={300} placeholder="https://www.youtube.com/watch?v=…" />
                 <Text path={`${base}.title`} label="Video title" required maxLength={120} />
                 <Switch path={`${base}.published`} label="Show on the website" />
               </>

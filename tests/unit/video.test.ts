@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { galleryVideoSchema } from '@/lib/validators/gallery';
 import { homeSchema } from '@/lib/validators/home';
-import { youtubeId } from '@/lib/video';
+import { videoSource, youtubeId } from '@/lib/video';
 import seedHome from '@/content-seed/home.json';
 import seedGallery from '@/content-seed/gallery.json';
 import { gallerySchema } from '@/lib/validators/gallery';
@@ -56,5 +56,15 @@ describe('video content', () => {
     const ok = { ...seedHome, ownerMessage: { ...seedHome.ownerMessage, videoUrl: `https://youtu.be/${ID}` } };
     expect(homeSchema.safeParse(ok).success).toBe(true);
     expect(homeSchema.safeParse({ ...seedHome, ownerMessage: { ...seedHome.ownerMessage, videoUrl: 'https://example.com/a.mp4' } }).success).toBe(false);
+  });
+});
+
+describe('videoSource', () => {
+  it('accepts YouTube links and video files shipped under /assets/videos, nothing else', () => {
+    expect(videoSource(`https://youtu.be/${ID}`)).toEqual({ kind: 'youtube', id: ID });
+    expect(videoSource('/assets/videos/driving-lesson.mp4')).toEqual({ kind: 'file', src: '/assets/videos/driving-lesson.mp4' });
+    for (const bad of ['/assets/videos/../secret.mp4', '/assets/videos/x.exe', '//evil.com/a.mp4', 'https://example.com/a.mp4', '/other/a.mp4', '/assets/videos/']) {
+      expect(videoSource(bad), bad).toBeNull();
+    }
   });
 });

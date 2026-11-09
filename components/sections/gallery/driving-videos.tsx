@@ -1,7 +1,7 @@
 import { Container } from '@/components/ui/container';
 import { SectionHeading } from '@/components/ui/section-heading';
-import { YoutubePlayer } from '@/components/ui/youtube-player';
-import { youtubeId } from '@/lib/video';
+import { VideoPlayer } from '@/components/ui/video-player';
+import { videoSource } from '@/lib/video';
 import type { GalleryVideo } from '@/lib/validators';
 
 /** Driving videos on the gallery page: a grid of click-to-play YouTube videos. */
@@ -15,7 +15,7 @@ export function DrivingVideos({
   videos: GalleryVideo[];
 }) {
   const playable = videos.flatMap((v) => {
-    const id = youtubeId(v.url);
+    const id = videoSource(v.url);
     return id ? [{ ...v, vid: id }] : [];
   });
   if (playable.length === 0) return null;
@@ -30,7 +30,7 @@ export function DrivingVideos({
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {playable.map((v) => (
             <li key={v.id}>
-              <YoutubePlayer id={v.vid} title={v.title} />
+              <VideoPlayer source={v.vid} title={v.title} />
               <p className="mt-3 text-base font-semibold text-ink">{v.title}</p>
             </li>
           ))}

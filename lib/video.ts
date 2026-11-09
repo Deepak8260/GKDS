@@ -24,3 +24,19 @@ export const youtubeEmbedUrl = (id: string) =>
   `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
 export const youtubeThumbnail = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 export const youtubeWatchUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`;
+
+/** A video file shipped with the website, e.g. /assets/videos/driving-lesson.mp4 */
+export function localVideoPath(value: string): string | null {
+  const v = value.trim();
+  return /^\/assets\/videos\/[A-Za-z0-9][A-Za-z0-9._-]*\.(mp4|webm)$/.test(v) ? v : null;
+}
+
+export type VideoSource = { kind: 'youtube'; id: string } | { kind: 'file'; src: string };
+
+/** What a stored video link points at: a YouTube video or a video file on the site; null if it is neither. */
+export function videoSource(value: string): VideoSource | null {
+  const id = youtubeId(value);
+  if (id) return { kind: 'youtube', id };
+  const src = localVideoPath(value);
+  return src ? { kind: 'file', src } : null;
+}
